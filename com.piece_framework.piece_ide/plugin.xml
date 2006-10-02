@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="com.piece_framework.piece_ide"
+   name="Piece_ide プラグイン"
+   version="0.1.0"
+   provider-name="PIECE_FRAMEWORK">
+
+   <runtime>
+      <library name="piece_ide.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+
+   <requires>
+     <import plugin="org.eclipse.ui"/>
+   </requires> 
+   
+   <extension point="org.eclipse.ui.actionSets">
+      <actionSet
+        id="com.piece_framework.piece_ide.actionSet"
+        label="Piece World Set">
+        <action
+          id="com.piece_framework.piece_ide.PieceAction"
+          label="Piece"
+          toolbarPath="PieceGroup"
+          class="com.piece_framework.piece_ide.PieceAction">
+        </action>
+      </actionSet>
+   </extension>
+</plugin>
