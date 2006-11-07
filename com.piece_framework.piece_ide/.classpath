@@ -3,5 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="lib" path="R:/project/PieceProject/piece_ide/workspace3.2.1/com.piece_framework.piece_ide/kwalify.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

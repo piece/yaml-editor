@@ -5,35 +5,47 @@ import org.eclipse.jface.text.ITextDoubleClickStrategy;
 import org.eclipse.jface.text.TextAttribute;
 import org.eclipse.jface.text.presentation.IPresentationReconciler;
 import org.eclipse.jface.text.presentation.PresentationReconciler;
+import org.eclipse.jface.text.rules.BufferedRuleBasedScanner;
 import org.eclipse.jface.text.rules.DefaultDamagerRepairer;
 import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
+import org.eclipse.swt.graphics.Color;
 
 /**
  * YAML コンフィギュレーション.
  * YAML エディターの動作をカスタマイズする。
  * 
  * @author Hideharu Matsufuji
- * @version 0.2.0
- * @since 0.2.0
+ * @version 0.1.0
+ * @since 0.1.0
  * @see org.eclipse.jface.text.source.SourceViewerConfiguration
  * 
  */
 public class YAMLConfiguration extends SourceViewerConfiguration {
     private YAMLDoubleClickStrategy doubleClickStrategy;
-    private YAMLTagScanner tagScanner;
-    private YAMLScanner scanner;
-    private ColorManager colorManager;
-
+    
     /**
-     * コンストラクタ.
+     * ルールを持たないスキャナクラス.
+     * テキスト属性のみを設定可能なスキャナクラス。
      * 
-     * @param cm カラーマネージャー
+     * @author Hideharu Matsufuji
+     * @version 0.1.0
+     * @since 0.1.0
+     * @see org.eclipse.jface.text.rules.BufferedRuleBasedScanner
      */
-    public YAMLConfiguration(ColorManager cm) {
-        this.colorManager = cm;
-    }
+    static class SingleTokenScanner extends BufferedRuleBasedScanner {
+        
+        /**
+         * コンストラクタ.
+         * テキスト属性を渡す。
+         * 
+         * @param attribute テキスト属性
+         */
+        public SingleTokenScanner(TextAttribute attribute) {
+            setDefaultReturnToken(new Token(attribute));
+        }
+    }    
     
     /**
      * YAML エディターがサポートするパーティーションタイプを返す.
@@ -45,11 +57,15 @@ public class YAMLConfiguration extends SourceViewerConfiguration {
      *              org.eclipse.jface.text.source.ISourceViewer)
      */
     public String[] getConfiguredContentTypes(ISourceViewer sourceViewer) {
-        return new String[] {
-            IDocument.DEFAULT_CONTENT_TYPE,
-            YAMLPartitionScanner.YAML_COMMENT,
-            YAMLPartitionScanner.YAML_MAPPING_KEY,
-            YAMLPartitionScanner.YAML_MAPPING_VAL };
+        int patternNum = YAMLPartitionScanner.YAML_PARTITION_TYPES.length + 1;
+        String[] types = new String[patternNum];
+        
+        types[0] = IDocument.DEFAULT_CONTENT_TYPE;
+        for (int i = 1; i < patternNum; i++) {
+            types[i] = YAMLPartitionScanner.YAML_PARTITION_TYPES[i - 1];
+        }
+        
+        return types;
     }
     
     /**
@@ -72,42 +88,7 @@ public class YAMLConfiguration extends SourceViewerConfiguration {
         }
         return doubleClickStrategy;
     }
-
-    /**
-     * YAML スキャナーを取得する.
-     * 
-     * @return YAML スキャナー
-     */
-    protected YAMLScanner getYAMLScanner() {
-        if (scanner == null) {
-            scanner = new YAMLScanner(colorManager);
-            scanner.setDefaultReturnToken(
-                new Token(
-                    new TextAttribute(
-                        colorManager.getColor(IYAMLColorConstants.DEFAULT))));
-        }
-        return scanner;
-    }
     
-    /**
-     * YAML タグスキャナーを取得する.
-     * 
-     * @return YAML タグスキャナー
-     */
-    protected YAMLTagScanner getYAMLTagScanner() {
-        if (tagScanner == null) {
-            tagScanner = new YAMLTagScanner(colorManager);
-            // TODO:タグスキャナー？
-            /*
-            tagScanner.setDefaultReturnToken(
-                new Token(
-                    new TextAttribute(
-                        colorManager.getColor(IYAMLColorConstants.TAG))));
-            */
-        }
-        return tagScanner;
-    }
-
     /**
      * エディターのプレゼンテーションを設定・取得する.
      * 
@@ -122,44 +103,30 @@ public class YAMLConfiguration extends SourceViewerConfiguration {
         
         PresentationReconciler reconciler = new PresentationReconciler();
         
-        // TODO:パーティーション単位のダメージャとリペアラの設定
-        /*
-        DefaultDamagerRepairer dr =
-            new DefaultDamagerRepairer(getXMLTagScanner());
-        reconciler.setDamager(dr, YAMLPartitionScanner.YAML_MAPPING_KEY);
-        reconciler.setRepairer(dr, YAMLPartitionScanner.YAML_MAPPING_KEY);
-        
-        dr = new DefaultDamagerRepairer(getXMLScanner());
-        reconciler.setDamager(dr, YAMLPartitionScanner.YAML_MAPPING_VAL);
-        reconciler.setRepairer(dr, YAMLPartitionScanner.YAML_MAPPING_VAL);
-        */
         DefaultDamagerRepairer dr;
-        dr = new DefaultDamagerRepairer(getYAMLScanner());
+        
+        int partitionNum = YAMLPartitionScanner.YAML_PARTITION_TYPES.length;
+        YAMLColorManager manager = YAMLColorManager.getColorManager();
+        for (int i = 0; i < partitionNum; i++) {
+            
+            Color color = manager.getColor(
+                            YAMLPartitionScanner.YAML_PARTITION_COLORS[i]);
+            
+            dr = new DefaultDamagerRepairer(
+                    new SingleTokenScanner(new TextAttribute(color)));
+            
+            reconciler.setDamager(dr, 
+                        YAMLPartitionScanner.YAML_PARTITION_TYPES[i]);
+            reconciler.setRepairer(dr, 
+                        YAMLPartitionScanner.YAML_PARTITION_TYPES[i]);
+        }
+        
+        dr = new DefaultDamagerRepairer(YAMLCodeScanner.getScanner());
         reconciler.setDamager(dr, IDocument.DEFAULT_CONTENT_TYPE);
         reconciler.setRepairer(dr, IDocument.DEFAULT_CONTENT_TYPE);
-
-        NonRuleBasedDamagerRepairer ndr =
-            new NonRuleBasedDamagerRepairer(
-                new TextAttribute(
-                    colorManager.getColor(IYAMLColorConstants.YAML_COMMENT)));
-        reconciler.setDamager(ndr, YAMLPartitionScanner.YAML_COMMENT);
-        reconciler.setRepairer(ndr, YAMLPartitionScanner.YAML_COMMENT);
-        
-        ndr = new NonRuleBasedDamagerRepairer(
-                new TextAttribute(
-                    colorManager.getColor(
-                        IYAMLColorConstants.YAML_MAPPING_KEY)));
-        reconciler.setDamager(ndr, YAMLPartitionScanner.YAML_MAPPING_KEY);
-        reconciler.setRepairer(ndr, YAMLPartitionScanner.YAML_MAPPING_KEY);
-        
-        ndr = new NonRuleBasedDamagerRepairer(
-                new TextAttribute(
-                    colorManager.getColor(
-                        IYAMLColorConstants.YAML_MAPPING_VAL)));
-        reconciler.setDamager(ndr, YAMLPartitionScanner.YAML_MAPPING_VAL);
-        reconciler.setRepairer(ndr, YAMLPartitionScanner.YAML_MAPPING_VAL);
         
         return reconciler;
     }
 
+    
 }

@@ -4,12 +4,14 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import com.piece_framework.piece_ide.yamleditor.editors.YAMLColorManager;
+
 /**
  * プラグインのライフサイクルを管理する.
  * 
  * @author Hideharu Matsufuji
- * @version 0.2.0
- * @since 0.2.0
+ * @version 0.1.0
+ * @since 0.1.0
  * 
  */
 public class Activator extends AbstractUIPlugin {
@@ -42,6 +44,7 @@ public class Activator extends AbstractUIPlugin {
     
     /**
      * プラグインを停止する.
+     * カラーマネージャーの終了処理を行う.
      * 
      * @param context コンテキスト
      * @throws Exception 一般的な例外
@@ -49,6 +52,8 @@ public class Activator extends AbstractUIPlugin {
      *          #stop(org.osgi.framework.BundleContext)
      */
     public void stop(BundleContext context) throws Exception {
+        YAMLColorManager.getColorManager().dispose();
+        System.out.println("stop()");
         plugin = null;
         super.stop(context);
     }

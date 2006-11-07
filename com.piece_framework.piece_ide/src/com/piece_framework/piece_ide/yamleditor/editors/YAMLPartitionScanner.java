@@ -1,54 +1,74 @@
 package com.piece_framework.piece_ide.yamleditor.editors;
 
+import java.util.Vector;
+
 import org.eclipse.jface.text.rules.IPredicateRule;
-import org.eclipse.jface.text.rules.IToken;
-import org.eclipse.jface.text.rules.SingleLineRule;
+import org.eclipse.jface.text.rules.MultiLineRule;
 import org.eclipse.jface.text.rules.RuleBasedPartitionScanner;
 import org.eclipse.jface.text.rules.Token;
-
+import org.eclipse.swt.graphics.RGB;
 
 /**
  * YAML パーティーションスキャナー.
- * YAML ドキュメントを意味のある単位に分割する。
+ * YAML ドキュメントを意味のある単位に分割する。<br>
+ * YAML ではソースを次の3つに分割する。<br>
+ * ・YAML コード<br>
+ * 　　シーケンスやマッピングなどYAMLの一般コード。<br>
+ * ・YAML コメント<br>
+ * 　　"#"以下の1行。<br>
+ * ・YAML 終端<br>
+ * 　　"..."以下の全行。<br>
  * 
  * @author Hideharu Matsufuji
- * @version 0.2.0
- * @since 0.2.0
+ * @version 0.1.0
+ * @since 0.1.0
  * @see org.eclipse.jface.text.rules.RuleBasedPartitionScanner
  * 
  */
-public class YAMLPartitionScanner extends RuleBasedPartitionScanner {
+public final class YAMLPartitionScanner extends RuleBasedPartitionScanner {
     
-    private static final int PART_NUM = 3;
+    /** YAML 終端. */
+    private static final String YAML_TERMINATE = "__yaml_TERMINATE";
     
-    // TODO:パーティーション見直し
-    /** YAML コメントパーティーション. */
-    public static final String YAML_COMMENT = "__yaml_comment";
-    /** YAML マッピング(キー)パーティーション. */
-    public static final String YAML_MAPPING_KEY = "__yaml_mapping_key";
-    /** YAML マッピング(値)パーティーション. */
-    public static final String YAML_MAPPING_VAL = "__yaml_mapping_val";
-    /** YAML タグパーティーション. */
-    //public static final String XML_TAG = "__xml_tag";
-
+    /** パーティーションタイプ配列. */
+    public static final String[] YAML_PARTITION_TYPES = new String[] { 
+                                        YAML_TERMINATE };
+    
+    /** YAML 終端色. */
+    private static final RGB YAML_TERMINATE_COLOR = new RGB(128, 128, 128);
+    
+    /** パーティーション色配列. */
+    public static final RGB[] YAML_PARTITION_COLORS = new RGB[] { 
+                                        YAML_TERMINATE_COLOR };
+    
+    private static YAMLPartitionScanner scanner;
+    
     /**
      * コンストラクタ.
      * 各パーティーションのルールを作成する。
      */
-    public YAMLPartitionScanner() {
+    private YAMLPartitionScanner() {
         
-        IToken yamlComment = new Token(YAML_COMMENT);
-        IToken yamlMappingKey = new Token(YAML_MAPPING_KEY);
-        IToken yamlMappingVal = new Token(YAML_MAPPING_VAL);
-        //IToken tag = new Token(XML_TAG);
-
-        IPredicateRule[] rules = new IPredicateRule[PART_NUM];
+        Vector<IPredicateRule> rules = new Vector<IPredicateRule>();
         
-        rules[0] = new SingleLineRule("#", null, yamlComment);
-        rules[1] = new SingleLineRule("*", ":", yamlMappingKey);
-        rules[2] = new SingleLineRule(":", null, yamlMappingVal);
-        //rules[3] = new TagRule(tag);
+        // 終端
+            // "..."以降の全行
+        rules.add(new MultiLineRule("...\n", "\0", 
+                    new Token(YAML_TERMINATE), (char) 0 , true));
         
-        setPredicateRules(rules);
+        IPredicateRule[] r = new IPredicateRule[1];
+        setPredicateRules(rules.toArray(r));
+    }
+    
+    /**
+     * YAML パーティーションスキャナーのインスタンスを返す.
+     * 
+     * @return YAML パーティションスキャナー
+     */
+    public static YAMLPartitionScanner getScanner() {
+        if (scanner == null) {
+            scanner = new YAMLPartitionScanner();
+        }
+        return scanner;
     }
 }

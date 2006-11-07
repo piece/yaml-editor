@@ -12,8 +12,8 @@ import org.eclipse.jface.text.ITextViewer;
  * ダブルクリック時の動作を決定する。
  * 
  * @author Hideharu Matsufuji
- * @version 0.2.0
- * @since 0.2.0
+ * @version 0.1.0
+ * @since 0.1.0
  * @see org.eclipse.jface.text.ITextDoubleClickStrategy
  * 
  */

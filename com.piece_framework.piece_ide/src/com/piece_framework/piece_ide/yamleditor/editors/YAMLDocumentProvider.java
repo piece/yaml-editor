@@ -11,8 +11,8 @@ import org.eclipse.ui.editors.text.FileDocumentProvider;
  * ドキュメントの生成・管理を行う。
  * 
  * @author Hideharu Matsufuji
- * @version 0.2.0
- * @since 0.2.0
+ * @version 0.1.0
+ * @since 0.1.0
  * @see org.eclipse.ui.editors.text.FileDocumentProvider
  * 
  */
@@ -34,12 +34,8 @@ public class YAMLDocumentProvider extends FileDocumentProvider {
             // ドキュメントを意味のある区域に分割する
             IDocumentPartitioner partitioner =
                 new FastPartitioner(
-                    new YAMLPartitionScanner(),
-                    new String[] {
-                        YAMLPartitionScanner.YAML_COMMENT,
-                        YAMLPartitionScanner.YAML_MAPPING_KEY,
-                        YAMLPartitionScanner.YAML_MAPPING_VAL}
-                    );
+                    YAMLPartitionScanner.getScanner(),
+                    YAMLPartitionScanner.YAML_PARTITION_TYPES);
             
             partitioner.connect(document);
             document.setDocumentPartitioner(partitioner);
