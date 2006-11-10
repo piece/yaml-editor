@@ -1,13 +1,22 @@
 package com.piece_framework.piece_ide.yamleditor.editors;
 
+import java.util.List;
+import java.util.Map;
+
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.texteditor.AbstractDecoratedTextEditorPreferenceConstants;
-import org.eclipse.ui.texteditor.IDocumentProvider;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.ui.IFileEditorInput;
 
 /**
  * YAML テキストエディター.
@@ -73,32 +82,48 @@ public class YAMLEditor extends TextEditor {
     /**
      * テキスト保存時処理を行なう.
      * 
-     * @param progressMonitor プログレスモニタ
+     * @param progressMonitor プログレスモニター
      */
     public void doSave(IProgressMonitor progressMonitor) {
-        super.doSave(progressMonitor);
-        
-        try {
+          super.doSave(progressMonitor);
+          try {
 
-            //編集中テキストを取得
-            IDocumentProvider provider = getDocumentProvider();
-            IDocument document = provider.getDocument(getEditorInput());
-            String yamlStr = document.get();
-            System.out.println(yamlStr.substring(0, 2));
-            
-            
-            //バリデーション実行
-            //YAMLValidater.validation(yamlStr, yamlStr);
+              //編集中のファイルを取得
+              IFile  docFile = ((IFileEditorInput) getEditorInput()).getFile();
+              
+              //プロジェクトのパスの取得
+              IWorkspaceRoot wRoot = ResourcesPlugin.getWorkspace().getRoot();
+              IPath  wPath = wRoot.getLocation();
+    
+              //編集中ファイルからスキーマファイルを取得
+              IFileEditorInput fileEdit = (IFileEditorInput) getEditorInput();
+              IPath filePath = fileEdit.getFile().getFullPath();
+              String schemaPath
+                     = filePath.toString().replaceAll(".yaml", ".schema.yaml");
+              IFile schemaFile = wRoot.getFileForLocation(
+                       new Path(wPath.toString() + schemaPath).makeAbsolute());
+              
+              //マーカー初期化
+              IResource resource =
+                      (IResource) getEditorInput().getAdapter(IResource.class);
+              resource.deleteMarkers(null, true, IResource.DEPTH_ZERO);
+              
+              //バリデーション実行
+              List<Map> errorList = YAMLValidater.validation(
+                               schemaFile.getContents(), docFile.getContents());
+
+              //エラーをマーカーへセット
+              for (int i = 0; i < errorList.size(); i++) {
+                  Map errorMap = errorList.get(i);
+
+                  IMarker marker = fileEdit.getFile().createMarker(
+                                    "org.eclipse.core.resources.problemmarker");
+                  marker.setAttributes(errorMap);
+              }
+      
         } catch (Exception e) {
             // TODO 自動生成された catch ブロック
             e.printStackTrace();
         }
-    }
-
-    /**
-     * テキスト保存時処理を行なう.
-     */
-    public void doSaveAs() {
-        super.doSaveAs();
     }
 }
