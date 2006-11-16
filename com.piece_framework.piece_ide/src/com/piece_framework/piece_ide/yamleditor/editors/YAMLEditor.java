@@ -109,7 +109,7 @@ public class YAMLEditor extends TextEditor {
               resource.deleteMarkers(null, true, IResource.DEPTH_ZERO);
               
               //バリデーション実行
-              List<Map> errorList = YAMLValidater.validation(
+              List<Map> errorList = YAMLValidator.validation(
                                schemaFile.getContents(), docFile.getContents());
 
               //エラーをマーカーへセット

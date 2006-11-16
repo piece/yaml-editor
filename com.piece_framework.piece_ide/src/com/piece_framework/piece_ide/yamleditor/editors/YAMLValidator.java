@@ -28,7 +28,7 @@ import org.eclipse.core.resources.IMarker;
  * @since 0.1.0
  * 
  */
-public class YAMLValidater {
+public class YAMLValidator {
 
     /**
      * Kwalifyライブラリを使用し、バリデーションを実行する.
@@ -44,7 +44,7 @@ public class YAMLValidater {
                                             InputStream docStream)
                                             throws IOException {
 
-        List<Map> errorList = new ArrayList();
+        List<Map> errorList = new ArrayList<Map>();
      
         try {
             //YAMLスキーマ設定
@@ -67,7 +67,8 @@ public class YAMLValidater {
                 for (Iterator it = errors.iterator(); it.hasNext();) {
                     ValidationException error = (ValidationException) it.next();
 
-                    Map<String, Comparable> attributeMap = new HashMap();
+                    Map<String, Comparable> attributeMap
+                                            = new HashMap<String, Comparable>();
                     attributeMap.put(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
                     attributeMap.put(IMarker.MESSAGE, error.getMessage());
                     attributeMap.put(IMarker.LINE_NUMBER,
@@ -76,7 +77,8 @@ public class YAMLValidater {
                 }
             }
         } catch (SyntaxException e) {
-            Map<String, Comparable> attributeMap = new HashMap();
+            Map<String, Comparable> attributeMap
+                                     = new HashMap<String, Comparable>();
             attributeMap.put(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
             attributeMap.put(IMarker.MESSAGE, e.getMessage());
             attributeMap.put(IMarker.LINE_NUMBER, e.getLineNumer());
