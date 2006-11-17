@@ -22,7 +22,7 @@ public class YAMLDoubleClickStrategy implements ITextDoubleClickStrategy {
 
     /**
      * ダブルクリックイベント処理.
-     * コメント・単語単位で選択状態にする。
+     * 単語単位で選択状態にする。
      * 
      * @param part 対象ビュー
      * @see org.eclipse.jface.text.ITextDoubleClickStrategy
@@ -36,69 +36,10 @@ public class YAMLDoubleClickStrategy implements ITextDoubleClickStrategy {
         }
         
         fText = part;
-
-        if (!selectComment(pos)) {
-            selectWord(pos);
-        }
+        
+        selectWord(pos);
     }
     
-    /**
-     * コメントを選択状態にする.
-     * 
-     * @param caretPos 現在のカーソル位置
-     * @return 選択状態にした場合はtrue
-     */
-    protected boolean selectComment(int caretPos) {
-        IDocument doc = fText.getDocument();
-        int startPos, endPos;
-
-        try {
-            int pos = caretPos;
-            char c = ' ';
-
-            while (pos >= 0) {
-                c = doc.getChar(pos);
-                if (c == '\\') {
-                    pos -= 2;
-                    continue;
-                }
-                if (c == Character.LINE_SEPARATOR || c == '\"') {
-                    break;
-                }
-                --pos;
-            }
-
-            if (c != '\"') {
-                return false;
-            }
-            startPos = pos;
-
-            pos = caretPos;
-            int length = doc.getLength();
-            c = ' ';
-
-            while (pos < length) {
-                c = doc.getChar(pos);
-                if (c == Character.LINE_SEPARATOR || c == '\"') {
-                    break;
-                }
-                ++pos;
-            }
-            if (c != '\"') {
-                return false;
-            }
-
-            endPos = pos;
-
-            int offset = startPos + 1;
-            int len = endPos - offset;
-            fText.setSelectedRange(offset, len);
-            return true;
-        } catch (BadLocationException x) {
-        }
-
-        return false;
-    }
     /**
      * 単語を選択状態にする.
      * 
@@ -137,7 +78,9 @@ public class YAMLDoubleClickStrategy implements ITextDoubleClickStrategy {
             }
 
             endPos = pos;
-            selectRange(startPos, endPos);
+            if (startPos != endPos) {
+                selectRange(startPos, endPos);
+            }
             return true;
 
         } catch (BadLocationException x) {
@@ -145,7 +88,7 @@ public class YAMLDoubleClickStrategy implements ITextDoubleClickStrategy {
 
         return false;
     }
-
+    
     /**
      * 指定された範囲を選択状態にする.
      * 
