@@ -125,6 +125,7 @@ public class YAMLViewer extends SourceViewer {
             } catch (BadLocationException x) {
             }
         }
+        super.customizeDocumentCommand(command);
     }
     
     /**
