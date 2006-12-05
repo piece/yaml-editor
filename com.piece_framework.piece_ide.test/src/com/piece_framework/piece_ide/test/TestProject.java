@@ -1,34 +1,22 @@
 package com.piece_framework.piece_ide.test;
 
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.jdt.core.IClasspathEntry;
-import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.IPackageFragment;
-import org.eclipse.jdt.core.IPackageFragmentRoot;
-import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.search.IJavaSearchConstants;
 import org.eclipse.jdt.core.search.TypeNameRequestor;
 import org.eclipse.jdt.core.search.SearchEngine;
 import org.eclipse.jdt.core.search.SearchPattern;
-import org.eclipse.jdt.launching.JavaRuntime;
 
 /**
  * ユニットテスト用プロジェクト作成クラス.
@@ -39,120 +27,87 @@ import org.eclipse.jdt.launching.JavaRuntime;
  */
 public class TestProject {
     private IProject project;
-    private IJavaProject javaProject;
-    private IPackageFragmentRoot sourceFolder;
     
-    public TestProject() throws CoreException{
+    /**
+     * コンストラクタ.
+     * テストプロジェクトを作成する。
+     * 
+     * @throws CoreException ランタイムコア例外
+     */
+    public TestProject() throws CoreException {
         IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
         project = root.getProject("TestProject");
         project.create(null);
         project.open(null);
-        javaProject = JavaCore.create(project);
-        IFolder binFolder = createBinFolder();
-        setJavaNature();
-        javaProject.setRawClasspath(new IClasspathEntry[0], null);
-        createOutputFolder(binFolder);
-        addSystemLibraries();
+        
     }
     
-    public IProject getProject(){
+    /**
+     * プロジェクトを返す.
+     * 
+     * @return プロジェクト
+     */
+    public IProject getProject() {
         return project;
     }
     
-    public IJavaProject getJavaProject(){
-        return javaProject;
-    }
-    
-    public void addJar(String plugin, String jar) 
-                throws MalformedURLException,
-                       IOException,
-                       JavaModelException {
+    /**
+     * フォルダを作成する.
+     * 
+     * @param folderName フォルダ名
+     * @return 作成したFolderオブジェクト
+     * @throws CoreException ランタイムコア例外
+     */
+    public IFolder createFolder(String folderName) throws CoreException { 
+        IFolder folder = project.getFolder("src");
+        folder.create(false, true, null);
         
-        Path result = findFileInPlugin(plugin, jar);
-        IClasspathEntry[] oldEntries = javaProject.getRawClasspath();
-        IClasspathEntry[] newEntries = new IClasspathEntry[oldEntries.length+1];
-        System.arraycopy(oldEntries, 0, newEntries, 0, oldEntries.length);
-        newEntries[oldEntries.length] = JavaCore.newLibraryEntry(result, null, null);
-        javaProject.setRawClasspath(newEntries, null);
+        return folder;
     }
     
-    public IPackageFragment createPackage(String name) throws CoreException{
-        if(sourceFolder == null ){
-            sourceFolder = createSourceFolder();
+    /**
+     * ファイルを作成する.
+     * 
+     * @param folder ファイルを作成するフォルダ
+     * @param fileName ファイル名
+     * @param source ファイル内容
+     * @return 作成したFileオブジェクト
+     * @throws CoreException ランタイムコア例外
+     */
+    public IFile createFile(IFolder folder, 
+                             String fileName, 
+                             String source) throws CoreException {
+        
+        IFile file = folder.getFile(new Path(fileName));
+        if (!file.exists()) {
+            InputStream is = new ByteArrayInputStream(source.getBytes());
+            file.create(is, false, null);
         }
-        return sourceFolder.createPackageFragment(name, false, null);
+        
+        return file;
     }
-    
-    public IType createType(IPackageFragment pack, 
-                            String cuName,
-                            String source) throws JavaModelException{
-        StringBuffer buf = new StringBuffer();
-        buf.append("package " + pack.getElementName() + ";\n" );
-        buf.append("\n");
-        buf.append(source);
-        ICompilationUnit cu = pack.createCompilationUnit(
-                                cuName,
-                                buf.toString(),
-                                false,
-                                null);
-        return cu.getTypes()[0];
-    }
-    
-    public void dispose() throws CoreException{
+
+    /**
+     * 終了処理を行う.
+     * 作成したテスト用プロジェクトを削除する。
+     * 
+     * @throws CoreException ランタイムコア例外
+     */
+    public void dispose() throws CoreException {
         waitForIndexer();
         project.delete(true, true, null);
     }
     
-    private IFolder createBinFolder() throws CoreException{
-        IFolder binFolder = project.getFolder("bin");
-        binFolder.create(false, true, null);
-        return binFolder;
-        
-    }
     
-    private void setJavaNature() throws CoreException{
-        IProjectDescription description = project.getDescription();
-        description.setNatureIds(new String[]{JavaCore.NATURE_ID});
-        project.setDescription(description, null);
-    }
-    
-    private void createOutputFolder(IFolder binFolder)
-                    throws JavaModelException{
-        IPath outputLocation = binFolder.getFullPath();
-        javaProject.setOutputLocation(outputLocation, null);
-    }
-    
-    private IPackageFragmentRoot createSourceFolder() 
-                    throws CoreException{ 
-        IFolder folder = project.getFolder("src");
-        folder.create(false, true, null);
-        IPackageFragmentRoot root = javaProject.getPackageFragmentRoot(folder);
-        IClasspathEntry[] oldEntries = javaProject.getRawClasspath();
-        IClasspathEntry[] newEntries = new IClasspathEntry[oldEntries.length+1];
-        System.arraycopy(oldEntries, 0, newEntries, 0, oldEntries.length);
-        newEntries[oldEntries.length] = JavaCore.newSourceEntry(root.getPath());
-        javaProject.setRawClasspath(newEntries, null);
-        return root;
-    }
-    
-    private void addSystemLibraries() throws JavaModelException {
-        IClasspathEntry[] oldEntries = javaProject.getRawClasspath();
-        IClasspathEntry[] newEntries = new IClasspathEntry[oldEntries.length+1];
-        System.arraycopy(oldEntries, 0, newEntries, 0, oldEntries.length);
-        newEntries[oldEntries.length] = JavaRuntime.getDefaultJREContainerEntry();
-        javaProject.setRawClasspath(newEntries, null);
-    }
-    
-    private Path findFileInPlugin(String plugin, String file) 
-                    throws MalformedURLException, IOException{
-        
-        URL pluginURL = Platform.getBundle(plugin).getEntry("/");
-        URL jarURL = new URL(pluginURL, file);
-        URL localJarURL = FileLocator.toFileURL(jarURL);
-        return new Path(localJarURL.getPath());
-    }
-    
-    private void waitForIndexer() throws JavaModelException{
+    /**
+     * インデックス処理の終了を待機する.
+     * Java検索は正確で効率的に行うためにインデックスを使用している。
+     * プロジェクト削除に伴うインデックスの干渉を避けるため、インデッ
+     * クスの割り振りが終わってからプロジェクトの削除を行う。
+     * 
+     * @throws JavaModelException Javaモデル例外
+     */
+    private void waitForIndexer() throws JavaModelException {
         
         new SearchEngine().searchAllTypeNames(
             null, 
@@ -160,7 +115,7 @@ public class TestProject {
             SearchPattern.R_EXACT_MATCH, 
             IJavaSearchConstants.CLASS, 
             SearchEngine.createJavaSearchScope(new IJavaElement[0]), 
-            new TypeNameRequestor(){
+            new TypeNameRequestor() {
                 public void acceptType(
                             int modifiers, 
                             char[] packageName, 
