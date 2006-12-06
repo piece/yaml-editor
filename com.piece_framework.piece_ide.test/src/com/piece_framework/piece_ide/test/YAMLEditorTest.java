@@ -13,7 +13,7 @@ import org.eclipse.ui.ide.IDE;
 import junit.framework.TestCase;
 
 /**
- * YAMLƒGƒfƒBƒ^[ƒeƒXƒgƒNƒ‰ƒX.
+ * YAMLã‚¨ãƒ‡ã‚£ã‚¿ãƒ¼ãƒ†ã‚¹ãƒˆã‚¯ãƒ©ã‚¹.
  * 
  * @author Hideharu Matsufuji
  * @version 0.1.0
@@ -24,9 +24,9 @@ public class YAMLEditorTest extends TestCase {
     private TestProject testProject;
 
     /**
-     * ƒ†ƒjƒbƒgƒeƒXƒg‰Šú‰»ˆ—.
+     * ãƒ¦ãƒ‹ãƒƒãƒˆãƒ†ã‚¹ãƒˆåˆæœŸåŒ–å‡¦ç†.
      * 
-     * @throws Exception ˆê”Ê—áŠO 
+     * @throws Exception ä¸€èˆ¬ä¾‹å¤– 
      * @see junit.framework.TestCase#setUp()
      */
     protected void setUp() throws Exception {
@@ -35,9 +35,9 @@ public class YAMLEditorTest extends TestCase {
     }
 
     /**
-     * ƒ†ƒjƒbƒgƒeƒXƒgI—¹ˆ—.
+     * ãƒ¦ãƒ‹ãƒƒãƒˆãƒ†ã‚¹ãƒˆçµ‚äº†å‡¦ç†.
      * 
-     * @throws Exception ˆê”Ê—áŠO
+     * @throws Exception ä¸€èˆ¬ä¾‹å¤–
      * @see junit.framework.TestCase#tearDown()
      */
     protected void tearDown() throws Exception {
@@ -45,9 +45,9 @@ public class YAMLEditorTest extends TestCase {
     }
     
     /**
-     * YAMLƒGƒfƒBƒ^[‹N“®ƒeƒXƒg.
+     * YAMLã‚¨ãƒ‡ã‚£ã‚¿ãƒ¼èµ·å‹•ãƒ†ã‚¹ãƒˆ.
      * 
-     * @throws CoreException ƒ‰ƒ“ƒ^ƒCƒ€ƒRƒA—áŠO
+     * @throws CoreException ãƒ©ãƒ³ã‚¿ã‚¤ãƒ ã‚³ã‚¢ä¾‹å¤–
      */
     public void testOpenYAMLFile() throws CoreException {
          
@@ -68,9 +68,9 @@ public class YAMLEditorTest extends TestCase {
     }
     
     /**
-     * ƒAƒNƒeƒBƒuƒy[ƒW‚ğ•Ô‚·.
+     * ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ãƒšãƒ¼ã‚¸ã‚’è¿”ã™.
      * 
-     * @return ƒAƒNƒeƒBƒuƒy[ƒW
+     * @return ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ãƒšãƒ¼ã‚¸
      */
     private IWorkbenchPage getPage() {
         IWorkbench workbench = PlatformUI.getWorkbench();

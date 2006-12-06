@@ -19,7 +19,7 @@ import org.eclipse.jdt.core.search.SearchEngine;
 import org.eclipse.jdt.core.search.SearchPattern;
 
 /**
- * ƒ†ƒjƒbƒgƒeƒXƒg—pƒvƒƒWƒFƒNƒgì¬ƒNƒ‰ƒX.
+ * ãƒ¦ãƒ‹ãƒƒãƒˆãƒ†ã‚¹ãƒˆç”¨ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆä½œæˆã‚¯ãƒ©ã‚¹.
  * 
  * @author Hideharu Matsufuji
  * @version 0.1.0
@@ -29,10 +29,10 @@ public class TestProject {
     private IProject project;
     
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^.
-     * ƒeƒXƒgƒvƒƒWƒFƒNƒg‚ğì¬‚·‚éB
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿.
+     * ãƒ†ã‚¹ãƒˆãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹ã€‚
      * 
-     * @throws CoreException ƒ‰ƒ“ƒ^ƒCƒ€ƒRƒA—áŠO
+     * @throws CoreException ãƒ©ãƒ³ã‚¿ã‚¤ãƒ ã‚³ã‚¢ä¾‹å¤–
      */
     public TestProject() throws CoreException {
         IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
@@ -43,20 +43,20 @@ public class TestProject {
     }
     
     /**
-     * ƒvƒƒWƒFƒNƒg‚ğ•Ô‚·.
+     * ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿”ã™.
      * 
-     * @return ƒvƒƒWƒFƒNƒg
+     * @return ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public IProject getProject() {
         return project;
     }
     
     /**
-     * ƒtƒHƒ‹ƒ_‚ğì¬‚·‚é.
+     * ãƒ•ã‚©ãƒ«ãƒ€ã‚’ä½œæˆã™ã‚‹.
      * 
-     * @param folderName ƒtƒHƒ‹ƒ_–¼
-     * @return ì¬‚µ‚½FolderƒIƒuƒWƒFƒNƒg
-     * @throws CoreException ƒ‰ƒ“ƒ^ƒCƒ€ƒRƒA—áŠO
+     * @param folderName ãƒ•ã‚©ãƒ«ãƒ€å
+     * @return ä½œæˆã—ãŸFolderã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @throws CoreException ãƒ©ãƒ³ã‚¿ã‚¤ãƒ ã‚³ã‚¢ä¾‹å¤–
      */
     public IFolder createFolder(String folderName) throws CoreException { 
         IFolder folder = project.getFolder("src");
@@ -66,13 +66,13 @@ public class TestProject {
     }
     
     /**
-     * ƒtƒ@ƒCƒ‹‚ğì¬‚·‚é.
+     * ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½œæˆã™ã‚‹.
      * 
-     * @param folder ƒtƒ@ƒCƒ‹‚ğì¬‚·‚éƒtƒHƒ‹ƒ_
-     * @param fileName ƒtƒ@ƒCƒ‹–¼
-     * @param source ƒtƒ@ƒCƒ‹“à—e
-     * @return ì¬‚µ‚½FileƒIƒuƒWƒFƒNƒg
-     * @throws CoreException ƒ‰ƒ“ƒ^ƒCƒ€ƒRƒA—áŠO
+     * @param folder ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½œæˆã™ã‚‹ãƒ•ã‚©ãƒ«ãƒ€
+     * @param fileName ãƒ•ã‚¡ã‚¤ãƒ«å
+     * @param source ãƒ•ã‚¡ã‚¤ãƒ«å†…å®¹
+     * @return ä½œæˆã—ãŸFileã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @throws CoreException ãƒ©ãƒ³ã‚¿ã‚¤ãƒ ã‚³ã‚¢ä¾‹å¤–
      */
     public IFile createFile(IFolder folder, 
                              String fileName, 
@@ -88,10 +88,10 @@ public class TestProject {
     }
 
     /**
-     * I—¹ˆ—‚ğs‚¤.
-     * ì¬‚µ‚½ƒeƒXƒg—pƒvƒƒWƒFƒNƒg‚ğíœ‚·‚éB
+     * çµ‚äº†å‡¦ç†ã‚’è¡Œã†.
+     * ä½œæˆã—ãŸãƒ†ã‚¹ãƒˆç”¨ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã‚’å‰Šé™¤ã™ã‚‹ã€‚
      * 
-     * @throws CoreException ƒ‰ƒ“ƒ^ƒCƒ€ƒRƒA—áŠO
+     * @throws CoreException ãƒ©ãƒ³ã‚¿ã‚¤ãƒ ã‚³ã‚¢ä¾‹å¤–
      */
     public void dispose() throws CoreException {
         waitForIndexer();
@@ -100,12 +100,12 @@ public class TestProject {
     
     
     /**
-     * ƒCƒ“ƒfƒbƒNƒXˆ—‚ÌI—¹‚ğ‘Ò‹@‚·‚é.
-     * JavaŒŸõ‚Í³Šm‚ÅŒø—¦“I‚És‚¤‚½‚ß‚ÉƒCƒ“ƒfƒbƒNƒX‚ğg—p‚µ‚Ä‚¢‚éB
-     * ƒvƒƒWƒFƒNƒgíœ‚É”º‚¤ƒCƒ“ƒfƒbƒNƒX‚ÌŠ±Â‚ğ”ğ‚¯‚é‚½‚ßAƒCƒ“ƒfƒb
-     * ƒNƒX‚ÌŠ„‚èU‚è‚ªI‚í‚Á‚Ä‚©‚çƒvƒƒWƒFƒNƒg‚Ìíœ‚ğs‚¤B
+     * ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹å‡¦ç†ã®çµ‚äº†ã‚’å¾…æ©Ÿã™ã‚‹.
+     * Javaæ¤œç´¢ã¯æ­£ç¢ºã§åŠ¹ç‡çš„ã«è¡Œã†ãŸã‚ã«ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ä½¿ç”¨ã—ã¦ã„ã‚‹ã€‚
+     * ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆå‰Šé™¤ã«ä¼´ã†ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®å¹²æ¸‰ã‚’é¿ã‘ã‚‹ãŸã‚ã€ã‚¤ãƒ³ãƒ‡ãƒƒ
+     * ã‚¯ã‚¹ã®å‰²ã‚ŠæŒ¯ã‚ŠãŒçµ‚ã‚ã£ã¦ã‹ã‚‰ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã®å‰Šé™¤ã‚’è¡Œã†ã€‚
      * 
-     * @throws JavaModelException Javaƒ‚ƒfƒ‹—áŠO
+     * @throws JavaModelException Javaãƒ¢ãƒ‡ãƒ«ä¾‹å¤–
      */
     private void waitForIndexer() throws JavaModelException {
         
