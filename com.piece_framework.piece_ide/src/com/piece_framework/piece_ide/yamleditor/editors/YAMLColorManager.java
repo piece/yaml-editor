@@ -9,8 +9,8 @@ import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 
 /**
- * YAML ƒJƒ‰[ƒ}ƒl[ƒWƒƒ[.
- * YAML ƒGƒfƒBƒ^[‚Åg—p‚·‚é Color ƒIƒuƒWƒFƒNƒg‚ğŠÇ—‚·‚éB
+ * YAML ã‚«ãƒ©ãƒ¼ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼.
+ * YAML ã‚¨ãƒ‡ã‚£ã‚¿ãƒ¼ã§ä½¿ç”¨ã™ã‚‹ Color ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç®¡ç†ã™ã‚‹ã€‚
  * 
  * @author Hideharu Matsufuji
  * @version 0.1.0
@@ -19,22 +19,22 @@ import org.eclipse.swt.widgets.Display;
  */
 public final class YAMLColorManager {
     
-    // ƒJƒ‰[ƒe[ƒuƒ‹
+    // ã‚«ãƒ©ãƒ¼ãƒ†ãƒ¼ãƒ–ãƒ«
     private Map< RGB, Color > fColorTable = 
                 new HashMap< RGB, Color >();
     
     private static YAMLColorManager manager;
     
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^.
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿.
      */
     private YAMLColorManager() {
     }
     
     /**
-     * YAML ƒJƒ‰[ƒ}ƒl[ƒWƒƒ[‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ•Ô‚·.
+     * YAML ã‚«ãƒ©ãƒ¼ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’è¿”ã™.
      * 
-     * @return YAML ƒJƒ‰[ƒ}ƒl[ƒWƒƒ[
+     * @return YAML ã‚«ãƒ©ãƒ¼ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼
      */
     public static YAMLColorManager getColorManager() {
         if (manager == null) {
@@ -44,10 +44,10 @@ public final class YAMLColorManager {
     }
     
     /**
-     * w’è‚³‚ê‚½ RGB ƒIƒuƒWƒFƒNƒg‚É‘Î‰‚·‚é Color ƒIƒuƒWƒFƒNƒg‚ğ•Ô‚·.
+     * æŒ‡å®šã•ã‚ŒãŸ RGB ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å¯¾å¿œã™ã‚‹ Color ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿”ã™.
      * 
-     * @param rgb RGB ƒIƒuƒWƒFƒNƒg
-     * @return Color ƒIƒuƒWƒFƒNƒg
+     * @param rgb RGB ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+     * @return Color ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      */
     public Color getColor(RGB rgb) {
         Color color = (Color) fColorTable.get(rgb);
@@ -59,7 +59,7 @@ public final class YAMLColorManager {
     }
     
     /**
-     * •Û‚µ‚Ä‚¢‚é Color ƒIƒuƒWƒFƒNƒg‚ğ‚·‚×‚Ä‚É‘Î‚µ‚ÄAI—¹ˆ—‚ğs‚¤.
+     * ä¿æŒã—ã¦ã„ã‚‹ Color ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ã™ã¹ã¦ã«å¯¾ã—ã¦ã€çµ‚äº†å‡¦ç†ã‚’è¡Œã†.
      */
     public void dispose() {
         Iterator e = fColorTable.values().iterator();

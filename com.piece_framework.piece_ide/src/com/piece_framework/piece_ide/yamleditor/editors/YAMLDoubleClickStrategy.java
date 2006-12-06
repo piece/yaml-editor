@@ -8,8 +8,8 @@ import org.eclipse.jface.text.ITextViewer;
 //import org.eclipse.jface.text.*;
 
 /**
- * YAML ƒGƒfƒBƒ^[‚Ìƒ_ƒuƒ‹ƒNƒŠƒbƒN“®ìƒNƒ‰ƒX.
- * ƒ_ƒuƒ‹ƒNƒŠƒbƒN‚Ì“®ì‚ğŒˆ’è‚·‚éB
+ * YAML ã‚¨ãƒ‡ã‚£ã‚¿ãƒ¼ã®ãƒ€ãƒ–ãƒ«ã‚¯ãƒªãƒƒã‚¯æ™‚å‹•ä½œã‚¯ãƒ©ã‚¹.
+ * ãƒ€ãƒ–ãƒ«ã‚¯ãƒªãƒƒã‚¯æ™‚ã®å‹•ä½œã‚’æ±ºå®šã™ã‚‹ã€‚
  * 
  * @author Hideharu Matsufuji
  * @version 0.1.0
@@ -21,10 +21,10 @@ public class YAMLDoubleClickStrategy implements ITextDoubleClickStrategy {
     private ITextViewer fText;
 
     /**
-     * ƒ_ƒuƒ‹ƒNƒŠƒbƒNƒCƒxƒ“ƒgˆ—.
-     * ’PŒê’PˆÊ‚Å‘I‘ğó‘Ô‚É‚·‚éB
+     * ãƒ€ãƒ–ãƒ«ã‚¯ãƒªãƒƒã‚¯ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†.
+     * å˜èªå˜ä½ã§é¸æŠçŠ¶æ…‹ã«ã™ã‚‹ã€‚
      * 
-     * @param part ‘ÎÛƒrƒ…[
+     * @param part å¯¾è±¡ãƒ“ãƒ¥ãƒ¼
      * @see org.eclipse.jface.text.ITextDoubleClickStrategy
      *          #doubleClicked(org.eclipse.jface.text.ITextViewer)
      */
@@ -41,10 +41,10 @@ public class YAMLDoubleClickStrategy implements ITextDoubleClickStrategy {
     }
     
     /**
-     * ’PŒê‚ğ‘I‘ğó‘Ô‚É‚·‚é.
+     * å˜èªã‚’é¸æŠçŠ¶æ…‹ã«ã™ã‚‹.
      * 
-     * @param caretPos Œ»İ‚ÌƒJ[ƒ\ƒ‹ˆÊ’u
-     * @return ‘I‘ğó‘Ô‚É‚µ‚½ê‡‚Ítrue
+     * @param caretPos ç¾åœ¨ã®ã‚«ãƒ¼ã‚½ãƒ«ä½ç½®
+     * @return é¸æŠçŠ¶æ…‹ã«ã—ãŸå ´åˆã¯true
      */
     protected boolean selectWord(int caretPos) {
 
@@ -90,10 +90,10 @@ public class YAMLDoubleClickStrategy implements ITextDoubleClickStrategy {
     }
     
     /**
-     * w’è‚³‚ê‚½”ÍˆÍ‚ğ‘I‘ğó‘Ô‚É‚·‚é.
+     * æŒ‡å®šã•ã‚ŒãŸç¯„å›²ã‚’é¸æŠçŠ¶æ…‹ã«ã™ã‚‹.
      * 
-     * @param startPos ŠJnˆÊ’u
-     * @param stopPos I—¹ˆÊ’u
+     * @param startPos é–‹å§‹ä½ç½®
+     * @param stopPos çµ‚äº†ä½ç½®
      */
     private void selectRange(int startPos, int stopPos) {
         int offset = startPos + 1;

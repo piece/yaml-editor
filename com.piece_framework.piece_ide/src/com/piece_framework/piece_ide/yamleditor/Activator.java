@@ -7,7 +7,7 @@ import org.osgi.framework.BundleContext;
 import com.piece_framework.piece_ide.yamleditor.editors.YAMLColorManager;
 
 /**
- * ƒvƒ‰ƒOƒCƒ“‚Ìƒ‰ƒCƒtƒTƒCƒNƒ‹‚ğŠÇ—‚·‚é.
+ * ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ãƒ©ã‚¤ãƒ•ã‚µã‚¤ã‚¯ãƒ«ã‚’ç®¡ç†ã™ã‚‹.
  * 
  * @author Hideharu Matsufuji
  * @version 0.1.0
@@ -16,25 +16,25 @@ import com.piece_framework.piece_ide.yamleditor.editors.YAMLColorManager;
  */
 public class Activator extends AbstractUIPlugin {
 
-    /** ƒvƒ‰ƒOƒCƒ“ID. */
+    /** ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ID. */
     public static final String PLUGIN_ID = 
                 "com.piece_framework.piece_ide.yamleditor";
 
-    // ƒCƒ“ƒXƒ^ƒ“ƒX
+    // ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
     private static Activator plugin;
     
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^.
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿.
      */
     public Activator() {
         plugin = this;
     }
     
     /**
-     * ƒvƒ‰ƒOƒCƒ“‚ğŠJn‚·‚é.
+     * ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã‚’é–‹å§‹ã™ã‚‹.
      * 
-     * @param context ƒRƒ“ƒeƒLƒXƒg
-     * @exception Exception ˆê”Ê“I‚È—áŠO
+     * @param context ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆ
+     * @exception Exception ä¸€èˆ¬çš„ãªä¾‹å¤–
      * @see org.eclipse.ui.plugin.AbstractUIPlugin
      *          #start(org.osgi.framework.BundleContext)
      */
@@ -43,11 +43,11 @@ public class Activator extends AbstractUIPlugin {
     }
     
     /**
-     * ƒvƒ‰ƒOƒCƒ“‚ğ’â~‚·‚é.
-     * ƒJƒ‰[ƒ}ƒl[ƒWƒƒ[‚ÌI—¹ˆ—‚ğs‚¤.
+     * ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã‚’åœæ­¢ã™ã‚‹.
+     * ã‚«ãƒ©ãƒ¼ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã®çµ‚äº†å‡¦ç†ã‚’è¡Œã†.
      * 
-     * @param context ƒRƒ“ƒeƒLƒXƒg
-     * @throws Exception ˆê”Ê“I‚È—áŠO
+     * @param context ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆ
+     * @throws Exception ä¸€èˆ¬çš„ãªä¾‹å¤–
      * @see org.eclipse.ui.plugin.AbstractUIPlugin
      *          #stop(org.osgi.framework.BundleContext)
      */
@@ -59,19 +59,19 @@ public class Activator extends AbstractUIPlugin {
     }
     
     /**
-     * ‹¤—LƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚é.
+     * å…±æœ‰ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹.
      *
-     * @return ‹¤—LƒCƒ“ƒXƒ^ƒ“ƒX
+     * @return å…±æœ‰ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
      */
     public static Activator getDefault() {
         return plugin;
     }
     
     /**
-     * w’è‚³‚ê‚½ƒCƒ[ƒWƒtƒ@ƒCƒ‹‚ÌƒCƒ[ƒWƒfƒBƒXƒNƒŠƒvƒ^æ“¾‚·‚é.
+     * æŒ‡å®šã•ã‚ŒãŸã‚¤ãƒ¡ãƒ¼ã‚¸ãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚¤ãƒ¡ãƒ¼ã‚¸ãƒ‡ã‚£ã‚¹ã‚¯ãƒªãƒ—ã‚¿å–å¾—ã™ã‚‹.
      * 
-     * @param path ƒCƒ[ƒWƒtƒ@ƒCƒ‹ƒpƒX
-     * @return ƒCƒ[ƒWƒfƒBƒXƒNƒŠƒvƒ^
+     * @param path ã‚¤ãƒ¡ãƒ¼ã‚¸ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹
+     * @return ã‚¤ãƒ¡ãƒ¼ã‚¸ãƒ‡ã‚£ã‚¹ã‚¯ãƒªãƒ—ã‚¿
      */
     public static ImageDescriptor getImageDescriptor(String path) {
         return imageDescriptorFromPlugin(PLUGIN_ID, path);

@@ -20,8 +20,8 @@ import org.eclipse.core.resources.IMarker;
 
 
 /**
- * YAML ƒoƒŠƒf[ƒ^[.
- * YAMLƒtƒ@ƒCƒ‹‚ÌƒoƒŠƒf[ƒVƒ‡ƒ“‚ğÀs‚·‚éB
+ * YAML ãƒãƒªãƒ‡ãƒ¼ã‚¿ãƒ¼.
+ * YAMLãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒãƒªãƒ‡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å®Ÿè¡Œã™ã‚‹ã€‚
  * 
  * @author Seiichi Sugimoto
  * @version 0.1.0
@@ -31,12 +31,12 @@ import org.eclipse.core.resources.IMarker;
 public class YAMLValidator {
 
     /**
-     * Kwalifyƒ‰ƒCƒuƒ‰ƒŠ‚ğg—p‚µAƒoƒŠƒf[ƒVƒ‡ƒ“‚ğÀs‚·‚é.
+     * Kwalifyãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚’ä½¿ç”¨ã—ã€ãƒãƒªãƒ‡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å®Ÿè¡Œã™ã‚‹.
      * 
-     * @param schemaStream YAMLƒXƒL[ƒ}’è‹`ƒtƒ@ƒCƒ‹iƒXƒgƒŠ[ƒ€j
-     * @param docStream YAMLƒtƒ@ƒCƒ‹iƒXƒgƒŠ[ƒ€j
-     * @return ƒGƒ‰[ƒŠƒXƒg
-     * @throws IOException “üo—Í—áŠOƒGƒ‰[
+     * @param schemaStream YAMLã‚¹ã‚­ãƒ¼ãƒå®šç¾©ãƒ•ã‚¡ã‚¤ãƒ«ï¼ˆã‚¹ãƒˆãƒªãƒ¼ãƒ ï¼‰
+     * @param docStream YAMLãƒ•ã‚¡ã‚¤ãƒ«ï¼ˆã‚¹ãƒˆãƒªãƒ¼ãƒ ï¼‰
+     * @return ã‚¨ãƒ©ãƒ¼ãƒªã‚¹ãƒˆ
+     * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–ã‚¨ãƒ©ãƒ¼
      * @see org.eclipse.ui.editors.text.StorageDocumentProvider
      *          #createDocument(java.lang.Object)
      */
@@ -47,20 +47,20 @@ public class YAMLValidator {
         List<Map> errorList = new ArrayList<Map>();
      
         try {
-            //YAMLƒXƒL[ƒ}İ’è
+            //YAMLã‚¹ã‚­ãƒ¼ãƒè¨­å®š
             Object schema = new YamlParser(Util.untabify(
                          Util.readInputStream(schemaStream))).parse();
             
-            //YAMLƒtƒ@ƒCƒ‹İ’è
+            //YAMLãƒ•ã‚¡ã‚¤ãƒ«è¨­å®š
             YamlParser parser = new YamlParser(Util.untabify(Util
                                .readInputStream(docStream)));
             Object document = parser.parse();
         
-            //ƒoƒŠƒf[ƒVƒ‡ƒ“‚ÌÀs
+            //ãƒãƒªãƒ‡ãƒ¼ã‚·ãƒ§ãƒ³ã®å®Ÿè¡Œ
             Validator validator = new Validator(schema);
             List errors = validator.validate(document);
 
-            //ƒGƒ‰[“à—e‚ğƒGƒ‰[o—Í—pƒŠƒXƒg‚ÉƒZƒbƒg
+            //ã‚¨ãƒ©ãƒ¼å†…å®¹ã‚’ã‚¨ãƒ©ãƒ¼å‡ºåŠ›ç”¨ãƒªã‚¹ãƒˆã«ã‚»ãƒƒãƒˆ
             if (errors != null && errors.size() > 0) {
                 parser.setErrorsLineNumber(errors);
                 Collections.sort(errors);

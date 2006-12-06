@@ -11,9 +11,9 @@ import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.swt.widgets.Composite;
 
 /**
- * YAML ƒrƒ…[ƒA[.
- * YAML ƒhƒLƒ…ƒƒ“ƒg‚ğ•\¦‚·‚éƒrƒ…[ƒA[ƒNƒ‰ƒXB<br>
- * ƒ^ƒu‚ğƒXƒy[ƒX‚É•ÏŠ·‚·‚éB<br>
+ * YAML ãƒ“ãƒ¥ãƒ¼ã‚¢ãƒ¼.
+ * YAML ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆã‚’è¡¨ç¤ºã™ã‚‹ãƒ“ãƒ¥ãƒ¼ã‚¢ãƒ¼ã‚¯ãƒ©ã‚¹ã€‚<br>
+ * ã‚¿ãƒ–ã‚’ã‚¹ãƒšãƒ¼ã‚¹ã«å¤‰æ›ã™ã‚‹ã€‚<br>
  * 
  * @author Hideharu Matsufuji
  * @version 0.1.0
@@ -23,18 +23,18 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class YAMLViewer extends SourceViewer {
     
-    // ƒfƒtƒHƒ‹ƒgƒ^ƒuƒTƒCƒY
+    // ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚¿ãƒ–ã‚µã‚¤ã‚º
     private static final int DEFAULT_TABSIZE = 4;
     
     private int tabSize;
     private IDocument document;
     
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^.
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿.
      * 
-     * @param parent eƒRƒ“ƒgƒ[ƒ‰
-     * @param ruler ‚’¼ƒ‹[ƒ‰[
-     * @param styles ƒXƒ^ƒCƒ‹
+     * @param parent è¦ªã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©
+     * @param ruler å‚ç›´ãƒ«ãƒ¼ãƒ©ãƒ¼
+     * @param styles ã‚¹ã‚¿ã‚¤ãƒ«
      */
     public YAMLViewer(Composite parent, IVerticalRuler ruler, int styles) {
         super(parent, ruler, styles);
@@ -44,9 +44,9 @@ public class YAMLViewer extends SourceViewer {
     }
     
     /**
-     * ƒhƒLƒ…ƒƒ“ƒg‚ğƒZƒbƒg‚·‚é.
+     * ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆã‚’ã‚»ãƒƒãƒˆã™ã‚‹.
      * 
-     * @param doc ƒhƒLƒ…ƒƒ“ƒg
+     * @param doc ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆ
      * @see org.eclipse.jface.text.source.SourceViewer
      *          #setDocument(org.eclipse.jface.text.IDocument)
      */
@@ -55,19 +55,19 @@ public class YAMLViewer extends SourceViewer {
     }
     
     /**
-     * ƒ^ƒuƒTƒCƒY‚ğƒZƒbƒg‚·‚é.
+     * ã‚¿ãƒ–ã‚µã‚¤ã‚ºã‚’ã‚»ãƒƒãƒˆã™ã‚‹.
      * 
-     * @param size ƒ^ƒuƒTƒCƒY
+     * @param size ã‚¿ãƒ–ã‚µã‚¤ã‚º
      */
     public void setTabSize(int size) {
         tabSize = size;
     }
     
     /**
-     * ƒhƒLƒ…ƒƒ“ƒg‚ğƒJƒXƒ^ƒ}ƒCƒY‚·‚é.
-     * YAML ƒrƒ…[ƒA[‚Å‚Íƒ^ƒu‚ğƒXƒy[ƒX‚É•ÏŠ·‚·‚éB
+     * ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆã‚’ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºã™ã‚‹.
+     * YAML ãƒ“ãƒ¥ãƒ¼ã‚¢ãƒ¼ã§ã¯ã‚¿ãƒ–ã‚’ã‚¹ãƒšãƒ¼ã‚¹ã«å¤‰æ›ã™ã‚‹ã€‚
      * 
-     * @param command ƒhƒLƒ…ƒƒ“ƒgƒRƒ}ƒ“ƒh
+     * @param command ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆã‚³ãƒãƒ³ãƒ‰
      * @see org.eclipse.jface.text.TextViewer
      *          #customizeDocumentCommand(
      *              org.eclipse.jface.text.DocumentCommand)
@@ -78,7 +78,7 @@ public class YAMLViewer extends SourceViewer {
             return;
         }
         
-        // ƒfƒtƒHƒ‹ƒg‚Ìƒ‰ƒCƒ“ƒgƒ‰ƒbƒJ[‚ğg—p
+        // ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ©ã‚¤ãƒ³ãƒˆãƒ©ãƒƒã‚«ãƒ¼ã‚’ä½¿ç”¨
         ILineTracker lineTracker = new DefaultLineTracker();
         
         int index = text.indexOf('\t');
@@ -86,20 +86,20 @@ public class YAMLViewer extends SourceViewer {
 
             StringBuffer buffer = new StringBuffer();
 
-            // ƒ‰ƒCƒ“ƒgƒ‰ƒbƒJ[‚ğg—p‚µ‚ÄC³‚³‚ê‚½s”‚ğæ“¾
-            // (’Êí‚Í1s)
+            // ãƒ©ã‚¤ãƒ³ãƒˆãƒ©ãƒƒã‚«ãƒ¼ã‚’ä½¿ç”¨ã—ã¦ä¿®æ­£ã•ã‚ŒãŸè¡Œæ•°ã‚’å–å¾—
+            // (é€šå¸¸ã¯1è¡Œ)
             lineTracker.set(command.text);
             int lines = lineTracker.getNumberOfLines();
             
             try {
 
                 for (int i = 0; i < lines; i++) {
-                    // 1s•ª‚Ì•¶š—ñ‚ğæ“¾
+                    // 1è¡Œåˆ†ã®æ–‡å­—åˆ—ã‚’å–å¾—
                     int offset = lineTracker.getLineOffset(i);
                     int endOffset = offset + lineTracker.getLineLength(i);
                     String line = text.substring(offset, endOffset);
                     
-                    // C³ˆÊ’u‚ğæ“¾
+                    // ä¿®æ­£ä½ç½®ã‚’å–å¾—
                     int position = 0;
                     if (i == 0) {
                         IRegion firstLine = 
@@ -107,11 +107,11 @@ public class YAMLViewer extends SourceViewer {
                         position = command.offset - firstLine.getOffset();
                     }
                     
-                    // 1s‚Ì•¶š—ñ‚ğ•¶š’PˆÊ‚Åƒ`ƒFƒbƒN
+                    // 1è¡Œã®æ–‡å­—åˆ—ã‚’æ–‡å­—å˜ä½ã§ãƒã‚§ãƒƒã‚¯
                     for (int j = 0; j < line.length(); j++) {
                         char c = line.charAt(j);
                         if (c == '\t') {
-                            // ƒ^ƒu¨ƒXƒy[ƒX•ÏŠ·
+                            // ã‚¿ãƒ–â†’ã‚¹ãƒšãƒ¼ã‚¹å¤‰æ›
                             position += insertTabString(buffer, position);
                         } else {
                             buffer.append(c);
@@ -129,14 +129,14 @@ public class YAMLViewer extends SourceViewer {
     }
     
     /**
-     * ƒ^ƒu‚ğƒXƒy[ƒX‚É•ÏŠ·‚·‚é.
-     * ƒ^ƒu‚Íí‚Éw’è‚³‚ê‚½ƒ^ƒuƒTƒCƒY•ªAŠÔ‚ª‹ó‚¯‚ç‚ê‚é‚í‚¯‚Å‚Í‚È‚¢B<br>
-     * —á‚¦‚ÎA‘}“üˆÊ’u‚ª6•¶š–Ú‚Åƒ^ƒuƒTƒCƒY‚ª4‚Ìê‡A‘}“ü‚³‚ê‚é‹ó”’‚ÍA<br>
-     * 4‚Å‚Í‚È‚­2‚Å‚È‚¯‚ê‚Î‚È‚ç‚¢B<br>
+     * ã‚¿ãƒ–ã‚’ã‚¹ãƒšãƒ¼ã‚¹ã«å¤‰æ›ã™ã‚‹.
+     * ã‚¿ãƒ–ã¯å¸¸ã«æŒ‡å®šã•ã‚ŒãŸã‚¿ãƒ–ã‚µã‚¤ã‚ºåˆ†ã€é–“ãŒç©ºã‘ã‚‰ã‚Œã‚‹ã‚ã‘ã§ã¯ãªã„ã€‚<br>
+     * ä¾‹ãˆã°ã€æŒ¿å…¥ä½ç½®ãŒ6æ–‡å­—ç›®ã§ã‚¿ãƒ–ã‚µã‚¤ã‚ºãŒ4ã®å ´åˆã€æŒ¿å…¥ã•ã‚Œã‚‹ç©ºç™½ã¯ã€<br>
+     * 4ã§ã¯ãªã2ã§ãªã‘ã‚Œã°ãªã‚‰ã„ã€‚<br>
      * 
-     * @param buffer •¶š—ñƒoƒbƒtƒ@
-     * @param offsetInLine ƒXƒy[ƒX‘}“üˆÊ’u
-     * @return ‘}“ü‚³‚ê‚½ƒXƒy[ƒX”
+     * @param buffer æ–‡å­—åˆ—ãƒãƒƒãƒ•ã‚¡
+     * @param offsetInLine ã‚¹ãƒšãƒ¼ã‚¹æŒ¿å…¥ä½ç½®
+     * @return æŒ¿å…¥ã•ã‚ŒãŸã‚¹ãƒšãƒ¼ã‚¹æ•°
      */
     private int insertTabString(StringBuffer buffer, int offsetInLine) {
 
@@ -144,9 +144,9 @@ public class YAMLViewer extends SourceViewer {
             return 0;
         }
         
-        // ƒ^ƒu‚Íí‚Éw’è‚³‚ê‚½ƒ^ƒuƒTƒCƒY•ªAŠÔ‚ª‹ó‚¯‚ç‚ê‚é‚í‚¯‚Å‚Í‚È‚¢B
-        // —á‚¦‚ÎA‘}“üˆÊ’u‚ª6•¶š–Ú‚Åƒ^ƒuƒTƒCƒY‚ª4‚Ìê‡A‘}“ü‚³‚ê‚é‹ó”’‚ÍA
-        // 4‚Å‚Í‚È‚­2‚Å‚È‚¯‚ê‚Î‚È‚ç‚¢B
+        // ã‚¿ãƒ–ã¯å¸¸ã«æŒ‡å®šã•ã‚ŒãŸã‚¿ãƒ–ã‚µã‚¤ã‚ºåˆ†ã€é–“ãŒç©ºã‘ã‚‰ã‚Œã‚‹ã‚ã‘ã§ã¯ãªã„ã€‚
+        // ä¾‹ãˆã°ã€æŒ¿å…¥ä½ç½®ãŒ6æ–‡å­—ç›®ã§ã‚¿ãƒ–ã‚µã‚¤ã‚ºãŒ4ã®å ´åˆã€æŒ¿å…¥ã•ã‚Œã‚‹ç©ºç™½ã¯ã€
+        // 4ã§ã¯ãªã2ã§ãªã‘ã‚Œã°ãªã‚‰ã„ã€‚
         int remainder = offsetInLine % tabSize;
         remainder = tabSize - remainder;
         for (int i = 0; i < remainder; i++) {

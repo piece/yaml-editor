@@ -13,8 +13,8 @@ import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.swt.graphics.Color;
 
 /**
- * YAML ƒRƒ“ƒtƒBƒMƒ…ƒŒ[ƒVƒ‡ƒ“.
- * YAML ƒGƒfƒBƒ^[‚Ì“®ì‚ğƒJƒXƒ^ƒ}ƒCƒY‚·‚éB
+ * YAML ã‚³ãƒ³ãƒ•ã‚£ã‚®ãƒ¥ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³.
+ * YAML ã‚¨ãƒ‡ã‚£ã‚¿ãƒ¼ã®å‹•ä½œã‚’ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºã™ã‚‹ã€‚
  * 
  * @author Hideharu Matsufuji
  * @version 0.1.0
@@ -26,8 +26,8 @@ public class YAMLConfiguration extends SourceViewerConfiguration {
     private YAMLDoubleClickStrategy doubleClickStrategy;
     
     /**
-     * ƒ‹[ƒ‹‚ğ‚½‚È‚¢ƒXƒLƒƒƒiƒNƒ‰ƒX.
-     * ƒeƒLƒXƒg‘®«‚Ì‚İ‚ğİ’è‰Â”\‚ÈƒXƒLƒƒƒiƒNƒ‰ƒXB
+     * ãƒ«ãƒ¼ãƒ«ã‚’æŒãŸãªã„ã‚¹ã‚­ãƒ£ãƒŠã‚¯ãƒ©ã‚¹.
+     * ãƒ†ã‚­ã‚¹ãƒˆå±æ€§ã®ã¿ã‚’è¨­å®šå¯èƒ½ãªã‚¹ã‚­ãƒ£ãƒŠã‚¯ãƒ©ã‚¹ã€‚
      * 
      * @author Hideharu Matsufuji
      * @version 0.1.0
@@ -37,10 +37,10 @@ public class YAMLConfiguration extends SourceViewerConfiguration {
     static class SingleTokenScanner extends BufferedRuleBasedScanner {
         
         /**
-         * ƒRƒ“ƒXƒgƒ‰ƒNƒ^.
-         * ƒeƒLƒXƒg‘®«‚ğ“n‚·B
+         * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿.
+         * ãƒ†ã‚­ã‚¹ãƒˆå±æ€§ã‚’æ¸¡ã™ã€‚
          * 
-         * @param attribute ƒeƒLƒXƒg‘®«
+         * @param attribute ãƒ†ã‚­ã‚¹ãƒˆå±æ€§
          */
         public SingleTokenScanner(TextAttribute attribute) {
             setDefaultReturnToken(new Token(attribute));
@@ -48,10 +48,10 @@ public class YAMLConfiguration extends SourceViewerConfiguration {
     }    
     
     /**
-     * YAML ƒGƒfƒBƒ^[‚ªƒTƒ|[ƒg‚·‚éƒp[ƒeƒB[ƒVƒ‡ƒ“ƒ^ƒCƒv‚ğ•Ô‚·.
+     * YAML ã‚¨ãƒ‡ã‚£ã‚¿ãƒ¼ãŒã‚µãƒãƒ¼ãƒˆã™ã‚‹ãƒ‘ãƒ¼ãƒ†ã‚£ãƒ¼ã‚·ãƒ§ãƒ³ã‚¿ã‚¤ãƒ—ã‚’è¿”ã™.
      * 
-     * @param sourceViewer ƒ\[ƒXƒrƒ…[
-     * @return ƒp[ƒeƒBƒVƒ‡ƒ“ƒ^ƒCƒv
+     * @param sourceViewer ã‚½ãƒ¼ã‚¹ãƒ“ãƒ¥ãƒ¼
+     * @return ãƒ‘ãƒ¼ãƒ†ã‚£ã‚·ãƒ§ãƒ³ã‚¿ã‚¤ãƒ—
      * @see org.eclipse.jface.text.source.SourceViewerConfiguration
      *          #getConfiguredContentTypes(
      *              org.eclipse.jface.text.source.ISourceViewer)
@@ -69,11 +69,11 @@ public class YAMLConfiguration extends SourceViewerConfiguration {
     }
     
     /**
-     * ƒ_ƒuƒ‹ƒNƒŠƒbƒN‚Ì“®ì‚ğŒˆ’è‚·‚éÀ‘•ƒNƒ‰ƒX‚ğ•Ô‚·.
+     * ãƒ€ãƒ–ãƒ«ã‚¯ãƒªãƒƒã‚¯æ™‚ã®å‹•ä½œã‚’æ±ºå®šã™ã‚‹å®Ÿè£…ã‚¯ãƒ©ã‚¹ã‚’è¿”ã™.
      * 
-     * @param sourceViewer ƒ\[ƒXƒrƒ…[
-     * @param contentType ƒRƒ“ƒeƒ“ƒgƒ^ƒCƒv
-     * @return ƒ_ƒuƒ‹ƒNƒŠƒbƒN‚Ì“®ì‚ğŒˆ’è‚·‚éÀ‘•ƒNƒ‰ƒX
+     * @param sourceViewer ã‚½ãƒ¼ã‚¹ãƒ“ãƒ¥ãƒ¼
+     * @param contentType ã‚³ãƒ³ãƒ†ãƒ³ãƒˆã‚¿ã‚¤ãƒ—
+     * @return ãƒ€ãƒ–ãƒ«ã‚¯ãƒªãƒƒã‚¯æ™‚ã®å‹•ä½œã‚’æ±ºå®šã™ã‚‹å®Ÿè£…ã‚¯ãƒ©ã‚¹
      * @see org.eclipse.jface.text.source.SourceViewerConfiguration
      *          #getDoubleClickStrategy(
      *              org.eclipse.jface.text.source.ISourceViewer, 
@@ -90,10 +90,10 @@ public class YAMLConfiguration extends SourceViewerConfiguration {
     }
     
     /**
-     * ƒGƒfƒBƒ^[‚ÌƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“‚ğİ’èEæ“¾‚·‚é.
+     * ã‚¨ãƒ‡ã‚£ã‚¿ãƒ¼ã®ãƒ—ãƒ¬ã‚¼ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã‚’è¨­å®šãƒ»å–å¾—ã™ã‚‹.
      * 
-     * @param sourceViewer ƒ\[ƒXƒrƒ…[
-     * @return ƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“ƒŠƒRƒ“ƒZƒ‰[
+     * @param sourceViewer ã‚½ãƒ¼ã‚¹ãƒ“ãƒ¥ãƒ¼
+     * @return ãƒ—ãƒ¬ã‚¼ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ãƒªã‚³ãƒ³ã‚»ãƒ©ãƒ¼
      * @see org.eclipse.jface.text.source.SourceViewerConfiguration
      *          #getPresentationReconciler(
      *              org.eclipse.jface.text.source.ISourceViewer)

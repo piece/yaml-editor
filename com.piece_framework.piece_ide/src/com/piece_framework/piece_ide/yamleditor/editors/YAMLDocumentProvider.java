@@ -7,8 +7,8 @@ import org.eclipse.jface.text.rules.FastPartitioner;
 import org.eclipse.ui.editors.text.FileDocumentProvider;
 
 /**
- * YAML ƒhƒLƒ…ƒƒ“ƒgƒvƒƒoƒCƒ_[.
- * ƒhƒLƒ…ƒƒ“ƒg‚Ì¶¬EŠÇ—‚ğs‚¤B
+ * YAML ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆãƒ—ãƒ­ãƒã‚¤ãƒ€ãƒ¼.
+ * ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆã®ç”Ÿæˆãƒ»ç®¡ç†ã‚’è¡Œã†ã€‚
  * 
  * @author Hideharu Matsufuji
  * @version 0.1.0
@@ -19,11 +19,11 @@ import org.eclipse.ui.editors.text.FileDocumentProvider;
 public class YAMLDocumentProvider extends FileDocumentProvider {
 
     /**
-     * ƒhƒLƒ…ƒƒ“ƒg‚ğ¶¬‚·‚é.
+     * ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆã‚’ç”Ÿæˆã™ã‚‹.
      * 
-     * @param element ƒhƒLƒ…ƒƒ“ƒg‚ÌŒ³‚É‚È‚é—v‘f
-     * @return ƒhƒLƒ…ƒƒ“ƒg
-     * @throws CoreException ‹¤’Ê—áŠO
+     * @param element ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆã®å…ƒã«ãªã‚‹è¦ç´ 
+     * @return ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆ
+     * @throws CoreException å…±é€šä¾‹å¤–
      * @see org.eclipse.ui.editors.text.StorageDocumentProvider
      *          #createDocument(java.lang.Object)
      */
@@ -31,7 +31,7 @@ public class YAMLDocumentProvider extends FileDocumentProvider {
         IDocument document = super.createDocument(element);
         
         if (document != null) {
-            // ƒhƒLƒ…ƒƒ“ƒg‚ğˆÓ–¡‚Ì‚ ‚é‹æˆæ‚É•ªŠ„‚·‚é
+            // ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆã‚’æ„å‘³ã®ã‚ã‚‹åŒºåŸŸã«åˆ†å‰²ã™ã‚‹
             IDocumentPartitioner partitioner =
                 new FastPartitioner(
                     YAMLPartitionScanner.getScanner(),

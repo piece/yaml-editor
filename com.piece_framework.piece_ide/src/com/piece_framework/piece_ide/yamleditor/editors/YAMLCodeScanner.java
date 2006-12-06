@@ -17,15 +17,15 @@ import org.eclipse.jface.text.rules.WordRule;
 import org.eclipse.swt.graphics.RGB;
 
 /**
- * YAML ƒR[ƒhƒXƒLƒƒƒi[.
- * YAML ‚ÌƒR[ƒh‚Ìƒ‹[ƒ‹‚ğ’è‹`Eİ’è‚·‚éB<br>
+ * YAML ã‚³ãƒ¼ãƒ‰ã‚¹ã‚­ãƒ£ãƒŠãƒ¼.
+ * YAML ã®ã‚³ãƒ¼ãƒ‰ã®ãƒ«ãƒ¼ãƒ«ã‚’å®šç¾©ãƒ»è¨­å®šã™ã‚‹ã€‚<br>
  * <br>
- * Eƒ}ƒbƒsƒ“ƒO(ƒnƒbƒVƒ…)ƒL[<br>
- * Eˆø—p•„‚ÅˆÍ‚Ü‚ê‚½ŒÅ’è•¶š—ñ<br>
- * EYAMLƒo[ƒWƒ‡ƒ“w’è<br>
- * EƒRƒƒ“ƒg<br>
- * EƒV[ƒPƒ“ƒX(”z—ñ)‚Ì"-"<br>
- * EƒhƒLƒ…ƒƒ“ƒg‹æØ‚è‚Ì"---"<br>
+ * ãƒ»ãƒãƒƒãƒ”ãƒ³ã‚°(ãƒãƒƒã‚·ãƒ¥)ã‚­ãƒ¼<br>
+ * ãƒ»å¼•ç”¨ç¬¦ã§å›²ã¾ã‚ŒãŸå›ºå®šæ–‡å­—åˆ—<br>
+ * ãƒ»YAMLãƒãƒ¼ã‚¸ãƒ§ãƒ³æŒ‡å®š<br>
+ * ãƒ»ã‚³ãƒ¡ãƒ³ãƒˆ<br>
+ * ãƒ»ã‚·ãƒ¼ã‚±ãƒ³ã‚¹(é…åˆ—)ã®"-"<br>
+ * ãƒ»ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆåŒºåˆ‡ã‚Šã®"---"<br>
  * 
  * @author Hideharu Matsufuji
  * @version 0.1.0
@@ -35,7 +35,7 @@ import org.eclipse.swt.graphics.RGB;
 public final class YAMLCodeScanner extends RuleBasedScanner {
     
     /**
-     * ƒ[ƒh”F¯—p.
+     * ãƒ¯ãƒ¼ãƒ‰èªè­˜ç”¨.
      * 
      * @author Hideharu Matsufuji
      * @version 0.1.0
@@ -45,10 +45,10 @@ public final class YAMLCodeScanner extends RuleBasedScanner {
     private static class YAMLWordDetector implements IWordDetector {
         
         /**
-         * w’è‚³‚ê‚½ƒLƒƒƒ‰ƒNƒ^‚ğƒ[ƒh‚Ìˆê•”‚Æ‚µ‚Ä”F¯‚·‚é‚©‚ğ•Ô‚·.
+         * æŒ‡å®šã•ã‚ŒãŸã‚­ãƒ£ãƒ©ã‚¯ã‚¿ã‚’ãƒ¯ãƒ¼ãƒ‰ã®ä¸€éƒ¨ã¨ã—ã¦èªè­˜ã™ã‚‹ã‹ã‚’è¿”ã™.
          * 
-         * @param c ƒ`ƒFƒbƒN‘ÎÛƒLƒƒƒ‰ƒNƒ^
-         * @return ”»’èŒ‹‰Ê
+         * @param c ãƒã‚§ãƒƒã‚¯å¯¾è±¡ã‚­ãƒ£ãƒ©ã‚¯ã‚¿
+         * @return åˆ¤å®šçµæœ
          * @see org.eclipse.jface.text.rules.IWordDetector#isWordPart(char)
          */
         public boolean isWordPart(char c) {
@@ -56,10 +56,10 @@ public final class YAMLCodeScanner extends RuleBasedScanner {
         }
 
         /**
-         * w’è‚³‚ê‚½ƒLƒƒƒ‰ƒNƒ^‚ğƒ[ƒh‚Ìæ“ª‚Æ‚µ‚Ä”F¯‚·‚é‚©‚ğ•Ô‚·.
+         * æŒ‡å®šã•ã‚ŒãŸã‚­ãƒ£ãƒ©ã‚¯ã‚¿ã‚’ãƒ¯ãƒ¼ãƒ‰ã®å…ˆé ­ã¨ã—ã¦èªè­˜ã™ã‚‹ã‹ã‚’è¿”ã™.
          * 
-         * @param c ƒ`ƒFƒbƒN‘ÎÛƒLƒƒƒ‰ƒNƒ^
-         * @return ”»’èŒ‹‰Ê
+         * @param c ãƒã‚§ãƒƒã‚¯å¯¾è±¡ã‚­ãƒ£ãƒ©ã‚¯ã‚¿
+         * @return åˆ¤å®šçµæœ
          * @see org.eclipse.jface.text.rules.IWordDetector#isWordStart(char)
          */
         public boolean isWordStart(char c) {
@@ -68,7 +68,7 @@ public final class YAMLCodeScanner extends RuleBasedScanner {
     }
     
     /**
-     * ‹ó”’”F¯—p.
+     * ç©ºç™½èªè­˜ç”¨.
      * 
      * @author Hideharu Matsufuji
      * @version 0.1.0
@@ -78,10 +78,10 @@ public final class YAMLCodeScanner extends RuleBasedScanner {
     private static class YAMLWhitespaceDetector implements IWhitespaceDetector {
         
         /**
-         * w’è‚³‚ê‚½ƒLƒƒƒ‰ƒNƒ^‚ğ‹ó”’‚Æ‚µ‚Ä”F¯‚·‚é‚©‚ğ•Ô‚·.
+         * æŒ‡å®šã•ã‚ŒãŸã‚­ãƒ£ãƒ©ã‚¯ã‚¿ã‚’ç©ºç™½ã¨ã—ã¦èªè­˜ã™ã‚‹ã‹ã‚’è¿”ã™.
          * 
-         * @param c ƒ`ƒFƒbƒN‘ÎÛƒLƒƒƒ‰ƒNƒ^
-         * @return ”»’èŒ‹‰Ê
+         * @param c ãƒã‚§ãƒƒã‚¯å¯¾è±¡ã‚­ãƒ£ãƒ©ã‚¯ã‚¿
+         * @return åˆ¤å®šçµæœ
          * @see org.eclipse.jface.text.rules.IWordDetector#isWordStart(char)
          */
         public boolean isWhitespace(char c) {
@@ -90,11 +90,11 @@ public final class YAMLCodeScanner extends RuleBasedScanner {
     }
     
     /**
-     * ƒ}ƒbƒsƒ“ƒO(ƒnƒbƒVƒ…)ƒL[ƒ‹[ƒ‹.
-     * ƒ}ƒbƒsƒ“ƒO(ƒnƒbƒVƒ…)‚ÌƒL[‚ÍˆÈ‰º‚Ìƒ‹[ƒ‹‚Å”»’f‚·‚éB<br>
-     * EƒAƒ‹ƒtƒ@ƒxƒbƒgAˆø—p•„(')A“ñdˆø—p•„(")‚Ì‚¢‚¸‚ê‚©‚Ån‚Ü‚éB<br>
-     * Eƒ[ƒh‚Ì’¼Œã‚ªƒRƒƒ“(:)‚Å‚ ‚éB<br>
-     * EƒRƒƒ“(:)‚Ì’¼Œã‚ª”¼ŠpƒXƒy[ƒX–”‚Í‰üs‚Å‚ ‚éB<br>
+     * ãƒãƒƒãƒ”ãƒ³ã‚°(ãƒãƒƒã‚·ãƒ¥)ã‚­ãƒ¼ãƒ«ãƒ¼ãƒ«.
+     * ãƒãƒƒãƒ”ãƒ³ã‚°(ãƒãƒƒã‚·ãƒ¥)ã®ã‚­ãƒ¼ã¯ä»¥ä¸‹ã®ãƒ«ãƒ¼ãƒ«ã§åˆ¤æ–­ã™ã‚‹ã€‚<br>
+     * ãƒ»ã‚¢ãƒ«ãƒ•ã‚¡ãƒ™ãƒƒãƒˆã€å¼•ç”¨ç¬¦(')ã€äºŒé‡å¼•ç”¨ç¬¦(")ã®ã„ãšã‚Œã‹ã§å§‹ã¾ã‚‹ã€‚<br>
+     * ãƒ»ãƒ¯ãƒ¼ãƒ‰ã®ç›´å¾ŒãŒã‚³ãƒ­ãƒ³(:)ã§ã‚ã‚‹ã€‚<br>
+     * ãƒ»ã‚³ãƒ­ãƒ³(:)ã®ç›´å¾ŒãŒåŠè§’ã‚¹ãƒšãƒ¼ã‚¹åˆã¯æ”¹è¡Œã§ã‚ã‚‹ã€‚<br>
      * 
      * @author Hideharu Matsufuji
      * @version 0.1.0
@@ -106,21 +106,21 @@ public final class YAMLCodeScanner extends RuleBasedScanner {
         private IToken token;
         
         /**
-         * ƒRƒ“ƒXƒgƒ‰ƒNƒ^.
+         * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿.
          * 
-         * @param t ƒ‹[ƒ‹‚É‡’v‚µ‚½‚Æ‚«‚É“K—p‚·‚éƒg[ƒNƒ“B
+         * @param t ãƒ«ãƒ¼ãƒ«ã«åˆè‡´ã—ãŸã¨ãã«é©ç”¨ã™ã‚‹ãƒˆãƒ¼ã‚¯ãƒ³ã€‚
          */
         public YAMLMappingKeyRule(IToken t) {
             this.token = t;
         }
         
         /**
-         * ƒ}ƒbƒsƒ“ƒO(ƒnƒbƒVƒ…)ƒL[ƒ‹[ƒ‹‚É‡’v‚·‚é‚©”»’è‚·‚é.
-         * ƒ}ƒbƒsƒ“ƒO(ƒnƒbƒVƒ…)ƒL[ƒ‹[ƒ‹‚É‡’v‚µ‚½ê‡‚Íw’è‚³‚ê‚½ƒg[ƒNƒ“‚ğ•Ô‚·B
-         * ‡’v‚µ‚È‚¢ê‡‚ÍToken.UNDEFINED‚ğ•Ô‚·B
+         * ãƒãƒƒãƒ”ãƒ³ã‚°(ãƒãƒƒã‚·ãƒ¥)ã‚­ãƒ¼ãƒ«ãƒ¼ãƒ«ã«åˆè‡´ã™ã‚‹ã‹åˆ¤å®šã™ã‚‹.
+         * ãƒãƒƒãƒ”ãƒ³ã‚°(ãƒãƒƒã‚·ãƒ¥)ã‚­ãƒ¼ãƒ«ãƒ¼ãƒ«ã«åˆè‡´ã—ãŸå ´åˆã¯æŒ‡å®šã•ã‚ŒãŸãƒˆãƒ¼ã‚¯ãƒ³ã‚’è¿”ã™ã€‚
+         * åˆè‡´ã—ãªã„å ´åˆã¯Token.UNDEFINEDã‚’è¿”ã™ã€‚
          * 
-         * @param scanner ”»’è‘ÎÛ‚ÌƒLƒƒƒ‰ƒNƒ^‚ğæ‚èo‚·ƒXƒLƒƒƒi
-         * @return ƒ‹[ƒ‹‚É“K—p‚³‚ê‚éƒg[ƒNƒ“B
+         * @param scanner åˆ¤å®šå¯¾è±¡ã®ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ã‚’å–ã‚Šå‡ºã™ã‚¹ã‚­ãƒ£ãƒŠ
+         * @return ãƒ«ãƒ¼ãƒ«ã«é©ç”¨ã•ã‚Œã‚‹ãƒˆãƒ¼ã‚¯ãƒ³ã€‚
          * @see org.eclipse.jface.text.rules.IRule
          *          #evaluate(org.eclipse.jface.text.rules.ICharacterScanner)
          */
@@ -134,7 +134,7 @@ public final class YAMLCodeScanner extends RuleBasedScanner {
                 char quatation = '\0';
                 int count = 1;
                 
-                // ˆø—p•„‚Ån‚Ü‚éê‡‚Í‚»‚ê‚ğæ“¾‚µ‚Ä‚¨‚­
+                // å¼•ç”¨ç¬¦ã§å§‹ã¾ã‚‹å ´åˆã¯ãã‚Œã‚’å–å¾—ã—ã¦ãŠã
                 if (c == '\"' || c == '\'') {
                     quatation = c;
                 }
@@ -143,18 +143,18 @@ public final class YAMLCodeScanner extends RuleBasedScanner {
                     c = (char) scanner.read();
                     count++;
                     
-                    // ˆø—p•„‚ª•Â‚¶‚½ê‡‚ÍƒŠƒZƒbƒg
+                    // å¼•ç”¨ç¬¦ãŒé–‰ã˜ãŸå ´åˆã¯ãƒªã‚»ãƒƒãƒˆ
                     if (c == quatation) {
                         quatation = '\0';
                     }
-                    // ˆø—p•„‚ÅˆÍ‚Ü‚ê‚½’†‚Å”¼ŠpƒXƒy[ƒX‚Ìê‡‚Í
-                    // •¶š‚ğ’uŠ·‚µ‚ÄAI—¹‚µ‚È‚¢‚æ‚¤‚É‚·‚é
+                    // å¼•ç”¨ç¬¦ã§å›²ã¾ã‚ŒãŸä¸­ã§åŠè§’ã‚¹ãƒšãƒ¼ã‚¹ã®å ´åˆã¯
+                    // æ–‡å­—ã‚’ç½®æ›ã—ã¦ã€çµ‚äº†ã—ãªã„ã‚ˆã†ã«ã™ã‚‹
                     if (quatation != '\0' && c == ' ') {
                         c = '_';
                     }
                 } while (Character.isDefined(c) && c != ' ' && c != '\n');
                 
-                // ':'‚Ì‚ ‚Æ‚ªƒXƒy[ƒX‚©‰üs‚È‚çğŒ‚É‡’v
+                // ':'ã®ã‚ã¨ãŒã‚¹ãƒšãƒ¼ã‚¹ã‹æ”¹è¡Œãªã‚‰æ¡ä»¶ã«åˆè‡´
                 if (bc == ':') {
                     retToken = token;
                 } else {
@@ -172,20 +172,20 @@ public final class YAMLCodeScanner extends RuleBasedScanner {
     }
     
     /**
-     * YAMLƒo[ƒWƒ‡ƒ“w’èƒ‹[ƒ‹.
-     * YAMLƒo[ƒWƒ‡ƒ“w’è‚ÍˆÈ‰º‚Ìƒ‹[ƒ‹‚Å”»’f‚·‚éB<br>
-     * E"--- %YAML"‚Ån‚Ü‚éB<br>
-     * E"--- %YAML"’¼Œã‚É‚Ğ‚Æ‚Â”¼ŠpƒXƒy[ƒX‚ğ‚Í‚³‚ñ‚ÅAŸ‚Ì”¼ŠpƒXƒy[ƒX<br>
-     * @–”‚Í‰üs‚Ü‚Å‚ğƒo[ƒWƒ‡ƒ“‚Æ‚·‚éB<br>
-     * E"--- %YAML"’¼Œã‚É”¼ŠpƒXƒy[ƒX‚ª‚È‚¢ê‡‚ÍAŸ‚Ì”¼ŠpƒXƒy[ƒX‚Ü‚Å<br>
-     * @‚ğ‘ÎÛ‚Æ‚·‚éB<br>
+     * YAMLãƒãƒ¼ã‚¸ãƒ§ãƒ³æŒ‡å®šãƒ«ãƒ¼ãƒ«.
+     * YAMLãƒãƒ¼ã‚¸ãƒ§ãƒ³æŒ‡å®šã¯ä»¥ä¸‹ã®ãƒ«ãƒ¼ãƒ«ã§åˆ¤æ–­ã™ã‚‹ã€‚<br>
+     * ãƒ»"--- %YAML"ã§å§‹ã¾ã‚‹ã€‚<br>
+     * ãƒ»"--- %YAML"ç›´å¾Œã«ã²ã¨ã¤åŠè§’ã‚¹ãƒšãƒ¼ã‚¹ã‚’ã¯ã•ã‚“ã§ã€æ¬¡ã®åŠè§’ã‚¹ãƒšãƒ¼ã‚¹<br>
+     * ã€€åˆã¯æ”¹è¡Œã¾ã§ã‚’ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã¨ã™ã‚‹ã€‚<br>
+     * ãƒ»"--- %YAML"ç›´å¾Œã«åŠè§’ã‚¹ãƒšãƒ¼ã‚¹ãŒãªã„å ´åˆã¯ã€æ¬¡ã®åŠè§’ã‚¹ãƒšãƒ¼ã‚¹ã¾ã§<br>
+     * ã€€ã‚’å¯¾è±¡ã¨ã™ã‚‹ã€‚<br>
      * <br>
-     * —áF<br>
-     * @"--- %YAML 1.1  # YAMLƒo[ƒWƒ‡ƒ“w’è"<br>
-     * @@"--- %YAML 1.1"‚ªYAMLƒo[ƒWƒ‡ƒ“w’èƒ‹[ƒ‹‚Æ‚È‚éB<br>
+     * ä¾‹ï¼š<br>
+     * ã€€"--- %YAML 1.1  # YAMLãƒãƒ¼ã‚¸ãƒ§ãƒ³æŒ‡å®š"<br>
+     * ã€€ã€€"--- %YAML 1.1"ãŒYAMLãƒãƒ¼ã‚¸ãƒ§ãƒ³æŒ‡å®šãƒ«ãƒ¼ãƒ«ã¨ãªã‚‹ã€‚<br>
      * <br>
-     * @"--- %YAML2.0 # YAML Version"<br>
-     * @@"--- %YAML2.0"‚ªYAMLƒo[ƒWƒ‡ƒ“w’èƒ‹[ƒ‹‚Æ‚È‚éB<br>
+     * ã€€"--- %YAML2.0 # YAML Version"<br>
+     * ã€€ã€€"--- %YAML2.0"ãŒYAMLãƒãƒ¼ã‚¸ãƒ§ãƒ³æŒ‡å®šãƒ«ãƒ¼ãƒ«ã¨ãªã‚‹ã€‚<br>
      * 
      * @author Hideharu Matsufuji
      * @version 0.1.0
@@ -198,21 +198,21 @@ public final class YAMLCodeScanner extends RuleBasedScanner {
         private static final String VERSION = "--- %YAML";
         
         /**
-         * ƒRƒ“ƒXƒgƒ‰ƒNƒ^.
+         * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿.
          * 
-         * @param t ƒ‹[ƒ‹‚É‡’v‚µ‚½‚Æ‚«‚É“K—p‚·‚éƒg[ƒNƒ“B
+         * @param t ãƒ«ãƒ¼ãƒ«ã«åˆè‡´ã—ãŸã¨ãã«é©ç”¨ã™ã‚‹ãƒˆãƒ¼ã‚¯ãƒ³ã€‚
          */
         public YAMLVersionRule(IToken t) {
             this.token = t;
         }
 
         /**
-         * YAMLƒo[ƒWƒ‡ƒ“w’èƒ‹[ƒ‹‚É‡’v‚·‚é‚©”»’è‚·‚é.
-         * YAMLƒo[ƒWƒ‡ƒ“w’èƒ‹[ƒ‹‚É‡’v‚µ‚½ê‡‚Íw’è‚³‚ê‚½ƒg[ƒNƒ“‚ğ•Ô‚·B
-         * ‡’v‚µ‚È‚¢ê‡‚ÍToken.UNDEFINED‚ğ•Ô‚·B
+         * YAMLãƒãƒ¼ã‚¸ãƒ§ãƒ³æŒ‡å®šãƒ«ãƒ¼ãƒ«ã«åˆè‡´ã™ã‚‹ã‹åˆ¤å®šã™ã‚‹.
+         * YAMLãƒãƒ¼ã‚¸ãƒ§ãƒ³æŒ‡å®šãƒ«ãƒ¼ãƒ«ã«åˆè‡´ã—ãŸå ´åˆã¯æŒ‡å®šã•ã‚ŒãŸãƒˆãƒ¼ã‚¯ãƒ³ã‚’è¿”ã™ã€‚
+         * åˆè‡´ã—ãªã„å ´åˆã¯Token.UNDEFINEDã‚’è¿”ã™ã€‚
          * 
-         * @param scanner ”»’è‘ÎÛ‚ÌƒLƒƒƒ‰ƒNƒ^‚ğæ‚èo‚·ƒXƒLƒƒƒi
-         * @return ƒ‹[ƒ‹‚É“K—p‚³‚ê‚éƒg[ƒNƒ“B
+         * @param scanner åˆ¤å®šå¯¾è±¡ã®ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ã‚’å–ã‚Šå‡ºã™ã‚¹ã‚­ãƒ£ãƒŠ
+         * @return ãƒ«ãƒ¼ãƒ«ã«é©ç”¨ã•ã‚Œã‚‹ãƒˆãƒ¼ã‚¯ãƒ³ã€‚
          * @see org.eclipse.jface.text.rules.IRule
          *          #evaluate(org.eclipse.jface.text.rules.ICharacterScanner)
          */
@@ -235,7 +235,7 @@ public final class YAMLCodeScanner extends RuleBasedScanner {
                 count++;
             }
             if (check) {
-                // ƒo[ƒWƒ‡ƒ“”Ô†‚Ü‚Å‚ğ‘ÎÛ‚Æ‚·‚é
+                // ãƒãƒ¼ã‚¸ãƒ§ãƒ³ç•ªå·ã¾ã§ã‚’å¯¾è±¡ã¨ã™ã‚‹
                 if (c == ' ') {
                     c = (char) scanner.read();
                 }
@@ -258,27 +258,27 @@ public final class YAMLCodeScanner extends RuleBasedScanner {
         
     }
 
-    /** YAML ƒ}ƒbƒsƒ“ƒO(ƒL[)F. */
+    /** YAML ãƒãƒƒãƒ”ãƒ³ã‚°(ã‚­ãƒ¼)è‰². */
     private static final RGB YAML_MAPPING_KEY_COLOR = new RGB(10, 200, 10);
-    /** YAML ŒÅ’è•¶š—ñF. */
+    /** YAML å›ºå®šæ–‡å­—åˆ—è‰². */
     private static final RGB YAML_STRING_COLOR = new RGB(0, 0, 255);
-    /** YAML ƒo[ƒWƒ‡ƒ“w’èF. */
+    /** YAML ãƒãƒ¼ã‚¸ãƒ§ãƒ³æŒ‡å®šè‰². */
     private static final RGB YAML_VERSION_COLOR = new RGB(0, 150, 150);
-    /** YAML ƒRƒƒ“ƒgF. */
+    /** YAML ã‚³ãƒ¡ãƒ³ãƒˆè‰². */
     private static final RGB YAML_COMMENT_COLOR = new RGB(0, 100, 200);
-    /** YAML ƒV[ƒPƒ“ƒX(”z—ñ)F. */
+    /** YAML ã‚·ãƒ¼ã‚±ãƒ³ã‚¹(é…åˆ—)è‰². */
     private static final RGB YAML_SEQUENCE_COLOR = new RGB(0, 0, 255);
-    /** YAML ƒhƒLƒ…ƒƒ“ƒg‹æØ‚èF. */
+    /** YAML ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆåŒºåˆ‡ã‚Šè‰². */
     private static final RGB YAML_DOC_SEPARATOR_COLOR = new RGB(255, 0, 0);
     
-    /** ƒfƒtƒHƒ‹ƒgF. */
+    /** ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆè‰². */
     private static final RGB YAML_DEFAULT_COLOR = new RGB(0, 0, 0);
     
     private static YAMLCodeScanner codeScanner;
     
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^.
-     * ƒ‹[ƒ‹’è‹`‚ğs‚¤B
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿.
+     * ãƒ«ãƒ¼ãƒ«å®šç¾©ã‚’è¡Œã†ã€‚
      */
     private YAMLCodeScanner() {
         
@@ -303,27 +303,27 @@ public final class YAMLCodeScanner extends RuleBasedScanner {
         
         WordRule wordRule = new WordRule(new YAMLWordDetector(), defaultToken);
         
-        // ƒ}ƒbƒsƒ“ƒO(ƒL[)
-            // ":"‚æ‚è‘O
+        // ãƒãƒƒãƒ”ãƒ³ã‚°(ã‚­ãƒ¼)
+            // ":"ã‚ˆã‚Šå‰
         rules.add(new YAMLMappingKeyRule(keyToken));
-        // ŒÅ’è•¶š—ñ
+        // å›ºå®šæ–‡å­—åˆ—
         rules.add(new SingleLineRule("\"", "\"", stringToken));
         rules.add(new SingleLineRule("\'", "\'", stringToken));
-        // ƒo[ƒWƒ‡ƒ“w’è
-            // "--- %YAML"ˆÈ~‚Ì1s
+        // ãƒãƒ¼ã‚¸ãƒ§ãƒ³æŒ‡å®š
+            // "--- %YAML"ä»¥é™ã®1è¡Œ
         rules.add(new YAMLVersionRule(versionToken));
-        // ƒRƒƒ“ƒg
-            // "#"ˆÈ~‚Ì1s
+        // ã‚³ãƒ¡ãƒ³ãƒˆ
+            // "#"ä»¥é™ã®1è¡Œ
         rules.add(new EndOfLineRule("#", commentToken));
-        // ƒV[ƒPƒ“ƒX(”z—ñ)
-            // "-"‚Ì‚İ
+        // ã‚·ãƒ¼ã‚±ãƒ³ã‚¹(é…åˆ—)
+            // "-"ã®ã¿
         wordRule.addWord("-", sequenceToken);
-        // ƒhƒLƒ…ƒƒ“ƒg‹æØ‚è
-            // "---"‚Ì‚İ
+        // ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆåŒºåˆ‡ã‚Š
+            // "---"ã®ã¿
         wordRule.addWord("---", docSeparatorToekn);
         rules.add(wordRule);
         
-        // ‹ó”’ƒ‹[ƒ‹‚ğİ’è
+        // ç©ºç™½ãƒ«ãƒ¼ãƒ«ã‚’è¨­å®š
         rules.add(new WhitespaceRule(new YAMLWhitespaceDetector()));
         
         IRule[] r = new IRule[1];
@@ -331,9 +331,9 @@ public final class YAMLCodeScanner extends RuleBasedScanner {
     }
     
     /**
-     * YAML ƒR[ƒhƒXƒLƒƒƒi[‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ•Ô‚·.
+     * YAML ã‚³ãƒ¼ãƒ‰ã‚¹ã‚­ãƒ£ãƒŠãƒ¼ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’è¿”ã™.
      * 
-     * @return YAML ƒR[ƒhƒXƒLƒƒƒi[.
+     * @return YAML ã‚³ãƒ¼ãƒ‰ã‚¹ã‚­ãƒ£ãƒŠãƒ¼.
      */
     public static YAMLCodeScanner getScanner() {
         if (codeScanner == null) {

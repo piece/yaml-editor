@@ -19,9 +19,9 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.ui.IFileEditorInput;
 
 /**
- * YAML ƒeƒLƒXƒgƒGƒfƒBƒ^[.
- * ƒJƒ‰[ƒ}ƒl[ƒWƒƒ[‚Ì¶¬AƒhƒLƒ…ƒƒ“ƒgEƒvƒƒoƒCƒ_A
- * ƒ\[ƒXƒrƒ…[ƒRƒ“ƒtƒBƒMƒ…ƒŒ[ƒVƒ‡ƒ“‚Ìİ’è‚ğs‚¤B
+ * YAML ãƒ†ã‚­ã‚¹ãƒˆã‚¨ãƒ‡ã‚£ã‚¿ãƒ¼.
+ * ã‚«ãƒ©ãƒ¼ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã®ç”Ÿæˆã€ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆãƒ»ãƒ—ãƒ­ãƒã‚¤ãƒ€ã€
+ * ã‚½ãƒ¼ã‚¹ãƒ“ãƒ¥ãƒ¼ã‚³ãƒ³ãƒ•ã‚£ã‚®ãƒ¥ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ã®è¨­å®šã‚’è¡Œã†ã€‚
  * 
  * @author Hideharu Matsufuji
  * @version 0.1.0
@@ -32,9 +32,9 @@ import org.eclipse.ui.IFileEditorInput;
 public class YAMLEditor extends TextEditor {
     
     /**
-     * ƒGƒfƒBƒ^[‚Ì‰Šú‰»ˆ—‚ğs‚¤.
-     * ƒJƒ‰[ƒ}ƒl[ƒWƒƒ[‚Ì¶¬AƒhƒLƒ…ƒƒ“ƒgEƒvƒƒoƒCƒ_A
-     * ƒ\[ƒXEƒrƒ…[ƒEƒRƒ“ƒtƒBƒMƒ…ƒŒ[ƒVƒ‡ƒ“‚Ìİ’è‚ğs‚¤B
+     * ã‚¨ãƒ‡ã‚£ã‚¿ãƒ¼ã®åˆæœŸåŒ–å‡¦ç†ã‚’è¡Œã†.
+     * ã‚«ãƒ©ãƒ¼ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã®ç”Ÿæˆã€ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆãƒ»ãƒ—ãƒ­ãƒã‚¤ãƒ€ã€
+     * ã‚½ãƒ¼ã‚¹ãƒ»ãƒ“ãƒ¥ãƒ¼ãƒ¯ãƒ»ã‚³ãƒ³ãƒ•ã‚£ã‚®ãƒ¥ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ã®è¨­å®šã‚’è¡Œã†ã€‚
      * 
      * @see org.eclipse.ui.editors.text.TextEditor#initializeEditor()
      */
@@ -47,13 +47,13 @@ public class YAMLEditor extends TextEditor {
     }
     
     /**
-     * ƒrƒ…[ƒA[‚ğì¬‚·‚é.
-     * YAML ƒrƒ…[ƒA[‚ğì¬‚µ‚ÄA•Ô‚·B
+     * ãƒ“ãƒ¥ãƒ¼ã‚¢ãƒ¼ã‚’ä½œæˆã™ã‚‹.
+     * YAML ãƒ“ãƒ¥ãƒ¼ã‚¢ãƒ¼ã‚’ä½œæˆã—ã¦ã€è¿”ã™ã€‚
      * 
-     * @param parent eƒRƒ“ƒgƒ[ƒ‰
-     * @param ruler ‚’¼ƒ‹[ƒ‰[
-     * @param styles ƒXƒ^ƒCƒ‹
-     * @return ƒrƒ…[ƒA[
+     * @param parent è¦ªã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©
+     * @param ruler å‚ç›´ãƒ«ãƒ¼ãƒ©ãƒ¼
+     * @param styles ã‚¹ã‚¿ã‚¤ãƒ«
+     * @return ãƒ“ãƒ¥ãƒ¼ã‚¢ãƒ¼
      * @see org.eclipse.ui.texteditor.AbstractDecoratedTextEditor
      *          #createSourceViewer(
      *              org.eclipse.swt.widgets.Composite, 
@@ -66,12 +66,12 @@ public class YAMLEditor extends TextEditor {
         
         YAMLViewer viewer = new YAMLViewer(parent, ruler, styles);
         
-        // ƒhƒLƒ…ƒƒ“ƒg‚ğİ’è
+        // ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆã‚’è¨­å®š
         viewer.setDocument(getDocumentProvider().getDocument(getEditorInput()));
         
-        // ƒ^ƒuƒTƒCƒY‚ğİ’è
-            // ˆê”Ê¨ƒGƒfƒBƒ^[¨ƒeƒLƒXƒgƒGƒfƒBƒ^[‚Ìu•\¦‚·‚éƒ^ƒuƒTƒCƒYv
-            // ‚©‚çƒ^ƒuƒTƒCƒY‚ğæ“¾
+        // ã‚¿ãƒ–ã‚µã‚¤ã‚ºã‚’è¨­å®š
+            // ä¸€èˆ¬â†’ã‚¨ãƒ‡ã‚£ã‚¿ãƒ¼â†’ãƒ†ã‚­ã‚¹ãƒˆã‚¨ãƒ‡ã‚£ã‚¿ãƒ¼ã®ã€Œè¡¨ç¤ºã™ã‚‹ã‚¿ãƒ–ã‚µã‚¤ã‚ºã€
+            // ã‹ã‚‰ã‚¿ãƒ–ã‚µã‚¤ã‚ºã‚’å–å¾—
         int tabSize = getPreferenceStore().getInt(
             AbstractDecoratedTextEditorPreferenceConstants.EDITOR_TAB_WIDTH);
         viewer.setTabSize(tabSize);
@@ -80,22 +80,22 @@ public class YAMLEditor extends TextEditor {
     }
 
     /**
-     * ƒeƒLƒXƒg•Û‘¶ˆ—‚ğs‚È‚¤.
+     * ãƒ†ã‚­ã‚¹ãƒˆä¿å­˜æ™‚å‡¦ç†ã‚’è¡Œãªã†.
      * 
-     * @param progressMonitor ƒvƒƒOƒŒƒXƒ‚ƒjƒ^[
+     * @param progressMonitor ãƒ—ãƒ­ã‚°ãƒ¬ã‚¹ãƒ¢ãƒ‹ã‚¿ãƒ¼
      */
     public void doSave(IProgressMonitor progressMonitor) {
           super.doSave(progressMonitor);
           try {
 
-              //•ÒW’†‚Ìƒtƒ@ƒCƒ‹‚ğæ“¾
+              //ç·¨é›†ä¸­ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å–å¾—
               IFile  docFile = ((IFileEditorInput) getEditorInput()).getFile();
               
-              //ƒvƒƒWƒFƒNƒg‚ÌƒpƒX‚Ìæ“¾
+              //ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ‘ã‚¹ã®å–å¾—
               IWorkspaceRoot wRoot = ResourcesPlugin.getWorkspace().getRoot();
               IPath  wPath = wRoot.getLocation();
     
-              //•ÒW’†ƒtƒ@ƒCƒ‹‚©‚çƒXƒL[ƒ}ƒtƒ@ƒCƒ‹‚ğæ“¾
+              //ç·¨é›†ä¸­ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ã‚¹ã‚­ãƒ¼ãƒãƒ•ã‚¡ã‚¤ãƒ«ã‚’å–å¾—
               IFileEditorInput fileEdit = (IFileEditorInput) getEditorInput();
               IPath filePath = fileEdit.getFile().getFullPath();
               String schemaPath
@@ -103,16 +103,16 @@ public class YAMLEditor extends TextEditor {
               IFile schemaFile = wRoot.getFileForLocation(
                        new Path(wPath.toString() + schemaPath).makeAbsolute());
               
-              //ƒ}[ƒJ[‰Šú‰»
+              //ãƒãƒ¼ã‚«ãƒ¼åˆæœŸåŒ–
               IResource resource =
                       (IResource) getEditorInput().getAdapter(IResource.class);
               resource.deleteMarkers(null, true, IResource.DEPTH_ZERO);
               
-              //ƒoƒŠƒf[ƒVƒ‡ƒ“Às
+              //ãƒãƒªãƒ‡ãƒ¼ã‚·ãƒ§ãƒ³å®Ÿè¡Œ
               List<Map> errorList = YAMLValidator.validation(
                                schemaFile.getContents(), docFile.getContents());
 
-              //ƒGƒ‰[‚ğƒ}[ƒJ[‚ÖƒZƒbƒg
+              //ã‚¨ãƒ©ãƒ¼ã‚’ãƒãƒ¼ã‚«ãƒ¼ã¸ã‚»ãƒƒãƒˆ
               for (int i = 0; i < errorList.size(); i++) {
                   Map errorMap = errorList.get(i);
 
@@ -122,7 +122,7 @@ public class YAMLEditor extends TextEditor {
               }
       
         } catch (Exception e) {
-            // TODO ©“®¶¬‚³‚ê‚½ catch ƒuƒƒbƒN
+            // TODO è‡ªå‹•ç”Ÿæˆã•ã‚ŒãŸ catch ãƒ–ãƒ­ãƒƒã‚¯
             e.printStackTrace();
         }
     }

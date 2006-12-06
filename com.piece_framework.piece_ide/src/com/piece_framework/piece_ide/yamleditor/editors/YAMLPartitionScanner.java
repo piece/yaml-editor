@@ -9,15 +9,15 @@ import org.eclipse.jface.text.rules.Token;
 import org.eclipse.swt.graphics.RGB;
 
 /**
- * YAML ƒp[ƒeƒB[ƒVƒ‡ƒ“ƒXƒLƒƒƒi[.
- * YAML ƒhƒLƒ…ƒƒ“ƒg‚ğˆÓ–¡‚Ì‚ ‚é’PˆÊ‚É•ªŠ„‚·‚éB<br>
- * YAML ‚Å‚Íƒ\[ƒX‚ğŸ‚Ì3‚Â‚É•ªŠ„‚·‚éB<br>
- * EYAML ƒR[ƒh<br>
- * @@ƒV[ƒPƒ“ƒX‚âƒ}ƒbƒsƒ“ƒO‚È‚ÇYAML‚Ìˆê”ÊƒR[ƒhB<br>
- * EYAML ƒRƒƒ“ƒg<br>
- * @@"#"ˆÈ‰º‚Ì1sB<br>
- * EYAML I’[<br>
- * @@"..."ˆÈ‰º‚Ì‘SsB<br>
+ * YAML ãƒ‘ãƒ¼ãƒ†ã‚£ãƒ¼ã‚·ãƒ§ãƒ³ã‚¹ã‚­ãƒ£ãƒŠãƒ¼.
+ * YAML ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆã‚’æ„å‘³ã®ã‚ã‚‹å˜ä½ã«åˆ†å‰²ã™ã‚‹ã€‚<br>
+ * YAML ã§ã¯ã‚½ãƒ¼ã‚¹ã‚’æ¬¡ã®3ã¤ã«åˆ†å‰²ã™ã‚‹ã€‚<br>
+ * ãƒ»YAML ã‚³ãƒ¼ãƒ‰<br>
+ * ã€€ã€€ã‚·ãƒ¼ã‚±ãƒ³ã‚¹ã‚„ãƒãƒƒãƒ”ãƒ³ã‚°ãªã©YAMLã®ä¸€èˆ¬ã‚³ãƒ¼ãƒ‰ã€‚<br>
+ * ãƒ»YAML ã‚³ãƒ¡ãƒ³ãƒˆ<br>
+ * ã€€ã€€"#"ä»¥ä¸‹ã®1è¡Œã€‚<br>
+ * ãƒ»YAML çµ‚ç«¯<br>
+ * ã€€ã€€"..."ä»¥ä¸‹ã®å…¨è¡Œã€‚<br>
  * 
  * @author Hideharu Matsufuji
  * @version 0.1.0
@@ -27,32 +27,32 @@ import org.eclipse.swt.graphics.RGB;
  */
 public final class YAMLPartitionScanner extends RuleBasedPartitionScanner {
     
-    /** YAML I’[. */
+    /** YAML çµ‚ç«¯. */
     private static final String YAML_TERMINATE = "__yaml_TERMINATE";
     
-    /** ƒp[ƒeƒB[ƒVƒ‡ƒ“ƒ^ƒCƒv”z—ñ. */
+    /** ãƒ‘ãƒ¼ãƒ†ã‚£ãƒ¼ã‚·ãƒ§ãƒ³ã‚¿ã‚¤ãƒ—é…åˆ—. */
     public static final String[] YAML_PARTITION_TYPES = new String[] { 
                                         YAML_TERMINATE };
     
-    /** YAML I’[F. */
+    /** YAML çµ‚ç«¯è‰². */
     private static final RGB YAML_TERMINATE_COLOR = new RGB(128, 128, 128);
     
-    /** ƒp[ƒeƒB[ƒVƒ‡ƒ“F”z—ñ. */
+    /** ãƒ‘ãƒ¼ãƒ†ã‚£ãƒ¼ã‚·ãƒ§ãƒ³è‰²é…åˆ—. */
     public static final RGB[] YAML_PARTITION_COLORS = new RGB[] { 
                                         YAML_TERMINATE_COLOR };
     
     private static YAMLPartitionScanner scanner;
     
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^.
-     * Šeƒp[ƒeƒB[ƒVƒ‡ƒ“‚Ìƒ‹[ƒ‹‚ğì¬‚·‚éB
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿.
+     * å„ãƒ‘ãƒ¼ãƒ†ã‚£ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒ«ãƒ¼ãƒ«ã‚’ä½œæˆã™ã‚‹ã€‚
      */
     private YAMLPartitionScanner() {
         
         Vector<IPredicateRule> rules = new Vector<IPredicateRule>();
         
-        // I’[
-            // "..."ˆÈ~‚Ì‘Ss
+        // çµ‚ç«¯
+            // "..."ä»¥é™ã®å…¨è¡Œ
         rules.add(new MultiLineRule("...\n", "\0", 
                     new Token(YAML_TERMINATE), (char) 0 , true));
         
@@ -61,9 +61,9 @@ public final class YAMLPartitionScanner extends RuleBasedPartitionScanner {
     }
     
     /**
-     * YAML ƒp[ƒeƒB[ƒVƒ‡ƒ“ƒXƒLƒƒƒi[‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ•Ô‚·.
+     * YAML ãƒ‘ãƒ¼ãƒ†ã‚£ãƒ¼ã‚·ãƒ§ãƒ³ã‚¹ã‚­ãƒ£ãƒŠãƒ¼ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’è¿”ã™.
      * 
-     * @return YAML ƒp[ƒeƒBƒVƒ‡ƒ“ƒXƒLƒƒƒi[
+     * @return YAML ãƒ‘ãƒ¼ãƒ†ã‚£ã‚·ãƒ§ãƒ³ã‚¹ã‚­ãƒ£ãƒŠãƒ¼
      */
     public static YAMLPartitionScanner getScanner() {
         if (scanner == null) {
