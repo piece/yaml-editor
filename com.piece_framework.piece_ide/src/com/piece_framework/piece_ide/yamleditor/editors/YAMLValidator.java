@@ -37,10 +37,8 @@ public class YAMLValidator {
      * @param docStream YAMLファイル（ストリーム）
      * @return エラーリスト
      * @throws IOException 入出力例外エラー
-     * @see org.eclipse.ui.editors.text.StorageDocumentProvider
-     *          #createDocument(java.lang.Object)
      */
-    protected static List<Map> validation(InputStream schemaStream,
+    public static List<Map> validation(InputStream schemaStream,
                                             InputStream docStream)
                                             throws IOException {
 
@@ -50,7 +48,7 @@ public class YAMLValidator {
             //YAMLスキーマ設定
             Object schema = new YamlParser(Util.untabify(
                          Util.readInputStream(schemaStream))).parse();
-            
+          
             //YAMLファイル設定
             YamlParser parser = new YamlParser(Util.untabify(Util
                                .readInputStream(docStream)));
@@ -67,23 +65,34 @@ public class YAMLValidator {
                 for (Iterator it = errors.iterator(); it.hasNext();) {
                     ValidationException error = (ValidationException) it.next();
 
-                    Map<String, Comparable> attributeMap
-                                            = new HashMap<String, Comparable>();
-                    attributeMap.put(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
-                    attributeMap.put(IMarker.MESSAGE, error.getMessage());
-                    attributeMap.put(IMarker.LINE_NUMBER,
-                                                      error.getLineNumber());
-                    errorList.add(attributeMap);
+                    errorList.add(mapMarker(IMarker.SEVERITY_ERROR,
+                                            error.getMessage(),
+                                            error.getLineNumber()));
                 }
             }
         } catch (SyntaxException e) {
-            Map<String, Comparable> attributeMap
-                                     = new HashMap<String, Comparable>();
-            attributeMap.put(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
-            attributeMap.put(IMarker.MESSAGE, e.getMessage());
-            attributeMap.put(IMarker.LINE_NUMBER, e.getLineNumer());
-            errorList.add(attributeMap);
+            errorList.add(mapMarker(IMarker.SEVERITY_ERROR,
+                                    e.getMessage(), e.getLineNumer()));
         }
         return errorList;
     }
+    
+    /**
+     * マップにマーカーを設定する.
+     * @param markType マーカーの種類
+     * @param markMessage マークする内容
+     * @param markNumber マークする行番号
+     * @return マーカーが設定されたマップ
+     */
+    private static Map<String, Comparable> mapMarker(int markType,
+                                                       String markMessage,
+                                                       int markNumber) {
+        Map<String, Comparable> attributeMap =
+                                     new HashMap<String, Comparable>();
+        attributeMap.put(IMarker.SEVERITY, markType);
+        attributeMap.put(IMarker.MESSAGE, markMessage);
+        attributeMap.put(IMarker.LINE_NUMBER, markNumber);
+        return attributeMap;
+    }
+    
 }
