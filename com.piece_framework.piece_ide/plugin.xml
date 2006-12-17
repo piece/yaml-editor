@@ -13,12 +13,5 @@
             id="com.piece_framework.piece_ide.yamleditor.editors.YAMLEditor">
       </editor>
    </extension>
-   <extension
-         point="org.eclipse.ui.views">
-      <view
-            class="com.piece_framework.piece_ide.yamleditor.editors.YAMLSchemaSelectView"
-            id="com.piece_framework.piece_ide.yamlSchemaSelectView"
-            name="YAMLスキーマ選択"/>
-   </extension>
 
 </plugin>
