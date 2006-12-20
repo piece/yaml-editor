@@ -53,7 +53,6 @@ public class Activator extends AbstractUIPlugin {
      */
     public void stop(BundleContext context) throws Exception {
         YAMLColorManager.getColorManager().dispose();
-        System.out.println("stop()");
         plugin = null;
         super.stop(context);
     }
