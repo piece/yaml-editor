@@ -12,6 +12,14 @@
             class="com.piece_framework.piece_ide.yamleditor.editors.YAMLEditor"
             id="com.piece_framework.piece_ide.yamleditor.editors.YAMLEditor">
       </editor>
+      <editor
+            class="com.piece_framework.piece_ide.yamleditor.editors.YAMLEditorWithCombo"
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
+            default="true"
+            extensions="yaml2"
+            icon="icons/sample.gif"
+            id="com.piece_framework.piece_ide.yamleditor.editors.YAMLEditorWithCombo"
+            name="YAML エディター(スキーマ選択付)"/>
    </extension>
 
 </plugin>
