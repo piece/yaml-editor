@@ -1,5 +1,8 @@
 package com.piece_framework.piece_ide.yamleditor.editors;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
@@ -26,9 +29,16 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.EditorPart;
 
 /**
- * TODO: コメント修正.
- * @author Administrator
- *
+ * YAML テキストエディター(スキーマ選択コンボボックス付).
+ * YAMLEditor クラスが提供するエディター機能とスキーマ選択
+ * コンボボックスを表示・管理する。
+ * 
+ * @author Hideharu Matsufuji
+ * @version 0.1.0
+ * @since 0.1.0
+ * @see org.eclipse.ui.part.EditorPart
+ * @see YAMLEditor
+ * @see org.eclipse.core.resources.IResourceChangeListener
  */
 public class YAMLEditorWithCombo extends EditorPart 
                                    implements IResourceChangeListener {
@@ -38,8 +48,12 @@ public class YAMLEditorWithCombo extends EditorPart
     
     private YAMLEditor editor;
     
+    // スキーマファイルリスト
+    private ArrayList<String> schemaFileList;
+    
     /**
-     * TODO: コメント修正.
+     * コンストラクタ.
+     * YAML エディターの生成及び各初期化を行う。
      *
      */
     public YAMLEditorWithCombo() {
@@ -50,9 +64,11 @@ public class YAMLEditorWithCombo extends EditorPart
     }
 
     /**
-     * TODO: コメント修正.
+     * テキストを保存するときの処理を行う.
+     * YAMLEditor クラスの doSave メソッドを呼出す。
      * 
      * @param monitor プログレスモニタ
+     * @see YAMLEditor#doSave(IProgressMonitor)
      */
     @Override
     public void doSave(IProgressMonitor monitor) {
@@ -60,7 +76,10 @@ public class YAMLEditorWithCombo extends EditorPart
     }
 
     /**
-     * TODO: コメント修正.
+     * ファイル名を指定してテキストを保存するときの処理を行う.
+     * YAMLEditor クラスの doSaveAs メソッドを呼出す。
+     * 
+     * @see YAMLEditor#doSaveAs()
      */
     @Override
     public void doSaveAs() {
@@ -68,7 +87,8 @@ public class YAMLEditorWithCombo extends EditorPart
     }
 
     /**
-     * TODO: コメント修正.
+     * 初期化を行う.
+     * スキーマファイルの取得も合わせて行う。
      * 
      * @param site エディターサイト
      * @param input エディターインプット
@@ -81,10 +101,22 @@ public class YAMLEditorWithCombo extends EditorPart
         setSite(site);
         setInput(input);
         setPartName(input.getName());
+        
+        // スキーマファイルの取得
+        IFile yamlFile = ((IFileEditorInput) input).getFile();
+        IFile[] schemaFiles = 
+                    YAMLSchemaManager.getSchemaFiles(yamlFile.getProject());
+        
+        schemaFileList = new ArrayList<String>();
+        if (schemaFiles != null) {
+            for (int i = 0; i < schemaFiles.length; i++) {
+                schemaFileList.add(schemaFiles[i].getName());
+            }
+        }
     }
 
     /**
-     * TODO: コメント修正.
+     * 終了処理を行う.
      */
     @Override
     public void dispose() {
@@ -93,9 +125,11 @@ public class YAMLEditorWithCombo extends EditorPart
     }
 
     /**
-     * TODO: コメント修正.
+     * 最終保存時から変更されたかを返す.
+     * YAMLEditor クラスの doSaveAs メソッドを呼出す。
      * 
-     * @return 修正
+     * @return 最終保存時から変更されたか
+     * @see YAMLEditor#isDirty()()
      */
     @Override
     public boolean isDirty() {
@@ -103,9 +137,9 @@ public class YAMLEditorWithCombo extends EditorPart
     }
 
     /**
-     * TODO: コメント修正.
+     * テキストを保存できるかを返す.
      * 
-     * @return 修正
+     * @return テキストを保存できるか
      */
     @Override
     public boolean isSaveAsAllowed() {
@@ -113,14 +147,15 @@ public class YAMLEditorWithCombo extends EditorPart
     }
 
     /**
-     * TODO: コメント修正.
+     * 各コントロールの生成・配置を行う.
+     * コントロールのサイズ修正は ControlListener イベントを利用する。
      * 
      * @param parent 親コントロール
      */
     @Override
     public void createPartControl(Composite parent) {
         try {
-            
+
             RowLayout rowLayout = new RowLayout(SWT.VERTICAL);
             rowLayout.marginRight = 0;
             rowLayout.marginLeft = 0;
@@ -137,9 +172,12 @@ public class YAMLEditorWithCombo extends EditorPart
             schemaGroup.setLayout(rowLayout);
             
             final Combo schemaCombo = new Combo(schemaGroup, SWT.READ_ONLY);
-            schemaCombo.setItems(new String [] {"Item 1", "Item 2", "Item 2"});
             schemaCombo.setLayoutData(new RowData(SCHEMA_COMBO_WIDTH,
                                                   SCHEMA_COMBO_HEIGHT));
+            Iterator<String> ite = schemaFileList.iterator();
+            while (ite.hasNext()) {
+                schemaCombo.add(ite.next());
+            }
             
             FillLayout fillLayout = new FillLayout(SWT.HORIZONTAL);
             fillLayout.marginHeight = 0;
@@ -168,6 +206,8 @@ public class YAMLEditorWithCombo extends EditorPart
                     
                     Point parentSize = parentComposite.getParent().getSize();
                     
+                    // TODO: コンボボックスのサイズ修正
+                    
                     editorComposite.setLayoutData(
                             new RowData(parentSize.x, 
                                         parentSize.y - SCHEMA_COMBO_HEIGHT));
@@ -177,13 +217,14 @@ public class YAMLEditorWithCombo extends EditorPart
             });
             
         } catch (PartInitException e) {
+            // TODO: 例外処理
             e.printStackTrace();
         }
 
     }
 
     /**
-     * TODO: コメント修正.
+     * フォーカスを取得したときの処理を行う.
      * 
      */
     @Override
@@ -193,12 +234,12 @@ public class YAMLEditorWithCombo extends EditorPart
     }
 
     /**
-     * TODO: コメント修正.
+     * リソースが変更された場合の処理を行う.
      * 
      * @param event リソース変更イベント
      */
     public void resourceChanged(IResourceChangeEvent event) {
-        System.out.println(event.getType());
+        
         if (event.getType() == IResourceChangeEvent.POST_CHANGE) {
             final IEditorInput input = editor.getEditorInput();
             
@@ -224,26 +265,14 @@ public class YAMLEditorWithCombo extends EditorPart
     }
     
     /**
-     * TODO: コメント修正.
+     * 指定されたアダプターに対してオブジェクトを返す.
      * 
      * @param adapter アダプター
      * @return オブジェクト
      */
     @Override
     public Object getAdapter(Class adapter) {
-       return editor.getAdapter(adapter);
+        return editor.getAdapter(adapter);
     }
 
-    /**
-     * TODO: コメント修正.
-     * 
-     * @param propertyId プロパティID
-     */
-    @Override
-    protected void firePropertyChange(int propertyId) {
-        super.firePropertyChange(propertyId);
-    }
-    
-    
-    
 }
