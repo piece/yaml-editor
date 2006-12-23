@@ -11,6 +11,7 @@ import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.texteditor.AbstractDecoratedTextEditorPreferenceConstants;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -30,7 +31,8 @@ import org.eclipse.ui.IFileEditorInput;
  * 
  */
 public class YAMLEditor extends TextEditor {
-    
+
+
     /**
      * エディターの初期化処理を行う.
      * カラーマネージャーの生成、ドキュメント・プロバイダ、
@@ -44,6 +46,17 @@ public class YAMLEditor extends TextEditor {
         setDocumentProvider(new YAMLDocumentProvider());
         setSourceViewerConfiguration(new YAMLConfiguration());
         
+        //プロジェクトのパスの取得
+        IWorkspaceRoot wRoot = ResourcesPlugin.getWorkspace().getRoot();
+        IProject[] projects = wRoot.getProjects();
+        
+        for (int i = 0; i < projects.length; i++) {
+            IProject project = projects[i];
+            
+            //スキーマフォルダ作成処理
+            YAMLSchemaManager.createSchemaFolder(project);
+         }
+
     }
     
     /**
@@ -94,7 +107,7 @@ public class YAMLEditor extends TextEditor {
               //プロジェクトのパスの取得
               IWorkspaceRoot wRoot = ResourcesPlugin.getWorkspace().getRoot();
               IPath  wPath = wRoot.getLocation();
-    
+              
               //編集中ファイルからスキーマファイルを取得
               IFileEditorInput fileEdit = (IFileEditorInput) getEditorInput();
               IPath filePath = fileEdit.getFile().getFullPath();
@@ -107,11 +120,11 @@ public class YAMLEditor extends TextEditor {
               IResource resource =
                       (IResource) getEditorInput().getAdapter(IResource.class);
               resource.deleteMarkers(null, true, IResource.DEPTH_ZERO);
-              
+
               //バリデーション実行
               List<Map> errorList = YAMLValidator.validation(
                                schemaFile.getContents(), docFile.getContents());
-
+            
               //エラーをマーカーへセット
               for (int i = 0; i < errorList.size(); i++) {
                   Map errorMap = errorList.get(i);
