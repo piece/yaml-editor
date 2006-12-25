@@ -23,7 +23,6 @@ import org.eclipse.core.runtime.Platform;
  * @author Hideharu Matsufuji
  * @version 0.1.0
  * @since 0.1.0
- * @see org.eclipse.jface.text.rules.RuleBasedPartitionScanner
  * 
  */
 public final class YAMLSchemaManager {
@@ -144,7 +143,6 @@ public final class YAMLSchemaManager {
             e.printStackTrace();
         }
         
-        //IFile[] files = new IFile[0];
         return schemaFileList.toArray(new IFile[0]);
     }
     
