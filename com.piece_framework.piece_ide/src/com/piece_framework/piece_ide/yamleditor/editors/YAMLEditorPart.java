@@ -1,8 +1,5 @@
 package com.piece_framework.piece_ide.yamleditor.editors;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResourceChangeEvent;
