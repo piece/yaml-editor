@@ -31,8 +31,8 @@ public final class YAMLSchemaManager {
     private static final String YAML_PLUGIN_ID
                                = "com.piece_framework.piece_ide.yamleditor";
 
-    // YAML スキーマフォルダ名
-    private static final String SCHEMA_FOLDER = ".yaml_schemas";
+    /** YAML スキーマフォルダ名. */
+    public static final String SCHEMA_FOLDER = ".yaml_schemas";
     
     /**
      * コンストラクタ.

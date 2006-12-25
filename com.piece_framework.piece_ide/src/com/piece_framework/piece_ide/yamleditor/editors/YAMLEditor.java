@@ -33,6 +33,8 @@ import org.eclipse.ui.IFileEditorInput;
 public class YAMLEditor extends TextEditor {
 
 
+    private IFile yamlSchemaFile;
+    
     /**
      * エディターの初期化処理を行う.
      * カラーマネージャーの生成、ドキュメント・プロバイダ、
@@ -99,22 +101,16 @@ public class YAMLEditor extends TextEditor {
      */
     public void doSave(IProgressMonitor progressMonitor) {
           super.doSave(progressMonitor);
+          
+          // TODO: スキーマが指定されたいない場合どうするか？
+          if (yamlSchemaFile == null) {
+              return;
+          }
+          
           try {
 
               //編集中のファイルを取得
               IFile  docFile = ((IFileEditorInput) getEditorInput()).getFile();
-              
-              //プロジェクトのパスの取得
-              IWorkspaceRoot wRoot = ResourcesPlugin.getWorkspace().getRoot();
-              IPath  wPath = wRoot.getLocation();
-              
-              //編集中ファイルからスキーマファイルを取得
-              IFileEditorInput fileEdit = (IFileEditorInput) getEditorInput();
-              IPath filePath = fileEdit.getFile().getFullPath();
-              String schemaPath
-                     = filePath.toString().replaceAll(".yaml", ".schema.yaml");
-              IFile schemaFile = wRoot.getFileForLocation(
-                       new Path(wPath.toString() + schemaPath).makeAbsolute());
               
               //マーカー初期化
               IResource resource =
@@ -123,8 +119,10 @@ public class YAMLEditor extends TextEditor {
 
               //バリデーション実行
               List<Map> errorList = YAMLValidator.validation(
-                               schemaFile.getContents(), docFile.getContents());
-            
+                               yamlSchemaFile.getContents(), 
+                               docFile.getContents());
+              
+              IFileEditorInput fileEdit = (IFileEditorInput) getEditorInput();
               //エラーをマーカーへセット
               for (int i = 0; i < errorList.size(); i++) {
                   Map errorMap = errorList.get(i);
@@ -138,5 +136,14 @@ public class YAMLEditor extends TextEditor {
             // TODO 自動生成された catch ブロック
             e.printStackTrace();
         }
+    }
+    
+    /**
+     * YAML スキーマファイルをセットする.
+     * 
+     * @param schemaFile YAML スキーマファイル
+     */
+    public void setYAMLSchemaFile(IFile schemaFile) {
+        yamlSchemaFile = schemaFile;
     }
 }
