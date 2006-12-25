@@ -3,7 +3,6 @@ package com.piece_framework.piece_ide.yamleditor.editors;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -15,9 +14,6 @@ import kwalify.ValidationException;
 import kwalify.Validator;
 import kwalify.YamlParser;
 
-import org.eclipse.core.resources.IMarker;
-
-
 
 /**
  * YAML バリデーター.
@@ -28,7 +24,26 @@ import org.eclipse.core.resources.IMarker;
  * @since 0.1.0
  * 
  */
-public class YAMLValidator {
+public final class YAMLValidator {
+
+    /* エラーレベル定数：エラー */
+    private static final int SEVERITY_ERROR = 2;
+
+    /* マーカーMAPのキー定数：マーカーの種類 */
+    private static final String SEVERITY = "severity";
+
+    /* マーカーMAPのキー定数：マーカーの内容 */
+    private static final String MESSAGE = "message";
+
+    /* マーカーMAPのキー定数：マーカーの行番号 */
+    private static final String LINE_NUMBER = "lineNumber";
+
+    /**
+     * コンストラクタ.
+     * 
+     */
+    private YAMLValidator() {
+    }
 
     /**
      * Kwalifyライブラリを使用し、バリデーションを実行する.
@@ -61,17 +76,16 @@ public class YAMLValidator {
             //エラー内容をエラー出力用リストにセット
             if (errors != null && errors.size() > 0) {
                 parser.setErrorsLineNumber(errors);
-                Collections.sort(errors);
                 for (Iterator it = errors.iterator(); it.hasNext();) {
                     ValidationException error = (ValidationException) it.next();
 
-                    errorList.add(mapMarker(IMarker.SEVERITY_ERROR,
+                    errorList.add(mapMarker(SEVERITY_ERROR,
                                             error.getMessage(),
                                             error.getLineNumber()));
                 }
             }
         } catch (SyntaxException e) {
-            errorList.add(mapMarker(IMarker.SEVERITY_ERROR,
+            errorList.add(mapMarker(SEVERITY_ERROR,
                                     e.getMessage(), e.getLineNumer()));
         }
         return errorList;
@@ -89,9 +103,9 @@ public class YAMLValidator {
                                                        int markNumber) {
         Map<String, Comparable> attributeMap =
                                      new HashMap<String, Comparable>();
-        attributeMap.put(IMarker.SEVERITY, markType);
-        attributeMap.put(IMarker.MESSAGE, markMessage);
-        attributeMap.put(IMarker.LINE_NUMBER, markNumber);
+        attributeMap.put(SEVERITY, markType);
+        attributeMap.put(MESSAGE, markMessage);
+        attributeMap.put(LINE_NUMBER, markNumber);
         return attributeMap;
     }
     
