@@ -5,21 +5,13 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            name="YAML エディター"
-            extensions="yaml"
-            icon="icons/sample.gif"
-            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            class="com.piece_framework.piece_ide.yamleditor.editors.YAMLEditor"
-            id="com.piece_framework.piece_ide.yamleditor.editors.YAMLEditor">
-      </editor>
-      <editor
-            class="com.piece_framework.piece_ide.yamleditor.editors.YAMLEditorWithCombo"
+            class="com.piece_framework.piece_ide.yamleditor.editors.YAMLEditorPart"
             contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             default="true"
-            extensions="yaml2"
+            extensions="yaml"
             icon="icons/sample.gif"
-            id="com.piece_framework.piece_ide.yamleditor.editors.YAMLEditorWithCombo"
-            name="YAML エディター(スキーマ選択付)"/>
+            id="com.piece_framework.piece_ide.yamleditor.editors.YAMLEditorPart"
+            name="YAML Editor"/>
    </extension>
 
 </plugin>
