@@ -16,6 +16,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 
+import com.piece_framework.piece_ide.yamleditor.Activator;
+
 /**
  * YAML スキーマファイル管理クラス.
  * YAML スキーマファイルの管理を行う。<br>
@@ -27,10 +29,6 @@ import org.eclipse.core.runtime.Platform;
  */
 public final class YAMLSchemaManager {
     
-    // YAML プラグインID
-    private static final String YAML_PLUGIN_ID
-                               = "com.piece_framework.piece_ide.yamleditor";
-
     /** YAML スキーマフォルダ名. */
     public static final String SCHEMA_FOLDER = ".yaml_schemas";
     
@@ -56,7 +54,7 @@ public final class YAMLSchemaManager {
             try {
                 projectFolder.create(false, true, null);
                 URL pluginURL = 
-                Platform.getBundle(YAML_PLUGIN_ID).getEntry(SCHEMA_FOLDER);
+                Platform.getBundle(Activator.PLUGIN_ID).getEntry(SCHEMA_FOLDER);
                 
                 //プラグイン側からスキーマフォルダ内のファイル群を取得
                 File pluginFolder = 
