@@ -40,7 +40,7 @@ import org.eclipse.ui.part.EditorPart;
  * @see YAMLEditor
  * @see org.eclipse.core.resources.IResourceChangeListener
  */
-public class YAMLEditorWithCombo extends EditorPart 
+public class YAMLEditorPart extends EditorPart 
                                    implements IResourceChangeListener {
     
     private static final int SCHEMA_COMBO_WIDTH = 200;
@@ -56,7 +56,7 @@ public class YAMLEditorWithCombo extends EditorPart
      * YAML エディターの生成及び各初期化を行う。
      *
      */
-    public YAMLEditorWithCombo() {
+    public YAMLEditorPart() {
         super();
         editor = new YAMLEditor();
         ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
@@ -252,7 +252,7 @@ public class YAMLEditorWithCombo extends EditorPart
                             IWorkbenchPage page = 
                                 PlatformUI.getWorkbench().
                                 getActiveWorkbenchWindow().getActivePage();
-                            page.closeEditor(YAMLEditorWithCombo.this, false);
+                            page.closeEditor(YAMLEditorPart.this, false);
                             
                         } else if (!getPartName().equals(file.getName())) {
                             setPartName(file.getName());
