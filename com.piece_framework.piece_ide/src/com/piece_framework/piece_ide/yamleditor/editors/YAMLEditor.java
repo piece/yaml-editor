@@ -33,6 +33,9 @@ public class YAMLEditor extends TextEditor {
 
     private IFile yamlSchemaFile;
     
+    private static final String MARKER_ID = 
+                             "org.eclipse.core.resources.problemmarker";
+    
     /**
      * エディターの初期化処理を行う.
      * カラーマネージャーの生成、ドキュメント・プロバイダ、
@@ -125,8 +128,7 @@ public class YAMLEditor extends TextEditor {
               for (int i = 0; i < errorList.size(); i++) {
                   Map errorMap = errorList.get(i);
 
-                  IMarker marker = fileEdit.getFile().createMarker(
-                                    "org.eclipse.core.resources.problemmarker");
+                  IMarker marker = fileEdit.getFile().createMarker(MARKER_ID);
                   marker.setAttributes(errorMap);
               }
       

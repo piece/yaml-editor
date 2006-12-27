@@ -38,6 +38,9 @@ public final class YAMLValidator {
     /* マーカーMAPのキー定数：マーカーの行番号 */
     private static final String LINE_NUMBER = "lineNumber";
 
+    /* 例外エラー時にマークする行番号 */
+    private static final int FATAL_ERR_LINE_NUM = 1;
+
     /**
      * コンストラクタ.
      * 
@@ -87,7 +90,11 @@ public final class YAMLValidator {
         } catch (SyntaxException e) {
             errorList.add(mapMarker(SEVERITY_ERROR,
                                     e.getMessage(), e.getLineNumer()));
+        } catch (Exception e) {
+            errorList.add(mapMarker(SEVERITY_ERROR,
+                                    e.getMessage(), FATAL_ERR_LINE_NUM));
         }
+        
         return errorList;
     }
     
