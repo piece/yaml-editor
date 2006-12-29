@@ -63,7 +63,7 @@ public final class YAMLSchemaManager {
                     
                 for (int j = 0; j < pluginFiles.length; j++) {
                     //YAML スキーマファイル作成処理を実行
-                    createSchemaFile(
+                    copySchemaFile(
                                    projectFolder, pluginFolder, pluginFiles[j]);
                 }
             } catch (IOException e1) {
@@ -88,7 +88,7 @@ public final class YAMLSchemaManager {
      * @throws IOException 入出力例外
      * @throws CoreException コア例外
      */
-    private static boolean createSchemaFile(IFolder projectFolder,
+    private static boolean copySchemaFile(IFolder projectFolder,
                                                File pluginFolder,
                                                String pluginFileName)
                                   throws IOException, CoreException {
