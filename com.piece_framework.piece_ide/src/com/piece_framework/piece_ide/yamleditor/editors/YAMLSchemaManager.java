@@ -12,9 +12,13 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.preferences.IScopeContext;
+import org.osgi.service.prefs.BackingStoreException;
+import org.osgi.service.prefs.Preferences;
 
 import com.piece_framework.piece_ide.yamleditor.Activator;
 
@@ -121,6 +125,10 @@ public final class YAMLSchemaManager {
      */
     public static IFile[] getSchemaFiles(IProject project) {
         
+        if (project == null) {
+            return null;
+        }
+        
         IFolder folder = project.getFolder(SCHEMA_FOLDER);
         
         ArrayList<IFile> schemaFileList = new ArrayList<IFile>();
@@ -148,14 +156,48 @@ public final class YAMLSchemaManager {
      * YAML ファイルに対応する YAML スキーマファイルを取得する.
      * 該当する YAML スキーマファイルがない場合は null を返す。
      * 
-     * @param project プロジェクト
      * @param yamlFile YAML ファイル
      * @return YAML スキーマファイル
      */
-    public static IFile getSchemaFileForYAML(IProject project, 
-                                               IFile yamlFile) {
+    public static IFile getSchemaFileForYAML(IFile yamlFile) {
         
-        return null;
+        if (yamlFile == null) {
+            return null;
+        }
+        
+        IProject project = yamlFile.getProject();
+        IScopeContext projectScope = new ProjectScope(project);
+        
+        Preferences projectNode = projectScope.getNode(
+                                    Activator.PLUGIN_ID);
+        
+        IFile schemaFile = null;
+        
+        try {
+            
+            // YAML ファイルはプロジェクト名を除いた形式で保存されて
+            // いるので、ここでプロジェクト名を削除
+            String yamlFileName = 
+                    yamlFile.getFullPath().toString().substring(
+                            project.getName().length() + 1);
+            
+            String[] keys = projectNode.keys();
+            for (int i = 0; i < keys.length; i++) {
+                
+                if (keys[i].equals(yamlFileName)) {
+                    // スキーマファイルを取得
+                    String schemaFileName = projectNode.get(keys[i], null);
+                    
+                    schemaFile = project.getFile(schemaFileName);
+                    break;
+                }
+            }
+        } catch (BackingStoreException e) {
+            // TODO: 例外処理
+            e.printStackTrace();
+        }
+        
+        return schemaFile;
     }
     
     /**
@@ -169,6 +211,31 @@ public final class YAMLSchemaManager {
     public static boolean setSchemaFileForYAML(
                                         IFile yamlFile, 
                                         IFile schemaFile) {
+        
+        if (yamlFile == null || schemaFile == null) {
+            return false;
+        }
+        
+        IProject project = yamlFile.getProject();
+        IScopeContext projectScope = new ProjectScope(project);
+        
+        Preferences projectNode = projectScope.getNode(
+                                    Activator.PLUGIN_ID);
+        
+        // YAML ファイル・スキーマファイルのフルパスからプロジェクト名を削除
+        String yamlFileName = yamlFile.getFullPath().toString().substring(
+                                project.getName().length() + 1);
+        String schemaFileName = schemaFile.getFullPath().toString().substring(
+                                    project.getName().length() + 1);
+        
+        projectNode.put(yamlFileName, schemaFileName);
+        
+        try {
+            projectNode.flush();
+        } catch (BackingStoreException e) {
+            e.printStackTrace();
+            return false;
+        }
         
         return true;
     }

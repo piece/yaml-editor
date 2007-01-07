@@ -58,6 +58,8 @@ public class YAMLEditorPart extends EditorPart
         editor = new YAMLEditor();
         ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
         
+        // TODO: デバッグ
+        System.out.println("construct");
     }
 
     /**
@@ -70,6 +72,8 @@ public class YAMLEditorPart extends EditorPart
     @Override
     public void doSave(IProgressMonitor monitor) {
         editor.setYAMLSchemaFile(getSelectionYAMLSchemaFile());
+        YAMLSchemaManager.setSchemaFileForYAML(
+                getYAMLFile(), getSelectionYAMLSchemaFile());
         editor.doSave(monitor);
     }
 
@@ -82,42 +86,13 @@ public class YAMLEditorPart extends EditorPart
     @Override
     public void doSaveAs() {
         editor.setYAMLSchemaFile(getSelectionYAMLSchemaFile());
+        YAMLSchemaManager.setSchemaFileForYAML(
+                getYAMLFile(), getSelectionYAMLSchemaFile());
         editor.doSaveAs();
     }
     
     /**
-     * コンボボックスで選択された YAML スキーマファイルを返す.
-     * 
-     * @return YAML スキーマファイル
-     */
-    private IFile getSelectionYAMLSchemaFile() {
-        
-        IFile schemaFile = null;
-        
-        // 先頭は空行なので、実際の YAML スキーマファイルは2行目から
-        if (schemaCombo.getSelectionIndex() > 0) {
-            String schemaFileName = schemaCombo.getItem(
-                    schemaCombo.getSelectionIndex());
-    
-            schemaFile = getYAMLProject().getFile(
-                YAMLSchemaManager.SCHEMA_FOLDER + "/" 
-                + schemaFileName);
-            
-            if (!schemaFile.exists()) {
-                schemaFile = null;
-            }
-            
-        }
-        
-        // TODO: デバッグ
-        System.out.println(schemaFile);
-        
-        return schemaFile;
-    }
-    
-    /**
      * 初期化を行う.
-     * スキーマファイルの取得も合わせて行う。
      * 
      * @param site エディターサイト
      * @param input エディターインプット
@@ -131,6 +106,8 @@ public class YAMLEditorPart extends EditorPart
         setInput(input);
         setPartName(input.getName());
         
+        // TODO: デバッグ   
+        System.out.println("init");
     }
 
     /**
@@ -172,6 +149,9 @@ public class YAMLEditorPart extends EditorPart
      */
     @Override
     public void createPartControl(Composite parent) {
+        // TODO: デバッグ
+        System.out.println("createPartControl");
+        
         try {
 
             RowLayout rowLayout = new RowLayout(SWT.VERTICAL);
@@ -192,7 +172,6 @@ public class YAMLEditorPart extends EditorPart
             schemaCombo = new Combo(schemaGroup, SWT.READ_ONLY);
             schemaCombo.setLayoutData(new RowData(SCHEMA_COMBO_WIDTH,
                                                   SCHEMA_COMBO_HEIGHT));
-            setSchemaFileList();
             
             FillLayout fillLayout = new FillLayout(SWT.HORIZONTAL);
             fillLayout.marginHeight = 0;
@@ -235,32 +214,9 @@ public class YAMLEditorPart extends EditorPart
             // TODO: 例外処理
             e.printStackTrace();
         }
-
-    }
-
-
-    /**
-     * YAML スキーマファイル一覧を取得して、コンボボックスにセットする.
-     *
-     */
-    private void setSchemaFileList() {
         
-        if (schemaCombo == null) {
-            return;
-        }
-        
-        // スキーマファイルの取得
-        IFile[] schemaFiles = 
-                    YAMLSchemaManager.getSchemaFiles(getYAMLProject());
-        
-        // 空行の追加
-        schemaCombo.add("");
-        if (schemaFiles != null) {
-            for (int i = 0; i < schemaFiles.length; i++) {
-                schemaCombo.add(schemaFiles[i].getName());
-            }
-        }
-        
+        // スキーマファイルの一覧をコンボボックスにセット
+        setSchemaFileList();
     }
     
     /**
@@ -281,25 +237,23 @@ public class YAMLEditorPart extends EditorPart
     public void resourceChanged(IResourceChangeEvent event) {
         
         if (event.getType() == IResourceChangeEvent.POST_CHANGE) {
-            final IEditorInput input = editor.getEditorInput();
             
-            if (input instanceof IFileEditorInput) {
-                
-                Display.getDefault().asyncExec(new Runnable() {
-                    public void run() {
-                        IFile file = ((IFileEditorInput) input).getFile();
-                        if (!file.exists()) {
+            Display.getDefault().asyncExec(new Runnable() {
+                public void run() {
+                    IFile yamlFile = getYAMLFile();
+                    if (yamlFile != null) {
+                        if (!yamlFile.exists()) {
                             IWorkbenchPage page = 
                                 PlatformUI.getWorkbench().
                                 getActiveWorkbenchWindow().getActivePage();
                             page.closeEditor(YAMLEditorPart.this, false);
                             
-                        } else if (!getPartName().equals(file.getName())) {
-                            setPartName(file.getName());
+                        } else if (!getPartName().equals(yamlFile.getName())) {
+                            setPartName(yamlFile.getName());
                         }
                     }
-                });
-            }
+                }
+            });
         }
         
     }
@@ -331,4 +285,84 @@ public class YAMLEditorPart extends EditorPart
         return project;
     }
     
+    /**
+     * 編集中の YAML ファイルを返す.
+     * 
+     * @return YAML ファイル
+     */
+    private IFile getYAMLFile() {
+        
+        IEditorInput input = editor.getEditorInput();
+        IFile yamlFile = null;
+        
+        if (input != null) {
+            yamlFile = ((IFileEditorInput) input).getFile();
+        }
+        
+        return yamlFile;
+    }
+
+
+    /**
+     * YAML スキーマファイル一覧を取得して、コンボボックスにセットする.
+     *
+     */
+    private void setSchemaFileList() {
+        
+        if (schemaCombo == null) {
+            return;
+        }
+        
+        // スキーマファイルの取得
+        IFile[] schemaFiles = 
+                    YAMLSchemaManager.getSchemaFiles(getYAMLProject());
+        
+        // YAML ファイルに対応するスキーマファイルを取得
+        IFile schemaFileForYAML = 
+                    YAMLSchemaManager.getSchemaFileForYAML(getYAMLFile());
+        
+        // 空行の追加
+        schemaCombo.add("");
+        if (schemaFiles != null) {
+            for (int i = 0; i < schemaFiles.length; i++) {
+                schemaCombo.add(schemaFiles[i].getName());
+                
+                if (schemaFileForYAML != null) {
+                    if (schemaFiles[i].getFullPath().toString().equals(
+                            schemaFileForYAML.getFullPath().toString())) {
+                        
+                        schemaCombo.select(i + 1);
+                    }
+                }
+            }
+        }
+        
+    }
+    
+    /**
+     * コンボボックスで選択された YAML スキーマファイルを返す.
+     * 
+     * @return YAML スキーマファイル
+     */
+    private IFile getSelectionYAMLSchemaFile() {
+        
+        IFile schemaFile = null;
+        
+        // 先頭は空行なので、実際の YAML スキーマファイルは2行目から
+        if (schemaCombo.getSelectionIndex() > 0) {
+            String schemaFileName = schemaCombo.getItem(
+                    schemaCombo.getSelectionIndex());
+    
+            schemaFile = getYAMLProject().getFile(
+                YAMLSchemaManager.SCHEMA_FOLDER + "/" 
+                + schemaFileName);
+            
+            if (!schemaFile.exists()) {
+                schemaFile = null;
+            }
+            
+        }
+        
+        return schemaFile;
+    }
 }
