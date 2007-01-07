@@ -10,7 +10,7 @@ import org.eclipse.swt.widgets.Display;
 
 /**
  * YAML カラーマネージャー.
- * YAML エディターで使用する Color オブジェクトを管理する。
+ * YAML Editor で使用する Color オブジェクトを管理する。
  * 
  * @author Hideharu Matsufuji
  * @version 0.1.0

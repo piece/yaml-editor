@@ -50,7 +50,7 @@ public class YAMLEditorPart extends EditorPart
         
     /**
      * コンストラクタ.
-     * YAML エディターの生成及び各初期化を行う。
+     * YAML Editor の生成及び各初期化を行う。
      *
      */
     public YAMLEditorPart() {

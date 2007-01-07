@@ -14,7 +14,7 @@ import org.eclipse.swt.graphics.Color;
 
 /**
  * YAML コンフィギュレーション.
- * YAML エディターの動作をカスタマイズする。
+ * YAML Editor の動作をカスタマイズする。
  * 
  * @author Hideharu Matsufuji
  * @version 0.1.0
@@ -48,7 +48,7 @@ public class YAMLConfiguration extends SourceViewerConfiguration {
     }    
     
     /**
-     * YAML エディターがサポートするパーティーションタイプを返す.
+     * YAML Editor がサポートするパーティーションタイプを返す.
      * 
      * @param sourceViewer ソースビュー
      * @return パーティションタイプ

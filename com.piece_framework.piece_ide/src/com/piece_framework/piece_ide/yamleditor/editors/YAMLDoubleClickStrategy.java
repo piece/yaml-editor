@@ -5,10 +5,8 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextDoubleClickStrategy;
 import org.eclipse.jface.text.ITextViewer;
 
-//import org.eclipse.jface.text.*;
-
 /**
- * YAML エディターのダブルクリック時動作クラス.
+ * YAML Editor のダブルクリック時動作クラス.
  * ダブルクリック時の動作を決定する。
  * 
  * @author Hideharu Matsufuji
