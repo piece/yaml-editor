@@ -195,7 +195,7 @@ public final class YAMLCodeScanner extends RuleBasedScanner {
     private static class YAMLVersionRule implements IRule {
             
         private IToken token;
-        private static final String VERSION = "--- %YAML";
+        private static final String VERSION = "--- %YAML"; //$NON-NLS-1$
         
         /**
          * コンストラクタ.
@@ -307,20 +307,22 @@ public final class YAMLCodeScanner extends RuleBasedScanner {
             // ":"より前
         rules.add(new YAMLMappingKeyRule(keyToken));
         // 固定文字列
-        rules.add(new SingleLineRule("\"", "\"", stringToken));
-        rules.add(new SingleLineRule("\'", "\'", stringToken));
+        rules.add(new SingleLineRule(
+                "\"", "\"", stringToken)); //$NON-NLS-1$ //$NON-NLS-2$
+        rules.add(new SingleLineRule(
+                "\'", "\'", stringToken)); //$NON-NLS-1$ //$NON-NLS-2$
         // バージョン指定
             // "--- %YAML"以降の1行
         rules.add(new YAMLVersionRule(versionToken));
         // コメント
             // "#"以降の1行
-        rules.add(new EndOfLineRule("#", commentToken));
+        rules.add(new EndOfLineRule("#", commentToken)); //$NON-NLS-1$
         // シーケンス(配列)
             // "-"のみ
-        wordRule.addWord("-", sequenceToken);
+        wordRule.addWord("-", sequenceToken); //$NON-NLS-1$
         // ドキュメント区切り
             // "---"のみ
-        wordRule.addWord("---", docSeparatorToekn);
+        wordRule.addWord("---", docSeparatorToekn); //$NON-NLS-1$
         rules.add(wordRule);
         
         // 空白ルールを設定

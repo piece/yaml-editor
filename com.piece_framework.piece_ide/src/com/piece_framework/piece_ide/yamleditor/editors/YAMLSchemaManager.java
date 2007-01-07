@@ -34,7 +34,7 @@ import com.piece_framework.piece_ide.yamleditor.Activator;
 public final class YAMLSchemaManager {
     
     /** YAML スキーマフォルダ名. */
-    public static final String SCHEMA_FOLDER = ".yaml_schemas";
+    public static final String SCHEMA_FOLDER = ".yaml_schemas"; //$NON-NLS-1$
     
     /**
      * コンストラクタ.
@@ -104,7 +104,7 @@ public final class YAMLSchemaManager {
         StringBuffer buf = new StringBuffer();
         
         while ((fileLine = bufReader.readLine()) != null) {
-            buf.append(fileLine + "\r\n");
+            buf.append(fileLine + "\r\n"); //$NON-NLS-1$
         }
         bufReader.close();
         fileReader.close();
@@ -137,8 +137,8 @@ public final class YAMLSchemaManager {
             for (int i = 0; i < resources.length; i++) {
                 if (resources[i] instanceof IFile) {
                     IFile file = (IFile) resources[i];
-                    
-                    if (file.getFileExtension().equalsIgnoreCase("yaml")) {
+                    String extension = file.getFileExtension();
+                    if (extension.equalsIgnoreCase("yaml")) { //$NON-NLS-1$
                         schemaFileList.add(file);
                     }
                 }

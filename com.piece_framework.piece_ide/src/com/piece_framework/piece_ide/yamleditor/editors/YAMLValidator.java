@@ -30,13 +30,13 @@ public final class YAMLValidator {
     private static final int SEVERITY_ERROR = 2;
 
     /* マーカーMAPのキー定数：マーカーの種類 */
-    private static final String SEVERITY = "severity";
+    private static final String SEVERITY = "severity"; //$NON-NLS-1$
 
     /* マーカーMAPのキー定数：マーカーの内容 */
-    private static final String MESSAGE = "message";
+    private static final String MESSAGE = "message"; //$NON-NLS-1$
 
     /* マーカーMAPのキー定数：マーカーの行番号 */
-    private static final String LINE_NUMBER = "lineNumber";
+    private static final String LINE_NUMBER = "lineNumber"; //$NON-NLS-1$
 
     /* 例外エラー時にマークする行番号 */
     private static final int FATAL_ERR_LINE_NUM = 1;

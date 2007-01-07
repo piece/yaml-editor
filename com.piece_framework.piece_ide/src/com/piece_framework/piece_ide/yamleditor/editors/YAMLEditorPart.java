@@ -59,7 +59,7 @@ public class YAMLEditorPart extends EditorPart
         ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
         
         // TODO: デバッグ
-        System.out.println("construct");
+        System.out.println("construct"); //$NON-NLS-1$
     }
 
     /**
@@ -107,7 +107,7 @@ public class YAMLEditorPart extends EditorPart
         setPartName(input.getName());
         
         // TODO: デバッグ   
-        System.out.println("init");
+        System.out.println("init"); //$NON-NLS-1$
     }
 
     /**
@@ -150,7 +150,7 @@ public class YAMLEditorPart extends EditorPart
     @Override
     public void createPartControl(Composite parent) {
         // TODO: デバッグ
-        System.out.println("createPartControl");
+        System.out.println("createPartControl"); //$NON-NLS-1$
         
         try {
 
@@ -166,7 +166,8 @@ public class YAMLEditorPart extends EditorPart
             parentComposite.setLayout(rowLayout);
             
             final Group schemaGroup = new Group(parentComposite, SWT.NONE);
-            schemaGroup.setText("スキーマ");
+            schemaGroup.setText(
+                Messages.getString("YAMLEditorPart.SchemaTitle")); //$NON-NLS-1$
             schemaGroup.setLayout(rowLayout);
             
             schemaCombo = new Combo(schemaGroup, SWT.READ_ONLY);
@@ -321,8 +322,11 @@ public class YAMLEditorPart extends EditorPart
         IFile schemaFileForYAML = 
                     YAMLSchemaManager.getSchemaFileForYAML(getYAMLFile());
         
-        // 空行の追加
-        schemaCombo.add("");
+        // スキーマ選択メッセージ行の追加
+        schemaCombo.add(Messages.getString(
+                "YAMLEditorPart.SelectSchemaMessage")); //$NON-NLS-1$
+        schemaCombo.select(0);
+        
         if (schemaFiles != null) {
             for (int i = 0; i < schemaFiles.length; i++) {
                 schemaCombo.add(schemaFiles[i].getName());
@@ -348,13 +352,14 @@ public class YAMLEditorPart extends EditorPart
         
         IFile schemaFile = null;
         
-        // 先頭は空行なので、実際の YAML スキーマファイルは2行目から
+        // 先頭はスキーマ選択メッセージ行なので、
+        // 実際の YAML スキーマファイルは2行目から
         if (schemaCombo.getSelectionIndex() > 0) {
             String schemaFileName = schemaCombo.getItem(
                     schemaCombo.getSelectionIndex());
     
             schemaFile = getYAMLProject().getFile(
-                YAMLSchemaManager.SCHEMA_FOLDER + "/" 
+                YAMLSchemaManager.SCHEMA_FOLDER + "/"  //$NON-NLS-1$
                 + schemaFileName);
             
             if (!schemaFile.exists()) {

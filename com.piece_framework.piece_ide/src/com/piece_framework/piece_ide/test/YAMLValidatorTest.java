@@ -44,20 +44,21 @@ public class YAMLValidatorTest extends TestCase {
      */
     public void testValidator() {
          
-        StringBuffer schama = new StringBuffer("type:      seq\r\n");
-        schama.append("required:  yes\r\n");
-        schama.append("sequence:\r\n");
-        schama.append("   - type:      map\r\n");
-        schama.append("     required:  yes\r\n");
-        schama.append("     mapping:\r\n");
-        schama.append("      \"name\":\r\n");
-        schama.append("         type:      str\r\n");
-        schama.append("         required:  yes\r\n");
-        schama.append("         unique:    yes\r\n");
+        StringBuffer schama = 
+            new StringBuffer("type:      seq\r\n");     //$NON-NLS-1$
+        schama.append("required:  yes\r\n");            //$NON-NLS-1$
+        schama.append("sequence:\r\n");                 //$NON-NLS-1$
+        schama.append("   - type:      map\r\n");       //$NON-NLS-1$
+        schama.append("     required:  yes\r\n");       //$NON-NLS-1$
+        schama.append("     mapping:\r\n");             //$NON-NLS-1$
+        schama.append("      \"name\":\r\n");           //$NON-NLS-1$
+        schama.append("         type:      str\r\n");   //$NON-NLS-1$
+        schama.append("         required:  yes\r\n");   //$NON-NLS-1$
+        schama.append("         unique:    yes\r\n");   //$NON-NLS-1$
         ByteArrayInputStream schamaStream =
                       new ByteArrayInputStream(schama.toString().getBytes());
 
-        StringBuffer yaml = new StringBuffer("- name:    Sumire");
+        StringBuffer yaml = new StringBuffer("- name:    Sumire"); //$NON-NLS-1$
         ByteArrayInputStream yamlStream =
                       new ByteArrayInputStream(yaml.toString().getBytes());
 

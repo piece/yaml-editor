@@ -34,7 +34,7 @@ public class YAMLEditor extends TextEditor {
     private IFile yamlSchemaFile;
     
     private static final String MARKER_ID = 
-                             "org.eclipse.core.resources.problemmarker";
+        "org.eclipse.core.resources.problemmarker"; //$NON-NLS-1$
     
     /**
      * エディターの初期化処理を行う.

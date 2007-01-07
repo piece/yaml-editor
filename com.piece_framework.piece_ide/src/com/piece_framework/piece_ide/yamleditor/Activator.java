@@ -18,7 +18,7 @@ public class Activator extends AbstractUIPlugin {
 
     /** プラグインID. */
     public static final String PLUGIN_ID = 
-                "com.piece_framework.piece_ide.yamleditor";
+                "com.piece_framework.piece_ide.yamleditor"; //$NON-NLS-1$
 
     // インスタンス
     private static Activator plugin;

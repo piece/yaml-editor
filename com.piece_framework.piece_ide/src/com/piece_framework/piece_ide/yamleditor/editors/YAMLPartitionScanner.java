@@ -28,7 +28,8 @@ import org.eclipse.swt.graphics.RGB;
 public final class YAMLPartitionScanner extends RuleBasedPartitionScanner {
     
     /** YAML 終端. */
-    private static final String YAML_TERMINATE = "__yaml_TERMINATE";
+    private static final String YAML_TERMINATE = 
+                                    "__yaml_TERMINATE"; //$NON-NLS-1$
     
     /** パーティーションタイプ配列. */
     public static final String[] YAML_PARTITION_TYPES = new String[] { 
@@ -53,7 +54,7 @@ public final class YAMLPartitionScanner extends RuleBasedPartitionScanner {
         
         // 終端
             // "..."以降の全行
-        rules.add(new MultiLineRule("...\n", "\0", 
+        rules.add(new MultiLineRule("...\n", "\0",  //$NON-NLS-1$ //$NON-NLS-2$
                     new Token(YAML_TERMINATE), (char) 0 , true));
         
         IPredicateRule[] r = new IPredicateRule[1];
