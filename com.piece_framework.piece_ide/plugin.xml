@@ -13,5 +13,14 @@
             id="com.piece_framework.piece_ide.yamleditor.editors.YAMLEditorPart"
             name="YAML Editor"/>
    </extension>
+   <extension
+         point="org.eclipse.ui.propertyPages">
+      <page
+            adaptable="true"
+            class="com.piece_framework.piece_ide.yamleditor.YAMLEditorPropertyPage"
+            id="com.piece_framework.piece_ide.yamleditorproperty"
+            name="YAML Editor"
+            objectClass="org.eclipse.core.resources.IProject"/>
+   </extension>
 
 </plugin>
