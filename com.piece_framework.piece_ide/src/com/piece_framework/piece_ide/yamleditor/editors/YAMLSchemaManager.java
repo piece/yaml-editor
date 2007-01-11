@@ -1,9 +1,7 @@
 package com.piece_framework.piece_ide.yamleditor.editors;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -98,21 +96,19 @@ public final class YAMLSchemaManager {
                                   throws IOException, CoreException {
     
         File pluginFile = new File(pluginFolder, pluginFileName);
-        FileReader fileReader  = new FileReader(pluginFile);
-        BufferedReader bufReader = new BufferedReader(fileReader);
-        String fileLine;
-        StringBuffer buf = new StringBuffer();
-        
-        while ((fileLine = bufReader.readLine()) != null) {
-            buf.append(fileLine + "\r\n"); //$NON-NLS-1$
+
+        //対象がフォルダの場合は後続処理を行なわない
+        if (pluginFile.exists()) {
+            if (pluginFile.isDirectory()) {
+                return false;
+            }
+        } else {
+            return false;
         }
-        bufReader.close();
-        fileReader.close();
-        
+
         //プロジェクトへファイル作成
         IFile projectFile = projectFolder.getFile(pluginFile.getName());
-        projectFile.create(new ByteArrayInputStream(
-                                  buf.toString().getBytes()), true, null);
+        projectFile.create(new FileInputStream(pluginFile), true, null);
         
         return true;
     }
