@@ -3,6 +3,7 @@ package com.piece_framework.piece_ide.yamleditor.editors;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.IVerticalRuler;
@@ -15,6 +16,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 
 /**
@@ -62,6 +64,15 @@ public class YAMLEditor extends TextEditor {
 
     }
     
+    @Override
+    protected void doSetInput(IEditorInput input) throws CoreException {
+        // TODO 自動生成されたメソッド・スタブ
+        super.doSetInput(input);
+        
+        IFile yamlFile = ((IFileEditorInput) input).getFile();
+        System.out.println("プロジェクト取得:" + yamlFile.getProject());
+    }
+
     /**
      * ビューアーを作成する.
      * YAML ビューアーを作成して、返す。
