@@ -1,6 +1,11 @@
 package com.piece_framework.piece_ide.yamleditor;
 
+import java.util.ArrayList;
+
 import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -8,6 +13,7 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -42,7 +48,7 @@ public class FolderSelectionDialog extends ElementTreeSelectionDialog implements
         getTreeViewer().addSelectionChangedListener(this);
         
         Button button = new Button(result, SWT.PUSH);
-        button.setText("A"); 
+        button.setText("新規フォルダーの作成(&N)..."); 
         button.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent event) {
                 newFolderButtonPressed();
@@ -71,6 +77,7 @@ public class FolderSelectionDialog extends ElementTreeSelectionDialog implements
     }   
     
     protected void newFolderButtonPressed() {
+        
         NewFolderDialog dialog= new NewFolderDialog(getShell(), fSelectedContainer) {
             protected Control createContents(Composite parent) {
                 //PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, IJavaHelpContextIds.BP_CREATE_NEW_FOLDER);
