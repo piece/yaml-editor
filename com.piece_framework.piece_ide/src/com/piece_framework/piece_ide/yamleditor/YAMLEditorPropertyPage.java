@@ -1,16 +1,10 @@
 package com.piece_framework.piece_ide.yamleditor;
 
-import java.util.ArrayList;
-
-import org.eclipse.jface.util.Assert;
-import org.eclipse.jface.viewers.ILabelProvider;
-import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerFilter;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -21,102 +15,105 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.ui.dialogs.NewFolderDialog;
 import org.eclipse.ui.dialogs.PropertyPage;
-import org.eclipse.ui.dialogs.ResourceSelectionDialog;
-import org.eclipse.ui.dialogs.SelectionDialog;
-import org.eclipse.ui.model.WorkbenchContentProvider;
-import org.eclipse.ui.model.WorkbenchLabelProvider;
 
+import com.piece_framework.piece_ide.yamleditor.editors.YAMLSchemaManager;
+
+/**
+ * プロジェクト設定ページ.
+ * スキーマフォルダーを指定する。<br>
+ * 
+ * @author Hideharu Matsufuji
+ * @version 0.1.0
+ * @since 0.1.0
+ * @see org.eclipse.ui.dialogs.PropertyPage
+ */
 public class YAMLEditorPropertyPage extends PropertyPage {
     
-    private class TypedViewerFilter extends ViewerFilter {
-
-        private Class[] fAcceptedTypes;
-        private Object[] fRejectedElements;
-
-        /**
-         * Creates a filter that only allows elements of gives types.
-         * @param acceptedTypes The types of accepted elements
-         */
-        public TypedViewerFilter(Class[] acceptedTypes) {
-            this(acceptedTypes, null);
-        }
-
-        /**
-         * Creates a filter that only allows elements of gives types, but not from a
-         * list of rejected elements.
-         * @param acceptedTypes Accepted elements must be of this types
-         * @param rejectedElements Element equals to the rejected elements are
-         * filtered out
-         */ 
-        public TypedViewerFilter(Class[] acceptedTypes, Object[] rejectedElements) {
-            Assert.isNotNull(acceptedTypes);
-            fAcceptedTypes= acceptedTypes;
-            fRejectedElements= rejectedElements;
-        }   
-
-        /**
-         * @see ViewerFilter#select(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
-         */
-        public boolean select(Viewer viewer, Object parentElement, Object element) {
-            if (fRejectedElements != null) {
-                for (int i= 0; i < fRejectedElements.length; i++) {
-                    if (element.equals(fRejectedElements[i])) {
-                        return false;
-                    }
-                }
-            }
-            for (int i= 0; i < fAcceptedTypes.length; i++) {
-                if (fAcceptedTypes[i].isInstance(element)) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-    }
+    private static final int BASE_WIDTH = 500;
+    private static final int BASE_HEIGHT = 50;
+    private static final int TEXT_WIDTH = 300;
+    private static final int BUTTON_WIDTH = 100;
     
-    private Text txtSchemaFolder;
-    private Button btnReference;
+    private Text fSchemaFolderText;
     
+    /**
+     * OKクリック時処理.
+     * 
+     * @return boolean 処理結果
+     */
     @Override
     public boolean performOk() {
         
-        ILabelProvider lp= new WorkbenchLabelProvider();
-        ITreeContentProvider cp= new WorkbenchContentProvider();
-        
-        FolderSelectionDialog dialog = new FolderSelectionDialog(getShell(), lp, cp);
-        dialog.setTitle("スキーマフォルダーの選択");
-        dialog.setMessage("スキーマフォルダーを選択してください(&C):");
-        
-        if (getElement() instanceof IProject) {
-            IProject project = (IProject) getElement();
-            
-            IWorkspaceRoot root= project.getWorkspace().getRoot();
-            final Class[] acceptedClasses= new Class[] { IProject.class, IFolder.class };
-            IProject[] allProjects= root.getProjects();
-            ArrayList rejectedElements= new ArrayList(allProjects.length);
-            for (int i= 0; i < allProjects.length; i++) {
-                if (!allProjects[i].equals(project)) {
-                    rejectedElements.add(allProjects[i]);
-                }
-            }
-            ViewerFilter filter= new TypedViewerFilter(acceptedClasses, rejectedElements.toArray());
-            
-            dialog.setInput(project.getWorkspace().getRoot());
-            dialog.addFilter(filter);
-        }
-        
-        if (dialog.open() == Window.OK) {
-            
-            System.out.println(dialog.getResult()[0]);
+        if (!saveSchemaFolder()) {
+            return false;
         }
         
         return super.performOk();
     }
 
+    
+    /**
+     * 適用クリック時処理.
+     * 
+     */
+    @Override
+    protected void performApply() {
+        
+        saveSchemaFolder();
+        
+        super.performApply();
+    }
+
+    /**
+     * スキーマフォルダーのパス名を取得する.
+     * 
+     * @return スキーマフォルダーパス
+     */
+    private String getSchemaFolder() {
+        
+        IProject project = (IProject) getElement();
+        IFolder schemaFolder = YAMLSchemaManager.getSchemaFolder(project);
+        
+        String schemaFolderName = "";
+        if (schemaFolder != null) {
+            schemaFolderName = 
+                schemaFolder.getFullPath().toString().substring(
+                    project.getName().length() + 1);
+        }
+        
+        return schemaFolderName;
+    }
+    
+    /**
+     * スキーマフォルダーのパス名を保存する.
+     * 
+     * @return 処理結果
+     */
+    private boolean saveSchemaFolder() {
+        String schemaFolderName = fSchemaFolderText.getText();
+        
+        if (schemaFolderName == null || schemaFolderName.equals("")) {
+            MessageDialog.openError(getShell(), 
+                        "スキーマフォルダー選択", 
+                        "スキーマフォルダーを選択して下さい。");
+            return false;
+        }
+        
+        IProject project = (IProject) getElement();
+        IFolder schemaFolder = project.getFolder(schemaFolderName);
+        YAMLSchemaManager.setSchemaFolder(schemaFolder);
+        
+        return true;
+        
+    }
+
+    /**
+     * コントロールの作成・配置を行う.
+     * 
+     * @param parent 親コントロール
+     * @return 作成・配置したコントロール
+     */
     @Override
     protected Control createContents(Composite parent) {
         
@@ -126,7 +123,7 @@ public class YAMLEditorPropertyPage extends PropertyPage {
         
         Composite composite = new Composite(parent, SWT.NONE);
         composite.setLayout(gridLayout);
-        composite.setSize(new Point(500, 50));
+        composite.setSize(new Point(BASE_WIDTH, BASE_HEIGHT));
         
         Label label = new Label(composite, SWT.NONE);
         label.setText("スキーマフォルダー(&S):");
@@ -136,18 +133,45 @@ public class YAMLEditorPropertyPage extends PropertyPage {
         
         GridData gridData = null;
         
-        txtSchemaFolder = new Text(composite, SWT.BORDER);
+        fSchemaFolderText = new Text(composite, SWT.BORDER);
         gridData = new GridData();
-        gridData.widthHint = 300;
-        txtSchemaFolder.setLayoutData(gridData);
+        gridData.widthHint = TEXT_WIDTH;
+        fSchemaFolderText.setLayoutData(gridData);
+        fSchemaFolderText.setText(getSchemaFolder());
         
-        btnReference = new Button(composite, SWT.NONE);
-        btnReference.setText("参照(&W)...");
+        Button button = new Button(composite, SWT.NONE);
+        button.setText("参照(&W)...");
         gridData = new GridData();
-        gridData.widthHint = 100;
-        btnReference.setLayoutData(gridData);
+        gridData.widthHint = BUTTON_WIDTH;
+        button.setLayoutData(gridData);
+        button.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e) {
+                openSchemaFolderSelectionDialog();
+            }
+        });
         
         return composite;
+    }
+    
+    /**
+     * スキーマフォルダー選択ダイアログを表示する.
+     *
+     */
+    private void openSchemaFolderSelectionDialog() {
+        
+        // プロジェクトのプロパティーでしか表示されないので、強制的にキャスト
+        IProject project = (IProject) getElement();
+        SchemaFolderSelectionDialog dialog = 
+            new SchemaFolderSelectionDialog(getShell(), project);
+        
+        if (dialog.open() == Window.OK) {
+            IFolder schemaFolder = dialog.getSelectedSchemaFolder();
+            if (schemaFolder != null) {
+                fSchemaFolderText.setText(
+                        schemaFolder.getFullPath().toString());
+            }
+        }
+        
     }
 
 }

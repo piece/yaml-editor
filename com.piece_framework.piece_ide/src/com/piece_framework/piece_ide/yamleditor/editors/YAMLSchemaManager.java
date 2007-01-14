@@ -167,6 +167,10 @@ public final class YAMLSchemaManager {
         Preferences projectNode = projectScope.getNode(
                                     Activator.PLUGIN_ID);
         
+        // スキーマフォルダーを取得
+        IFolder schemaFolder = getSchemaFolder(project);
+        String schemaFolderName = schemaFolder.getFullPath().toString();
+        
         IFile schemaFile = null;
         
         try {
@@ -184,7 +188,8 @@ public final class YAMLSchemaManager {
                     // スキーマファイルを取得
                     String schemaFileName = projectNode.get(keys[i], null);
                     
-                    schemaFile = project.getFile(schemaFileName);
+                    schemaFile = project.getFile(
+                            schemaFolderName + "/" + schemaFileName);
                     break;
                 }
             }
@@ -218,13 +223,66 @@ public final class YAMLSchemaManager {
         Preferences projectNode = projectScope.getNode(
                                     Activator.PLUGIN_ID);
         
-        // YAML ファイル・スキーマファイルのフルパスからプロジェクト名を削除
+        // YAML ファイルフルパスからプロジェクト名を削除
         String yamlFileName = yamlFile.getFullPath().toString().substring(
                                 project.getName().length() + 1);
-        String schemaFileName = schemaFile.getFullPath().toString().substring(
-                                    project.getName().length() + 1);
+        // スキーマファイルはファイル名のみ
+        String schemaFileName = schemaFile.getName();
         
         projectNode.put(yamlFileName, schemaFileName);
+        
+        try {
+            projectNode.flush();
+        } catch (BackingStoreException e) {
+            e.printStackTrace();
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * スキーマフォルダーを返す.
+     * 
+     * @param project プロジェクト
+     * @return スキーマフォルダー
+     */
+    public static IFolder getSchemaFolder(IProject project) {
+        
+        IScopeContext projectScope = new ProjectScope(project);
+        
+        Preferences projectNode = projectScope.getNode(
+                                    Activator.PLUGIN_ID);
+        
+        IFolder schemaFolder = null;
+        
+        String schemaFolderName = projectNode.get("SchemaFolder", null);
+        if (schemaFolderName != null) {
+            schemaFolder = project.getFolder(schemaFolderName);
+        }
+        
+        return schemaFolder;
+    }
+    
+    /**
+     * スキーマフォルダーを保存する.
+     * 
+     * @param schemaFolder スキーマフォルダー
+     * @return 処理結果
+     */
+    public static boolean setSchemaFolder(IFolder schemaFolder) {
+        
+        IProject project = schemaFolder.getProject();
+        IScopeContext projectScope = new ProjectScope(project);
+        
+        Preferences projectNode = projectScope.getNode(
+                                    Activator.PLUGIN_ID);
+        
+        String schemaFolderName = 
+            schemaFolder.getFullPath().toString().substring(
+                project.getName().length() + 1);
+        
+        projectNode.put("SchemaFolder", schemaFolderName);
         
         try {
             projectNode.flush();
