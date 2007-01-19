@@ -12,10 +12,7 @@ import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.texteditor.AbstractDecoratedTextEditorPreferenceConstants;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 
@@ -50,27 +47,23 @@ public class YAMLEditor extends TextEditor {
         
         setDocumentProvider(new YAMLDocumentProvider());
         setSourceViewerConfiguration(new YAMLConfiguration());
-        
-        //プロジェクトのパスの取得
-        IWorkspaceRoot wRoot = ResourcesPlugin.getWorkspace().getRoot();
-        IProject[] projects = wRoot.getProjects();
-        
-        for (int i = 0; i < projects.length; i++) {
-            IProject project = projects[i];
-            
-            //スキーマフォルダ作成処理
-            YAMLSchemaManager.createSchemaFolder(project);
-         }
-
     }
     
-    @Override
+    /**
+     * エディターの初期化処理を行う.
+     * 
+     * @param input エディタインプット情報
+     * @throws CoreException コア例外
+     * 
+     * @see org.eclipse.ui.editors.text.TextEditor#doSetInput()
+     * 
+     */
     protected void doSetInput(IEditorInput input) throws CoreException {
-        // TODO 自動生成されたメソッド・スタブ
         super.doSetInput(input);
         
+        //スキーマフォルダ作成処理
         IFile yamlFile = ((IFileEditorInput) input).getFile();
-        System.out.println("プロジェクト取得:" + yamlFile.getProject());
+        YAMLSchemaManager.createSchemaFolder(yamlFile.getProject());
     }
 
     /**
