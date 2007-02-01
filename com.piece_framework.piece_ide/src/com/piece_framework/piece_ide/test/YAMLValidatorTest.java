@@ -1,4 +1,4 @@
-package com.piece_framework.piece_ide.test;
+package com.piece_framework.yaml_editor.test;
 
 
 import java.io.ByteArrayInputStream;
@@ -9,7 +9,7 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import com.piece_framework.piece_ide.yamleditor.editors.YAMLValidator;
+import com.piece_framework.yaml_editor.yamleditor.editors.YAMLValidator;
 
 /**
  * YAMLバリデーターーテストクラス.

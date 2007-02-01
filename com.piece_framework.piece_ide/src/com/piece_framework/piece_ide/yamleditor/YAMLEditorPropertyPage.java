@@ -1,4 +1,4 @@
-package com.piece_framework.piece_ide.yamleditor;
+package com.piece_framework.yaml_editor.yamleditor;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
@@ -17,7 +17,7 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.ui.dialogs.PropertyPage;
 
-import com.piece_framework.piece_ide.yamleditor.editors.YAMLSchemaManager;
+import com.piece_framework.yaml_editor.yamleditor.editors.YAMLSchemaManager;
 
 /**
  * プロジェクト設定ページ.

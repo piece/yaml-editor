@@ -1,10 +1,10 @@
-package com.piece_framework.piece_ide.yamleditor;
+package com.piece_framework.yaml_editor.yamleditor;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
-import com.piece_framework.piece_ide.yamleditor.editors.YAMLColorManager;
+import com.piece_framework.yaml_editor.yamleditor.editors.YAMLColorManager;
 
 /**
  * プラグインのライフサイクルを管理する.
@@ -18,7 +18,7 @@ public class Activator extends AbstractUIPlugin {
 
     /** プラグインID. */
     public static final String PLUGIN_ID = 
-                "com.piece_framework.piece_ide.yamleditor"; //$NON-NLS-1$
+                "com.piece_framework.yaml_editor.yamleditor"; //$NON-NLS-1$
 
     // インスタンス
     private static Activator plugin;

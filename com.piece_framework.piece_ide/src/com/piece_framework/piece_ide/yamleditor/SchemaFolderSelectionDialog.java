@@ -1,4 +1,4 @@
-package com.piece_framework.piece_ide.yamleditor;
+package com.piece_framework.yaml_editor.yamleditor;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFolder;
