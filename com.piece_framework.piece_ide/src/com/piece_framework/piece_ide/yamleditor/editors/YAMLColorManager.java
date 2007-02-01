@@ -1,4 +1,4 @@
-package com.piece_framework.piece_ide.yamleditor.editors;
+package com.piece_framework.yaml_editor.yamleditor.editors;
 
 import java.util.HashMap;
 import java.util.Iterator;

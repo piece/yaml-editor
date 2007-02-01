@@ -1,4 +1,4 @@
-package com.piece_framework.piece_ide.yamleditor.editors;
+package com.piece_framework.yaml_editor.yamleditor.editors;
 
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -13,7 +13,7 @@ import java.util.ResourceBundle;
 public final class Messages {
     
     private static final String BUNDLE_NAME = 
-      "com.piece_framework.piece_ide.yamleditor.editors.messages"; //$NON-NLS-1$
+      "com.piece_framework.yaml_editor.yamleditor.editors.messages"; //$NON-NLS-1$
     
     private static final ResourceBundle RESOURCE_BUNDLE = 
             ResourceBundle.getBundle(BUNDLE_NAME);

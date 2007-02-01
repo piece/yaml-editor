@@ -5,20 +5,20 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="com.piece_framework.piece_ide.yamleditor.editors.YAMLEditorPart"
+            class="com.piece_framework.yaml_editor.yamleditor.editors.YAMLEditorPart"
             contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             default="true"
             extensions="yaml"
             icon="icons/sample.gif"
-            id="com.piece_framework.piece_ide.yamleditor.editors.YAMLEditorPart"
+            id="com.piece_framework.yaml_editor.yamleditor.editors.YAMLEditorPart"
             name="YAML Editor"/>
    </extension>
    <extension
          point="org.eclipse.ui.propertyPages">
       <page
             adaptable="true"
-            class="com.piece_framework.piece_ide.yamleditor.YAMLEditorPropertyPage"
-            id="com.piece_framework.piece_ide.yamleditorproperty"
+            class="com.piece_framework.yaml_editor.yamleditor.YAMLEditorPropertyPage"
+            id="com.piece_framework.yaml_editor.yamleditorproperty"
             name="YAML Editor"
             objectClass="org.eclipse.core.resources.IProject"/>
    </extension>

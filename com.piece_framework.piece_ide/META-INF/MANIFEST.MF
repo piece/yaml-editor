@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: YAML Editor Plug-in
-Bundle-SymbolicName: com.piece_framework.piece_ide.yamleditor; singleton:=true
+Bundle-SymbolicName: com.piece_framework.yaml_editor.yamleditor; singleton:=true
 Bundle-Version: 0.1.0
-Bundle-Activator: com.piece_framework.piece_ide.yamleditor.Activator
+Bundle-Activator: com.piece_framework.yaml_editor.yamleditor.Activator
 Bundle-Vendor: PIECE_FRAMEWORK
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,

@@ -1,4 +1,4 @@
-package com.piece_framework.piece_ide.yamleditor.editors;
+package com.piece_framework.yaml_editor.yamleditor.editors;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,7 +18,7 @@ import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
 
-import com.piece_framework.piece_ide.yamleditor.Activator;
+import com.piece_framework.yaml_editor.yamleditor.Activator;
 
 /**
  * YAML スキーマファイル管理クラス.
