@@ -5,7 +5,7 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="com.piece_framework.yaml_editor.yamleditor.editors.YAMLEditorPart"
+            class="com.piece_framework.yaml_editor.ui.editor.YAMLEditorPart"
             contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             default="true"
             extensions="yaml"
