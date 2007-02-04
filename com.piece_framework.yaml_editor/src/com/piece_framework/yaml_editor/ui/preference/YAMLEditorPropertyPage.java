@@ -1,3 +1,4 @@
+// $Id$
 package com.piece_framework.yaml_editor.ui.preference;
 
 import org.eclipse.jface.dialogs.MessageDialog;
