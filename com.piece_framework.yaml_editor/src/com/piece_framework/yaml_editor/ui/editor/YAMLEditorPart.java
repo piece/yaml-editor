@@ -1,3 +1,4 @@
+// $Id$
 package com.piece_framework.yaml_editor.ui.editor;
 
 import org.eclipse.core.resources.IFile;

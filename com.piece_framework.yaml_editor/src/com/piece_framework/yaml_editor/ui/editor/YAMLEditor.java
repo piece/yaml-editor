@@ -1,5 +1,4 @@
 // $Id$
-
 package com.piece_framework.yaml_editor.ui.editor;
 
 import java.util.List;
