@@ -13,6 +13,9 @@ import org.eclipse.core.resources.IProject;
  */
 public interface IConfiguration {
     
+    /** キー：スキーマフォルダー. */
+    String KEY_SCHEMAFOLDER = "SchemaFolder";
+    
     /**
      * プロジェクトから設定を取得する.
      * 

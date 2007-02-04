@@ -4,7 +4,6 @@ package com.piece_framework.yaml_editor.ui.editor;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.IVerticalRuler;
@@ -14,7 +13,6 @@ import org.eclipse.ui.texteditor.AbstractDecoratedTextEditorPreferenceConstants;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 
 import com.piece_framework.yaml_editor.util.YAMLValidator;
@@ -50,23 +48,6 @@ public class YAMLEditor extends TextEditor {
         
         setDocumentProvider(new YAMLDocumentProvider());
         setSourceViewerConfiguration(new YAMLConfiguration());
-    }
-    
-    /**
-     * エディターの初期化処理を行う.
-     * 
-     * @param input エディタインプット情報
-     * @throws CoreException コア例外
-     * 
-     * @see org.eclipse.ui.editors.text.TextEditor#doSetInput()
-     * 
-     */
-    protected void doSetInput(IEditorInput input) throws CoreException {
-        super.doSetInput(input);
-        
-        //スキーマフォルダ作成処理
-        IFile yamlFile = ((IFileEditorInput) input).getFile();
-        YAMLSchemaManager.createSchemaFolder(yamlFile.getProject());
     }
 
     /**
