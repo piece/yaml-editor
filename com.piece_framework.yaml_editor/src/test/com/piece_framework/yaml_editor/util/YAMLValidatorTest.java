@@ -1,4 +1,5 @@
-package com.piece_framework.yaml_editor.test;
+// $Id$
+package test.com.piece_framework.yaml_editor.util;
 
 
 import java.io.ByteArrayInputStream;
