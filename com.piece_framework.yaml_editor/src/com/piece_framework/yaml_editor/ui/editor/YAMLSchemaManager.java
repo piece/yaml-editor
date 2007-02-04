@@ -18,7 +18,7 @@ import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
 
-import com.piece_framework.yaml_editor.plugin.Activator;
+import com.piece_framework.yaml_editor.plugin.YAMLEditorPlugin;
 
 /**
  * YAML スキーマファイル管理クラス.
@@ -56,7 +56,8 @@ public final class YAMLSchemaManager {
             try {
                 projectFolder.create(false, true, null);
                 URL pluginURL = 
-                Platform.getBundle(Activator.PLUGIN_ID).getEntry(SCHEMA_FOLDER);
+                Platform.getBundle(
+                    YAMLEditorPlugin.PLUGIN_ID).getEntry(SCHEMA_FOLDER);
                 
                 //プラグイン側からスキーマフォルダ内のファイル群を取得
                 File pluginFolder = 
@@ -165,7 +166,7 @@ public final class YAMLSchemaManager {
         IScopeContext projectScope = new ProjectScope(project);
         
         Preferences projectNode = projectScope.getNode(
-                                    Activator.PLUGIN_ID);
+                                    YAMLEditorPlugin.PLUGIN_ID);
         
         // スキーマフォルダーを取得
         IFolder schemaFolder = getSchemaFolder(project);
@@ -221,7 +222,7 @@ public final class YAMLSchemaManager {
         IScopeContext projectScope = new ProjectScope(project);
         
         Preferences projectNode = projectScope.getNode(
-                                    Activator.PLUGIN_ID);
+                                    YAMLEditorPlugin.PLUGIN_ID);
         
         // YAML ファイルフルパスからプロジェクト名を削除
         String yamlFileName = yamlFile.getFullPath().toString().substring(
@@ -252,7 +253,7 @@ public final class YAMLSchemaManager {
         IScopeContext projectScope = new ProjectScope(project);
         
         Preferences projectNode = projectScope.getNode(
-                                    Activator.PLUGIN_ID);
+                                    YAMLEditorPlugin.PLUGIN_ID);
         
         IFolder schemaFolder = null;
         
@@ -276,7 +277,7 @@ public final class YAMLSchemaManager {
         IScopeContext projectScope = new ProjectScope(project);
         
         Preferences projectNode = projectScope.getNode(
-                                    Activator.PLUGIN_ID);
+                                    YAMLEditorPlugin.PLUGIN_ID);
         
         String schemaFolderName = 
             schemaFolder.getFullPath().toString().substring(

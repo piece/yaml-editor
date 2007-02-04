@@ -14,19 +14,19 @@ import com.piece_framework.yaml_editor.ui.editor.YAMLColorManager;
  * @since 0.1.0
  * 
  */
-public class Activator extends AbstractUIPlugin {
+public class YAMLEditorPlugin extends AbstractUIPlugin {
 
     /** プラグインID. */
     public static final String PLUGIN_ID = 
                 "com.piece_framework.yaml_editor"; //$NON-NLS-1$
 
     // インスタンス
-    private static Activator plugin;
+    private static YAMLEditorPlugin plugin;
     
     /**
      * コンストラクタ.
      */
-    public Activator() {
+    public YAMLEditorPlugin() {
         plugin = this;
     }
     
@@ -62,7 +62,7 @@ public class Activator extends AbstractUIPlugin {
      *
      * @return 共有インスタンス
      */
-    public static Activator getDefault() {
+    public static YAMLEditorPlugin getDefault() {
         return plugin;
     }
     
