@@ -6,7 +6,7 @@ Bundle-Version: 0.1.0
 Bundle-Vendor: PIECE_FRAMEWORK
 Bundle-Localization: plugin
 Require-Bundle: org.junit,
- com.piece_framework.yaml_editor.yamleditor,
+ com.piece_framework.yaml_editor,
  org.eclipse.jdt.core,
  org.eclipse.core.resources,
  org.eclipse.jdt.launching,
