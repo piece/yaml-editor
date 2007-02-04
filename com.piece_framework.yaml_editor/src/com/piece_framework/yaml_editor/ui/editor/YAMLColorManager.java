@@ -8,6 +8,9 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 
+import com.piece_framework.yaml_editor.plugin.IPluginCycle;
+import com.piece_framework.yaml_editor.plugin.YAMLEditorPlugin;
+
 /**
  * YAML カラーマネージャー.
  * YAML Editor で使用する Color オブジェクトを管理する。
@@ -17,13 +20,11 @@ import org.eclipse.swt.widgets.Display;
  * @since 0.1.0
  * 
  */
-public final class YAMLColorManager {
+public final class YAMLColorManager implements IPluginCycle {
     
     // カラーテーブル
     private Map< RGB, Color > fColorTable = 
                 new HashMap< RGB, Color >();
-    
-    private static YAMLColorManager fManager;
     
     /**
      * コンストラクタ.
@@ -37,10 +38,17 @@ public final class YAMLColorManager {
      * @return YAML カラーマネージャー
      */
     public static YAMLColorManager getColorManager() {
-        if (fManager == null) {
-            fManager = new YAMLColorManager();
+        YAMLEditorPlugin plugin = YAMLEditorPlugin.getDefault();
+        String className = YAMLColorManager.class.getName();
+        
+        YAMLColorManager manager =
+            (YAMLColorManager) plugin.getPluginCycleObject(className);
+        
+        if (manager == null) {
+            manager = new YAMLColorManager();
+            plugin.addPluginCycleObject(className, manager);
         }
-        return fManager;
+        return manager;
     }
     
     /**
@@ -66,6 +74,7 @@ public final class YAMLColorManager {
         while (e.hasNext()) {
             ((Color) e.next()).dispose();
         }
+        System.out.println("YAMLColorManager#dispose()");
     }
     
 }
