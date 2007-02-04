@@ -46,9 +46,9 @@ public class YAMLEditorPart extends EditorPart
     private static final int SCHEMA_COMBO_WIDTH = 200;
     private static final int SCHEMA_COMBO_HEIGHT = 50;
     
-    private YAMLEditor editor;
+    private YAMLEditor fEditor;
     
-    private Combo schemaCombo;
+    private Combo fSchemaCombo;
         
     /**
      * コンストラクタ.
@@ -57,7 +57,7 @@ public class YAMLEditorPart extends EditorPart
      */
     public YAMLEditorPart() {
         super();
-        editor = new YAMLEditor();
+        fEditor = new YAMLEditor();
         ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
         
         // TODO: デバッグ
@@ -73,10 +73,10 @@ public class YAMLEditorPart extends EditorPart
      */
     @Override
     public void doSave(IProgressMonitor monitor) {
-        editor.setYAMLSchemaFile(getSelectionYAMLSchemaFile());
+        fEditor.setYAMLSchemaFile(getSelectionYAMLSchemaFile());
         YAMLSchemaManager.setSchemaFileForYAML(
                 getYAMLFile(), getSelectionYAMLSchemaFile());
-        editor.doSave(monitor);
+        fEditor.doSave(monitor);
     }
 
     /**
@@ -87,10 +87,10 @@ public class YAMLEditorPart extends EditorPart
      */
     @Override
     public void doSaveAs() {
-        editor.setYAMLSchemaFile(getSelectionYAMLSchemaFile());
+        fEditor.setYAMLSchemaFile(getSelectionYAMLSchemaFile());
         YAMLSchemaManager.setSchemaFileForYAML(
                 getYAMLFile(), getSelectionYAMLSchemaFile());
-        editor.doSaveAs();
+        fEditor.doSaveAs();
     }
     
     /**
@@ -130,7 +130,7 @@ public class YAMLEditorPart extends EditorPart
      */
     @Override
     public boolean isDirty() {
-        return editor.isDirty();
+        return fEditor.isDirty();
     }
 
     /**
@@ -172,8 +172,8 @@ public class YAMLEditorPart extends EditorPart
                 Messages.getString("YAMLEditorPart.SchemaTitle")); //$NON-NLS-1$
             schemaGroup.setLayout(rowLayout);
             
-            schemaCombo = new Combo(schemaGroup, SWT.READ_ONLY);
-            schemaCombo.setLayoutData(new RowData(SCHEMA_COMBO_WIDTH,
+            fSchemaCombo = new Combo(schemaGroup, SWT.READ_ONLY);
+            fSchemaCombo.setLayoutData(new RowData(SCHEMA_COMBO_WIDTH,
                                                   SCHEMA_COMBO_HEIGHT));
             
             FillLayout fillLayout = new FillLayout(SWT.HORIZONTAL);
@@ -185,14 +185,14 @@ public class YAMLEditorPart extends EditorPart
                             new Composite(parentComposite, SWT.NONE);
             editorComposite.setLayout(fillLayout);
             
-            editor.init(getEditorSite(), getEditorInput());
-            editor.addPropertyListener(new IPropertyListener() {
+            fEditor.init(getEditorSite(), getEditorInput());
+            fEditor.addPropertyListener(new IPropertyListener() {
                 public void propertyChanged(Object source, int propertyId) {
                     firePropertyChange(propertyId);
                 }
             });
             
-            editor.createPartControl(editorComposite);
+            fEditor.createPartControl(editorComposite);
             
             parent.addControlListener(new ControlListener() {
 
@@ -228,7 +228,7 @@ public class YAMLEditorPart extends EditorPart
      */
     @Override
     public void setFocus() {
-        editor.setFocus();
+        fEditor.setFocus();
 
     }
 
@@ -269,7 +269,7 @@ public class YAMLEditorPart extends EditorPart
      */
     @Override
     public Object getAdapter(Class adapter) {
-        return editor.getAdapter(adapter);
+        return fEditor.getAdapter(adapter);
     }
     
     /**
@@ -295,7 +295,7 @@ public class YAMLEditorPart extends EditorPart
      */
     private IFile getYAMLFile() {
         
-        IEditorInput input = editor.getEditorInput();
+        IEditorInput input = fEditor.getEditorInput();
         IFile yamlFile = null;
         
         if (input != null) {
@@ -312,7 +312,7 @@ public class YAMLEditorPart extends EditorPart
      */
     private void setSchemaFileList() {
         
-        if (schemaCombo == null) {
+        if (fSchemaCombo == null) {
             return;
         }
         
@@ -325,19 +325,19 @@ public class YAMLEditorPart extends EditorPart
                     YAMLSchemaManager.getSchemaFileForYAML(getYAMLFile());
         
         // スキーマ選択メッセージ行の追加
-        schemaCombo.add(Messages.getString(
+        fSchemaCombo.add(Messages.getString(
                 "YAMLEditorPart.SelectSchemaMessage")); //$NON-NLS-1$
-        schemaCombo.select(0);
+        fSchemaCombo.select(0);
         
         if (schemaFiles != null) {
             for (int i = 0; i < schemaFiles.length; i++) {
-                schemaCombo.add(schemaFiles[i].getName());
+                fSchemaCombo.add(schemaFiles[i].getName());
                 
                 if (schemaFileForYAML != null) {
                     if (schemaFiles[i].getFullPath().toString().equals(
                             schemaFileForYAML.getFullPath().toString())) {
                         
-                        schemaCombo.select(i + 1);
+                        fSchemaCombo.select(i + 1);
                     }
                 }
             }
@@ -356,9 +356,9 @@ public class YAMLEditorPart extends EditorPart
         
         // 先頭はスキーマ選択メッセージ行なので、
         // 実際の YAML スキーマファイルは2行目から
-        if (schemaCombo.getSelectionIndex() > 0) {
-            String schemaFileName = schemaCombo.getItem(
-                    schemaCombo.getSelectionIndex());
+        if (fSchemaCombo.getSelectionIndex() > 0) {
+            String schemaFileName = fSchemaCombo.getItem(
+                    fSchemaCombo.getSelectionIndex());
     
             schemaFile = getYAMLProject().getFile(
                 YAMLSchemaManager.SCHEMA_FOLDER + "/"  //$NON-NLS-1$

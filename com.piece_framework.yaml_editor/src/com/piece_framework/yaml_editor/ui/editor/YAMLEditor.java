@@ -34,7 +34,7 @@ import com.piece_framework.yaml_editor.util.YAMLValidator;
 public class YAMLEditor extends TextEditor {
 
 
-    private IFile yamlSchemaFile;
+    private IFile fYamlSchemaFile;
     
     private static final String MARKER_ID = 
         "org.eclipse.core.resources.problemmarker"; //$NON-NLS-1$
@@ -112,7 +112,7 @@ public class YAMLEditor extends TextEditor {
           super.doSave(progressMonitor);
           
           // TODO: スキーマが指定されたいない場合どうするか？
-          if (yamlSchemaFile == null) {
+          if (fYamlSchemaFile == null) {
               return;
           }
           
@@ -128,7 +128,7 @@ public class YAMLEditor extends TextEditor {
 
               //バリデーション実行
               List<Map> errorList = YAMLValidator.validation(
-                               yamlSchemaFile.getContents(), 
+                               fYamlSchemaFile.getContents(), 
                                docFile.getContents());
               
               IFileEditorInput fileEdit = (IFileEditorInput) getEditorInput();
@@ -152,6 +152,6 @@ public class YAMLEditor extends TextEditor {
      * @param schemaFile YAML スキーマファイル
      */
     public void setYAMLSchemaFile(IFile schemaFile) {
-        yamlSchemaFile = schemaFile;
+        fYamlSchemaFile = schemaFile;
     }
 }

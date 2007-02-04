@@ -21,13 +21,13 @@ public class YAMLEditorPlugin extends AbstractUIPlugin {
                 "com.piece_framework.yaml_editor"; //$NON-NLS-1$
 
     // インスタンス
-    private static YAMLEditorPlugin plugin;
+    private static YAMLEditorPlugin fPlugin;
     
     /**
      * コンストラクタ.
      */
     public YAMLEditorPlugin() {
-        plugin = this;
+        fPlugin = this;
     }
     
     /**
@@ -53,7 +53,7 @@ public class YAMLEditorPlugin extends AbstractUIPlugin {
      */
     public void stop(BundleContext context) throws Exception {
         YAMLColorManager.getColorManager().dispose();
-        plugin = null;
+        fPlugin = null;
         super.stop(context);
     }
     
@@ -63,7 +63,7 @@ public class YAMLEditorPlugin extends AbstractUIPlugin {
      * @return 共有インスタンス
      */
     public static YAMLEditorPlugin getDefault() {
-        return plugin;
+        return fPlugin;
     }
     
     /**

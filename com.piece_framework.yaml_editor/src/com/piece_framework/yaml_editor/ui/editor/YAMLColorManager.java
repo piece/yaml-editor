@@ -23,7 +23,7 @@ public final class YAMLColorManager {
     private Map< RGB, Color > fColorTable = 
                 new HashMap< RGB, Color >();
     
-    private static YAMLColorManager manager;
+    private static YAMLColorManager fManager;
     
     /**
      * コンストラクタ.
@@ -37,10 +37,10 @@ public final class YAMLColorManager {
      * @return YAML カラーマネージャー
      */
     public static YAMLColorManager getColorManager() {
-        if (manager == null) {
-            manager = new YAMLColorManager();
+        if (fManager == null) {
+            fManager = new YAMLColorManager();
         }
-        return manager;
+        return fManager;
     }
     
     /**

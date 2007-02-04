@@ -26,8 +26,8 @@ public class YAMLViewer extends SourceViewer {
     // デフォルトタブサイズ
     private static final int DEFAULT_TABSIZE = 4;
     
-    private int tabSize;
-    private IDocument document;
+    private int fTabSize;
+    private IDocument fDocument;
     
     /**
      * コンストラクタ.
@@ -39,8 +39,8 @@ public class YAMLViewer extends SourceViewer {
     public YAMLViewer(Composite parent, IVerticalRuler ruler, int styles) {
         super(parent, ruler, styles);
         
-        document = null;
-        tabSize = DEFAULT_TABSIZE;
+        fDocument = null;
+        fTabSize = DEFAULT_TABSIZE;
     }
     
     /**
@@ -51,7 +51,7 @@ public class YAMLViewer extends SourceViewer {
      *          #setDocument(org.eclipse.jface.text.IDocument)
      */
     public void setDocument(IDocument doc) {
-        document = doc;
+        fDocument = doc;
     }
     
     /**
@@ -60,7 +60,7 @@ public class YAMLViewer extends SourceViewer {
      * @param size タブサイズ
      */
     public void setTabSize(int size) {
-        tabSize = size;
+        fTabSize = size;
     }
     
     /**
@@ -74,7 +74,7 @@ public class YAMLViewer extends SourceViewer {
      */
     protected void customizeDocumentCommand(DocumentCommand command) {
         String text = command.text;
-        if (text == null || document == null) {
+        if (text == null || fDocument == null) {
             return;
         }
         
@@ -103,7 +103,7 @@ public class YAMLViewer extends SourceViewer {
                     int position = 0;
                     if (i == 0) {
                         IRegion firstLine = 
-                            document.getLineInformationOfOffset(command.offset);
+                          fDocument.getLineInformationOfOffset(command.offset);
                         position = command.offset - firstLine.getOffset();
                     }
                     
@@ -140,15 +140,15 @@ public class YAMLViewer extends SourceViewer {
      */
     private int insertTabString(StringBuffer buffer, int offsetInLine) {
 
-        if (tabSize == 0) {
+        if (fTabSize == 0) {
             return 0;
         }
         
         // タブは常に指定されたタブサイズ分、間が空けられるわけではない。
         // 例えば、挿入位置が6文字目でタブサイズが4の場合、挿入される空白は、
         // 4ではなく2でなければならい。
-        int remainder = offsetInLine % tabSize;
-        remainder = tabSize - remainder;
+        int remainder = offsetInLine % fTabSize;
+        remainder = fTabSize - remainder;
         for (int i = 0; i < remainder; i++) {
             buffer.append(' ');
         }

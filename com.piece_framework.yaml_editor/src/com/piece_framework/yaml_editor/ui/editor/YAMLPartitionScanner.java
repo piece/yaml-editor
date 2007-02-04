@@ -42,7 +42,7 @@ public final class YAMLPartitionScanner extends RuleBasedPartitionScanner {
     public static final RGB[] YAML_PARTITION_COLORS = new RGB[] { 
                                         YAML_TERMINATE_COLOR };
     
-    private static YAMLPartitionScanner scanner;
+    private static YAMLPartitionScanner fScanner;
     
     /**
      * コンストラクタ.
@@ -67,9 +67,9 @@ public final class YAMLPartitionScanner extends RuleBasedPartitionScanner {
      * @return YAML パーティションスキャナー
      */
     public static YAMLPartitionScanner getScanner() {
-        if (scanner == null) {
-            scanner = new YAMLPartitionScanner();
+        if (fScanner == null) {
+            fScanner = new YAMLPartitionScanner();
         }
-        return scanner;
+        return fScanner;
     }
 }

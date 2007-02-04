@@ -23,7 +23,7 @@ import org.eclipse.swt.graphics.Color;
  * 
  */
 public class YAMLConfiguration extends SourceViewerConfiguration {
-    private YAMLDoubleClickStrategy doubleClickStrategy;
+    private YAMLDoubleClickStrategy fDoubleClickStrategy;
     
     /**
      * ルールを持たないスキャナクラス.
@@ -83,10 +83,10 @@ public class YAMLConfiguration extends SourceViewerConfiguration {
         ISourceViewer sourceViewer,
         String contentType) {
         
-        if (doubleClickStrategy == null) {
-            doubleClickStrategy = new YAMLDoubleClickStrategy();
+        if (fDoubleClickStrategy == null) {
+            fDoubleClickStrategy = new YAMLDoubleClickStrategy();
         }
-        return doubleClickStrategy;
+        return fDoubleClickStrategy;
     }
     
     /**

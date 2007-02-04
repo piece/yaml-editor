@@ -103,7 +103,7 @@ public final class YAMLCodeScanner extends RuleBasedScanner {
      */
     private static class YAMLMappingKeyRule implements IRule {
         
-        private IToken token;
+        private IToken fToken;
         
         /**
          * コンストラクタ.
@@ -111,7 +111,7 @@ public final class YAMLCodeScanner extends RuleBasedScanner {
          * @param t ルールに合致したときに適用するトークン。
          */
         public YAMLMappingKeyRule(IToken t) {
-            this.token = t;
+            this.fToken = t;
         }
         
         /**
@@ -156,7 +156,7 @@ public final class YAMLCodeScanner extends RuleBasedScanner {
                 
                 // ':'のあとがスペースか改行なら条件に合致
                 if (bc == ':') {
-                    retToken = token;
+                    retToken = fToken;
                 } else {
                     for (int i = 0; i < count; i++) {
                         scanner.unread();
@@ -194,7 +194,7 @@ public final class YAMLCodeScanner extends RuleBasedScanner {
      */
     private static class YAMLVersionRule implements IRule {
             
-        private IToken token;
+        private IToken fToken;
         private static final String VERSION = "--- %YAML"; //$NON-NLS-1$
         
         /**
@@ -203,7 +203,7 @@ public final class YAMLCodeScanner extends RuleBasedScanner {
          * @param t ルールに合致したときに適用するトークン。
          */
         public YAMLVersionRule(IToken t) {
-            this.token = t;
+            this.fToken = t;
         }
 
         /**
@@ -243,7 +243,7 @@ public final class YAMLCodeScanner extends RuleBasedScanner {
                     c = (char) scanner.read();
                 } while (Character.isDefined(c) && c != ' ' && c != '\n');
                 
-                retToken = token;
+                retToken = fToken;
                 scanner.unread();
                 
             } else {
@@ -274,7 +274,7 @@ public final class YAMLCodeScanner extends RuleBasedScanner {
     /** デフォルト色. */
     private static final RGB YAML_DEFAULT_COLOR = new RGB(0, 0, 0);
     
-    private static YAMLCodeScanner codeScanner;
+    private static YAMLCodeScanner fCodeScanner;
     
     /**
      * コンストラクタ.
@@ -338,10 +338,10 @@ public final class YAMLCodeScanner extends RuleBasedScanner {
      * @return YAML コードスキャナー.
      */
     public static YAMLCodeScanner getScanner() {
-        if (codeScanner == null) {
-            codeScanner = new YAMLCodeScanner();
+        if (fCodeScanner == null) {
+            fCodeScanner = new YAMLCodeScanner();
         }
-        return codeScanner;
+        return fCodeScanner;
     }
     
 }
