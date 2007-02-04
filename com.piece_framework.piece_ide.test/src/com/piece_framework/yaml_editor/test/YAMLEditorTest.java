@@ -1,4 +1,4 @@
-package com.piece_framework.piece_ide.test;
+package com.piece_framework.yaml_editor.test;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
