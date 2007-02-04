@@ -9,7 +9,7 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import com.piece_framework.yaml_editor.yamleditor.editors.YAMLValidator;
+import com.piece_framework.yaml_editor.util.YAMLValidator;
 
 /**
  * YAMLバリデーターーテストクラス.

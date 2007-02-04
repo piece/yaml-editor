@@ -18,6 +18,8 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 
+import com.piece_framework.yaml_editor.util.YAMLValidator;
+
 /**
  * YAML テキストエディター.
  * カラーマネージャーの生成、ドキュメント・プロバイダ、
