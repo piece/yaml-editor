@@ -17,8 +17,8 @@
          point="org.eclipse.ui.propertyPages">
       <page
             adaptable="true"
-            class="com.piece_framework.yaml_editor.yamleditor.YAMLEditorPropertyPage"
-            id="com.piece_framework.yaml_editor.yamleditorproperty"
+            class="com.piece_framework.yaml_editor.ui.preference.YAMLEditorPropertyPage"
+            id="com.piece_framework.yaml_editor.ui.preference.yamleditorproperty"
             name="YAML Editor"
             objectClass="org.eclipse.core.resources.IProject"/>
    </extension>

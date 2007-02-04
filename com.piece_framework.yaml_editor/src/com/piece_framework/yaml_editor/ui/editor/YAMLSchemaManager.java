@@ -18,7 +18,7 @@ import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
 
-import com.piece_framework.yaml_editor.yamleditor.Activator;
+import com.piece_framework.yaml_editor.plugin.Activator;
 
 /**
  * YAML スキーマファイル管理クラス.

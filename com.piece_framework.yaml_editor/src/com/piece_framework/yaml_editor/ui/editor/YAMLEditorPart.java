@@ -26,7 +26,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.EditorPart;
 
-import com.piece_framework.yaml_editor.yamleditor.editors.Messages;
+import com.piece_framework.yaml_editor.plugin.Messages;
 
 /**
  * YAML テキストエディター(スキーマ選択コンボボックス付).
