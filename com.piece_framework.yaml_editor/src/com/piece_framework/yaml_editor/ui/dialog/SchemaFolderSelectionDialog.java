@@ -1,3 +1,4 @@
+// $Id$
 package com.piece_framework.yaml_editor.ui.dialog;
 
 import org.eclipse.core.resources.IContainer;
