@@ -10,7 +10,7 @@
             default="true"
             extensions="yaml"
             icon="icons/sample.gif"
-            id="com.piece_framework.yaml_editor.yamleditor.editors.YAMLEditorPart"
+            id="com.piece_framework.yaml_editor.ui.editor.YAMLEditorPart"
             name="YAML Editor"/>
    </extension>
    <extension
