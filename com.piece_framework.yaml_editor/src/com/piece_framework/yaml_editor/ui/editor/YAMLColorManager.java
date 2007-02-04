@@ -18,6 +18,7 @@ import com.piece_framework.yaml_editor.plugin.YAMLEditorPlugin;
  * @author Hideharu Matsufuji
  * @version 0.1.0
  * @since 0.1.0
+ * @see IPluginCycle
  * 
  */
 public final class YAMLColorManager implements IPluginCycle {
