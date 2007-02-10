@@ -100,7 +100,11 @@ public class Configuration implements IConfiguration {
             
             while (ite.hasNext()) {
                 String key = ite.next();
-                projectNode.put(key, fConfigMap.get(key));
+                String value = fConfigMap.get(key);
+                
+                if (value != null) {
+                    projectNode.put(key, fConfigMap.get(key));
+                }
             }
             
             projectNode.flush();
