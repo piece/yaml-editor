@@ -7,6 +7,10 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -118,5 +122,22 @@ public class YAMLEditorPlugin extends AbstractUIPlugin {
      */
     public void removePluginCycleObject(Object key) {
         fPluginCycleObjects.remove(key);
+    }
+    
+    public void notifyPropertyChanged() {
+        
+        IWorkbenchPage page = 
+            getWorkbench().getActiveWorkbenchWindow().getActivePage();
+        IEditorReference[] editors = page.getEditorReferences();
+        
+        for (int i = 0; i < editors.length; i++) {
+            IEditorPart editor = editors[i].getEditor(true);
+            
+            if (editor != null) {
+                if (editor instanceof IYAMLEditor) {
+                    ((IYAMLEditor) editor).changeProperty();
+                }
+            }
+        }
     }
 }
