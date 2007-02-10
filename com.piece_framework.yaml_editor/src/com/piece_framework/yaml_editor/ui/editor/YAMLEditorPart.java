@@ -2,10 +2,13 @@
 package com.piece_framework.yaml_editor.ui.editor;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlEvent;
@@ -54,7 +57,15 @@ public class YAMLEditorPart extends EditorPart
     private static final int SCHEMA_COMBO_WIDTH = 200;
     private static final int SCHEMA_COMBO_HEIGHT = 50;
     
-    private YAMLEditor fEditor;
+    // スキーマフォルダー用ラベルの背景色(通常時)
+    private static final RGB SCHEMA_LABEL_NORM_COLOR = new RGB(0, 0, 255);
+    // スキーマフォルダー用ラベルの背景色(異常時)
+    private static final RGB SCHEMA_LABEL_ERR_COLOR = new RGB(255, 0, 0);
+    
+    // スキーマフォルダー用ラベル前景色
+    private static final RGB SCHEMA_LABEL_FORE_COLOR = new RGB(255, 255, 255);
+    
+    private YAMLEditor fEditor; 
     
     private Combo fSchemaCombo;
     
@@ -180,8 +191,8 @@ public class YAMLEditorPart extends EditorPart
             parentComposite.setLayout(parentLayout);
             
             RowLayout schemaLayout = new RowLayout(SWT.HORIZONTAL);
-            schemaLayout.marginRight = 0;
-            schemaLayout.marginLeft = 0;
+            schemaLayout.marginRight = 5;
+            schemaLayout.marginLeft = 5;
             schemaLayout.marginTop = 0;
             schemaLayout.marginBottom = 0;
             schemaLayout.marginHeight = 0;
@@ -197,10 +208,8 @@ public class YAMLEditorPart extends EditorPart
             fSchemaCombo.setLayoutData(new RowData(SCHEMA_COMBO_WIDTH,
                                                   SCHEMA_COMBO_HEIGHT));
             
-            fSchemaFolderLabel = new Label(schemaGroup, SWT.NONE);
-            RGB rgb = new RGB(255, 255, 255);
-            fSchemaFolderLabel.setBackground(
-                    YAMLColorManager.getColorManager().getColor(rgb));
+            fSchemaFolderLabel = new Label(schemaGroup, SWT.BORDER);
+            fSchemaFolderLabel.setLayoutData(new RowData(200, 15));
             
             FillLayout fillLayout = new FillLayout(SWT.HORIZONTAL);
             fillLayout.marginHeight = 0;
@@ -244,16 +253,8 @@ public class YAMLEditorPart extends EditorPart
             e.printStackTrace();
         }
         
-        // プロジェクト設定を取得
-        fConfig = ConfigurationFactory.getConfiguration(getYAMLProject());
-        
-        // スキーマフォルダーをセット
-        fSchemaFolderLabel.setText(
-                fConfig.get(IConfiguration.KEY_SCHEMAFOLDER));
-        
-        //スキーマファイルの一覧をコンボボックスにセット
-        setSchemaFileList();
-        
+        // スキーマ関連の初期化処理を行う
+        initYAMLSchema();
         
     }
     
@@ -310,16 +311,72 @@ public class YAMLEditorPart extends EditorPart
     
     
     public void changeProperty() {
-        //スキーマフォルダーをセット
-        fSchemaFolderLabel.setText(
-                fConfig.get(IConfiguration.KEY_SCHEMAFOLDER));
+        initYAMLSchema();
+    }
+    
+    private void initYAMLSchema() {
         
+        // プロジェクト設定を取得
+        fConfig = ConfigurationFactory.getConfiguration(getYAMLProject());
+        
+        // スキーマフォルダーを取得
+        String schemaFolderName = fConfig.get(IConfiguration.KEY_SCHEMAFOLDER);
+        
+        String text = null;
+        RGB backRGB = null;
+        if (schemaFolderName != null) {
+            text = schemaFolderName;
+            backRGB = SCHEMA_LABEL_NORM_COLOR;
+            
+        } else {
+            text = "スキーマフォルダーを選択して下さい。";
+            backRGB = SCHEMA_LABEL_ERR_COLOR;
+            
+        }
+        fSchemaFolderLabel.setText(text);
+        fSchemaFolderLabel.setForeground(
+                YAMLColorManager.getColorManager().getColor(
+                        SCHEMA_LABEL_FORE_COLOR));
+        fSchemaFolderLabel.setBackground(
+                YAMLColorManager.getColorManager().getColor(backRGB));
         fSchemaFolderLabel.redraw();
         
-        System.out.println("changeProperty!!:" + fConfig.get(IConfiguration.KEY_SCHEMAFOLDER));
+        // スキーマフォルダーの一覧をコンボボックスにセット
+        if (schemaFolderName != null) {
+            fSchemaCombo.setEnabled(true);
+            fSchemaCombo.removeAll();
+            fSchemaCombo.add(Messages.getString(
+                    "YAMLEditorPart.SelectSchemaMessage")); //$NON-NLS-1$
+            fSchemaCombo.select(0);
+            
+            try {
+                IFolder folder = getYAMLProject().getFolder(schemaFolderName);
+                IResource[] resources = folder.members();
+                for (int i = 0; i< resources.length; i++) {
+                    if (resources[i] instanceof IFile) {
+                        IFile file = (IFile) resources[i];
+                        String extension = file.getFileExtension();
+                        if (extension.equalsIgnoreCase("yaml")) { //$NON-NLS-1$
+                            String schemaFile = file.getName();
+                            fSchemaCombo.add(schemaFile);
+                        }
+                    }
+                }
+                fSchemaCombo.redraw();
+                
+            } catch (CoreException e) {
+                // TODO: 例外処理
+                e.printStackTrace();
+            }
+        
+        // スキーマフォルダーがない場合はスキーマコンボボックスを使用不可にする
+        } else {
+            fSchemaCombo.setEnabled(false);
+        }
         
     }
-
+    
+    
     /**
      * 編集中の YAML ファイルが所属するプロジェクトを返す.
      *  
