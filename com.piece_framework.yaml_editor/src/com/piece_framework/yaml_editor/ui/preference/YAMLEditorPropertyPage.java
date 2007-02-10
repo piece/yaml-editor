@@ -139,7 +139,7 @@ public class YAMLEditorPropertyPage extends PropertyPage {
         gridData = new GridData();
         gridData.widthHint = TEXT_WIDTH;
         fSchemaFolderText.setLayoutData(gridData);
-        fSchemaFolderText.setText(fConfig.get(IConfiguration.KEY_SCHEMAFOLDER));
+        
         
         Button button = new Button(composite, SWT.NONE);
         button.setText("参照(&W)...");
@@ -151,6 +151,12 @@ public class YAMLEditorPropertyPage extends PropertyPage {
                 openSchemaFolderSelectionDialog();
             }
         });
+        
+        // 現在のスキーマフォルダーをセット
+        String schemaFolderName = fConfig.get(IConfiguration.KEY_SCHEMAFOLDER);
+        if (schemaFolderName != null) {
+            fSchemaFolderText.setText(schemaFolderName);
+        }
         
         return composite;
     }
