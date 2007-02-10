@@ -18,8 +18,9 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.ui.dialogs.PropertyPage;
 
+import com.piece_framework.yaml_editor.plugin.ConfigurationFactory;
+import com.piece_framework.yaml_editor.plugin.IConfiguration;
 import com.piece_framework.yaml_editor.ui.dialog.SchemaFolderSelectionDialog;
-import com.piece_framework.yaml_editor.ui.editor.YAMLSchemaManager;
 
 /**
  * プロジェクト設定ページ.
@@ -75,16 +76,9 @@ public class YAMLEditorPropertyPage extends PropertyPage {
     private String getSchemaFolder() {
         
         IProject project = (IProject) getElement();
-        IFolder schemaFolder = YAMLSchemaManager.getSchemaFolder(project);
+        IConfiguration config = ConfigurationFactory.getConfiguration(project);
         
-        String schemaFolderName = "";
-        if (schemaFolder != null) {
-            schemaFolderName = 
-                schemaFolder.getFullPath().toString().substring(
-                    project.getName().length() + 1);
-        }
-        
-        return schemaFolderName;
+        return config.get(IConfiguration.KEY_SCHEMAFOLDER);
     }
     
     /**
@@ -103,8 +97,10 @@ public class YAMLEditorPropertyPage extends PropertyPage {
         }
         
         IProject project = (IProject) getElement();
-        IFolder schemaFolder = project.getFolder(schemaFolderName);
-        YAMLSchemaManager.setSchemaFolder(schemaFolder);
+        IConfiguration config = ConfigurationFactory.getConfiguration(project);
+        
+        config.set(IConfiguration.KEY_SCHEMAFOLDER, schemaFolderName);
+        config.store();
         
         return true;
         
@@ -169,8 +165,12 @@ public class YAMLEditorPropertyPage extends PropertyPage {
         if (dialog.open() == Window.OK) {
             IFolder schemaFolder = dialog.getSelectedSchemaFolder();
             if (schemaFolder != null) {
-                fSchemaFolderText.setText(
-                        schemaFolder.getFullPath().toString());
+                String tmp = schemaFolder.getFullPath().toString();
+                // 先頭のプロジェクト名をカット
+                int st = tmp.indexOf('/', 1);
+                String schemaFolderName = tmp.substring(st);
+                
+                fSchemaFolderText.setText(schemaFolderName);
             }
         }
         
