@@ -10,7 +10,9 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
@@ -18,6 +20,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
@@ -27,6 +30,9 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.EditorPart;
 
+import com.piece_framework.yaml_editor.plugin.ConfigurationFactory;
+import com.piece_framework.yaml_editor.plugin.IConfiguration;
+import com.piece_framework.yaml_editor.plugin.IYAMLEditor;
 import com.piece_framework.yaml_editor.plugin.Messages;
 
 /**
@@ -42,7 +48,8 @@ import com.piece_framework.yaml_editor.plugin.Messages;
  * @see org.eclipse.core.resources.IResourceChangeListener
  */
 public class YAMLEditorPart extends EditorPart 
-                                   implements IResourceChangeListener {
+                                   implements IResourceChangeListener,
+                                               IYAMLEditor {
     
     private static final int SCHEMA_COMBO_WIDTH = 200;
     private static final int SCHEMA_COMBO_HEIGHT = 50;
@@ -50,7 +57,11 @@ public class YAMLEditorPart extends EditorPart
     private YAMLEditor fEditor;
     
     private Combo fSchemaCombo;
-        
+    
+    private Label fSchemaFolderLabel;
+    
+    private IConfiguration fConfig;
+    
     /**
      * コンストラクタ.
      * YAML Editor の生成及び各初期化を行う。
@@ -157,25 +168,39 @@ public class YAMLEditorPart extends EditorPart
         
         try {
 
-            RowLayout rowLayout = new RowLayout(SWT.VERTICAL);
-            rowLayout.marginRight = 0;
-            rowLayout.marginLeft = 0;
-            rowLayout.marginTop = 0;
-            rowLayout.marginBottom = 0;
-            rowLayout.marginHeight = 0;
-            rowLayout.marginWidth = 0;
+            RowLayout parentLayout = new RowLayout(SWT.VERTICAL);
+            parentLayout.marginRight = 0;
+            parentLayout.marginLeft = 0;
+            parentLayout.marginTop = 0;
+            parentLayout.marginBottom = 0;
+            parentLayout.marginHeight = 0;
+            parentLayout.marginWidth = 0;
             
             final Composite parentComposite = new Composite(parent, SWT.NONE);
-            parentComposite.setLayout(rowLayout);
+            parentComposite.setLayout(parentLayout);
             
-            final Group schemaGroup = new Group(parentComposite, SWT.NONE);
+            RowLayout schemaLayout = new RowLayout(SWT.HORIZONTAL);
+            schemaLayout.marginRight = 0;
+            schemaLayout.marginLeft = 0;
+            schemaLayout.marginTop = 0;
+            schemaLayout.marginBottom = 0;
+            schemaLayout.marginHeight = 0;
+            schemaLayout.marginWidth = 0;
+            schemaLayout.spacing = 5;
+            
+            Group schemaGroup = new Group(parentComposite, SWT.NONE);
             schemaGroup.setText(
                 Messages.getString("YAMLEditorPart.SchemaTitle")); //$NON-NLS-1$
-            schemaGroup.setLayout(rowLayout);
+            schemaGroup.setLayout(schemaLayout);
             
             fSchemaCombo = new Combo(schemaGroup, SWT.READ_ONLY);
             fSchemaCombo.setLayoutData(new RowData(SCHEMA_COMBO_WIDTH,
                                                   SCHEMA_COMBO_HEIGHT));
+            
+            fSchemaFolderLabel = new Label(schemaGroup, SWT.NONE);
+            RGB rgb = new RGB(255, 255, 255);
+            fSchemaFolderLabel.setBackground(
+                    YAMLColorManager.getColorManager().getColor(rgb));
             
             FillLayout fillLayout = new FillLayout(SWT.HORIZONTAL);
             fillLayout.marginHeight = 0;
@@ -219,8 +244,17 @@ public class YAMLEditorPart extends EditorPart
             e.printStackTrace();
         }
         
-        // スキーマファイルの一覧をコンボボックスにセット
+        // プロジェクト設定を取得
+        fConfig = ConfigurationFactory.getConfiguration(getYAMLProject());
+        
+        // スキーマフォルダーをセット
+        fSchemaFolderLabel.setText(
+                fConfig.get(IConfiguration.KEY_SCHEMAFOLDER));
+        
+        //スキーマファイルの一覧をコンボボックスにセット
         setSchemaFileList();
+        
+        
     }
     
     /**
@@ -273,6 +307,19 @@ public class YAMLEditorPart extends EditorPart
         return fEditor.getAdapter(adapter);
     }
     
+    
+    
+    public void changeProperty() {
+        //スキーマフォルダーをセット
+        fSchemaFolderLabel.setText(
+                fConfig.get(IConfiguration.KEY_SCHEMAFOLDER));
+        
+        fSchemaFolderLabel.redraw();
+        
+        System.out.println("changeProperty!!:" + fConfig.get(IConfiguration.KEY_SCHEMAFOLDER));
+        
+    }
+
     /**
      * 編集中の YAML ファイルが所属するプロジェクトを返す.
      *  
@@ -373,4 +420,5 @@ public class YAMLEditorPart extends EditorPart
         
         return schemaFile;
     }
+    
 }
