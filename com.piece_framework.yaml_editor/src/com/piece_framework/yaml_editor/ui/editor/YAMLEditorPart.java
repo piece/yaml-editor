@@ -10,15 +10,19 @@ import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -28,6 +32,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPropertyListener;
+import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -37,6 +42,8 @@ import com.piece_framework.yaml_editor.plugin.ConfigurationFactory;
 import com.piece_framework.yaml_editor.plugin.IConfiguration;
 import com.piece_framework.yaml_editor.plugin.IYAMLEditor;
 import com.piece_framework.yaml_editor.plugin.Messages;
+import com.piece_framework.yaml_editor.plugin.YAMLEditorPlugin;
+import com.piece_framework.yaml_editor.ui.dialog.SchemaFolderSelectionDialog;
 
 /**
  * YAML テキストエディター(スキーマ選択コンボボックス付).
@@ -70,6 +77,8 @@ public class YAMLEditorPart extends EditorPart
     private Combo fSchemaCombo;
     
     private Label fSchemaFolderLabel;
+    
+    private Button fSchemaFolderButton;
     
     private IConfiguration fConfig;
     
@@ -207,6 +216,20 @@ public class YAMLEditorPart extends EditorPart
             fSchemaFolderLabel = new Label(schemaGroup, SWT.BORDER);
             fSchemaFolderLabel.setLayoutData(new RowData(200, 15));
             
+            fSchemaFolderButton = new Button(schemaGroup, SWT.NONE);
+            fSchemaFolderButton.setText("変更(&C)");
+            fSchemaFolderButton.addSelectionListener(new SelectionAdapter() {
+
+                @Override
+                public void widgetSelected(SelectionEvent e) {
+                    
+                    changeSchemaFolder();
+                    
+                    super.widgetSelected(e);
+                }
+                
+            });
+            
             FillLayout fillLayout = new FillLayout(SWT.HORIZONTAL);
             fillLayout.marginHeight = 0;
             fillLayout.marginWidth = 0;
@@ -307,7 +330,54 @@ public class YAMLEditorPart extends EditorPart
     }
     
     public void changeProperty() {
+        
+        IResource resource =
+            (IResource) getEditorInput().getAdapter(IResource.class);
+        try {
+            resource.deleteMarkers(null, true, IResource.DEPTH_ZERO);
+        } catch (CoreException e) {
+        }
+        
         initYAMLSchema();
+    }
+    
+    public void changeSchemaFolder() {
+
+        SchemaFolderSelectionDialog dialog = 
+            new SchemaFolderSelectionDialog(null, getYAMLProject());
+        
+        if (dialog.open() == Window.OK) {
+            IFolder schemaFolder = dialog.getSelectedSchemaFolder();
+            
+            if (schemaFolder != null) {
+                String tmp = schemaFolder.getFullPath().toString();
+                // 先頭のプロジェクト名をカット
+                int st = tmp.indexOf('/', 1);
+                String schemaFolderName = tmp.substring(st);
+                
+                // 現在の設定から変更があれば保存し、すべてのエディターに通知する
+                if (!schemaFolderName.equals(
+                        fConfig.get(IConfiguration.KEY_SCHEMAFOLDER))) {
+
+                    // 現在のYAML ファイル-スキーマファイル対応を削除
+                    String[] keys = fConfig.getKeys();
+                    for (int i = 0; i < keys.length; i++) {
+                        if (keys[i].startsWith(
+                                IConfiguration.KEY_PREFIX_SCHEMAFILE)) {
+                            fConfig.remove(keys[i]);
+                        }
+                    }
+                    fConfig.set(
+                            IConfiguration.KEY_SCHEMAFOLDER, schemaFolderName);
+                    fConfig.store();
+                    
+                    // 自身のスキーマ関連初期化処理もプラグインからの
+                    // 通知を利用して行う
+                    YAMLEditorPlugin.getDefault().notifyPropertyChanged();
+                }
+            }
+        }
+        
     }
     
     private void initYAMLSchema() {
@@ -401,7 +471,8 @@ public class YAMLEditorPart extends EditorPart
         
         // YAML ファイルに対応するスキーマファイルを取得
         String schemaFileForYAML = 
-                    fConfig.get(getYAMLFile());
+                    fConfig.get(
+                        IConfiguration.KEY_PREFIX_SCHEMAFILE + getYAMLFile());
         
         // スキーマフォルダーの一覧をコンボボックスにセット
         if (schemaFolderName != null) {
@@ -471,10 +542,15 @@ public class YAMLEditorPart extends EditorPart
         String schemaFolderName = fConfig.get(IConfiguration.KEY_SCHEMAFOLDER);
         String schemaFileName = getSelectionSchemaFileName();
         
-        fEditor.setSchemaFileName(schemaFolderName + "/" + schemaFileName);
+        if (schemaFileName != null) {
+            fEditor.setSchemaFileName(schemaFolderName + "/" + schemaFileName);
+        } else {
+            fEditor.setSchemaFileName(null);
+        }
         
         // YAML ファイル－スキーマファイルの対応を保存
-        fConfig.set(getYAMLFile(), schemaFileName);
+        fConfig.set(IConfiguration.KEY_PREFIX_SCHEMAFILE + getYAMLFile(), 
+                    schemaFileName);
         fConfig.store();
         
     }
