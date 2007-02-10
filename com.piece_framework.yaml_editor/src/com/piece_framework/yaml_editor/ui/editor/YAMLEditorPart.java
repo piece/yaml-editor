@@ -210,8 +210,8 @@ public class YAMLEditorPart extends EditorPart
             schemaLayout.spacing = SCHEMA_GROUP_SPACING;
             
             Group schemaGroup = new Group(parentComposite, SWT.NONE);
-            schemaGroup.setText(
-                Messages.getString("YAMLEditorPart.SchemaTitle")); //$NON-NLS-1$
+            schemaGroup.setText(Messages.getString(
+                    "YAMLEditorPart.SchemaTitle")); //$NON-NLS-1$
             schemaGroup.setLayout(schemaLayout);
             
             fSchemaCombo = new Combo(schemaGroup, SWT.READ_ONLY);
@@ -223,14 +223,13 @@ public class YAMLEditorPart extends EditorPart
                                                          SCHEMA_LABEL_HEIGHT));
             
             fSchemaFolderButton = new Button(schemaGroup, SWT.NONE);
-            fSchemaFolderButton.setText("変更(&C)");
+            fSchemaFolderButton.setText(Messages.getString(
+              "YAMLEditorPart.ChangeSchemaFolderButtonCaption")); //$NON-NLS-1$
             fSchemaFolderButton.addSelectionListener(new SelectionAdapter() {
 
-                @Override
                 public void widgetSelected(SelectionEvent e) {
                     
                     changeSchemaFolder();
-                    
                     super.widgetSelected(e);
                 }
                 
@@ -469,7 +468,8 @@ public class YAMLEditorPart extends EditorPart
             backRGB = SCHEMA_LABEL_NORM_COLOR;
             
         } else {
-            text = "スキーマフォルダーを選択して下さい。";
+            text = Messages.getString(
+                    "YAMLEditorPart.SelectSchemaFolderMessage"); //$NON-NLS-1$
             backRGB = SCHEMA_LABEL_ERR_COLOR;
             
         }
@@ -570,7 +570,8 @@ public class YAMLEditorPart extends EditorPart
         String schemaFileName = getSelectionSchemaFileName();
         
         if (schemaFileName != null) {
-            fEditor.setSchemaFileName(schemaFolderName + "/" + schemaFileName);
+            fEditor.setSchemaFileName(
+                    schemaFolderName + "/" + schemaFileName); //$NON-NLS-1$
         } else {
             fEditor.setSchemaFileName(null);
         }

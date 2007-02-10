@@ -14,10 +14,10 @@ import org.eclipse.core.resources.IProject;
 public interface IConfiguration {
     
     /** キー：スキーマフォルダー. */
-    String KEY_SCHEMAFOLDER = "SchemaFolder";
+    String KEY_SCHEMAFOLDER = "SchemaFolder"; //$NON-NLS-1$
     
     /** キー：スキーマファイル(接頭文字列). */
-    String KEY_PREFIX_SCHEMAFILE = "SchemaFile_";
+    String KEY_PREFIX_SCHEMAFILE = "SchemaFile_"; //$NON-NLS-1$
     
     /**
      * プロジェクトから設定を取得する.

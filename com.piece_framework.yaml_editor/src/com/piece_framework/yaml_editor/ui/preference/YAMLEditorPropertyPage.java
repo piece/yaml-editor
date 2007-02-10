@@ -20,6 +20,7 @@ import org.eclipse.ui.dialogs.PropertyPage;
 
 import com.piece_framework.yaml_editor.plugin.ConfigurationFactory;
 import com.piece_framework.yaml_editor.plugin.IConfiguration;
+import com.piece_framework.yaml_editor.plugin.Messages;
 import com.piece_framework.yaml_editor.plugin.YAMLEditorPlugin;
 import com.piece_framework.yaml_editor.ui.dialog.SchemaFolderSelectionDialog;
 
@@ -79,10 +80,14 @@ public class YAMLEditorPropertyPage extends PropertyPage {
     private boolean saveYAMLEditorProperty() {
         String schemaFolderName = fSchemaFolderText.getText();
         
-        if (schemaFolderName == null || schemaFolderName.equals("")) {
+        if (schemaFolderName == null 
+            || schemaFolderName.equals("")) { //$NON-NLS-1$
+            
             MessageDialog.openError(getShell(), 
-                        "スキーマフォルダー選択", 
-                        "スキーマフォルダーを選択して下さい。");
+             Messages.getString("YAMLEditorPropertyPage.Title"),  //$NON-NLS-1$
+             Messages.getString(
+              "YAMLEditorPropertyPage.SelectSchemaFolderMessage"  //$NON-NLS-1$
+            )); 
             return false;
         }
         
@@ -91,8 +96,11 @@ public class YAMLEditorPropertyPage extends PropertyPage {
         IFolder folder = project.getFolder(schemaFolderName);
         if (!folder.exists()) {
             MessageDialog.openError(getShell(), 
-                    "スキーマフォルダー選択", 
-                    schemaFolderName + "は存在しません。");
+                Messages.getString(
+                        "YAMLEditorPropertyPage.Title"),  //$NON-NLS-1$
+                schemaFolderName 
+                + Messages.getString(
+                   "YAMLEditorPropertyPage.NoExistSchemaFolder")); //$NON-NLS-1$
             return false;
         }
         
@@ -135,10 +143,11 @@ public class YAMLEditorPropertyPage extends PropertyPage {
         composite.setSize(new Point(BASE_WIDTH, BASE_HEIGHT));
         
         Label label = new Label(composite, SWT.NONE);
-        label.setText("スキーマフォルダー(&S):");
+        label.setText(Messages.getString(
+            "YAMLEditorPropertyPage.SchemaFolderLabelCaption")); //$NON-NLS-1$
         
         Label dummy = new Label(composite, SWT.NONE);
-        dummy.setText("");
+        dummy.setText(""); //$NON-NLS-1$
         
         GridData gridData = null;
         
@@ -149,7 +158,8 @@ public class YAMLEditorPropertyPage extends PropertyPage {
         
         
         Button button = new Button(composite, SWT.NONE);
-        button.setText("参照(&W)...");
+        button.setText(Messages.getString(
+                "YAMLEditorPropertyPage.ReferenceButtonCaption")); //$NON-NLS-1$
         gridData = new GridData();
         gridData.widthHint = BUTTON_WIDTH;
         button.setLayoutData(gridData);

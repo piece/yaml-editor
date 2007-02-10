@@ -25,6 +25,8 @@ import org.eclipse.ui.model.WorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.eclipse.ui.views.navigator.ResourceSorter;
 
+import com.piece_framework.yaml_editor.plugin.Messages;
+
 /**
  * スキーマフォルダー選択ダイアログ.
  * プロジェクト内のフォルダからスキーマフォルダーを選択する。<br>
@@ -56,8 +58,10 @@ public class SchemaFolderSelectionDialog extends ElementTreeSelectionDialog
                new WorkbenchLabelProvider(), 
                new WorkbenchContentProvider());
         
-        setTitle("スキーマフォルダーの選択");
-        setMessage("スキーマフォルダーを選択してください(&C):");
+        setTitle(Messages.getString(
+                "SchemaFolderSelectionDialog.Title")); //$NON-NLS-1$
+        setMessage(Messages.getString(
+                "SchemaFolderSelectionDialog.Message")); //$NON-NLS-1$
         setAllowMultiple(false);
         
         // ルートから表示し、自プロジェクト以外を表示しないようにする
@@ -95,7 +99,8 @@ public class SchemaFolderSelectionDialog extends ElementTreeSelectionDialog
         getTreeViewer().addSelectionChangedListener(this);
         
         fNewFolderButton = new Button(composite, SWT.PUSH);
-        fNewFolderButton.setText("新規フォルダーの作成(&N)..."); 
+        fNewFolderButton.setText(Messages.getString(
+          "SchemaFolderSelectionDialog.NewFolderButtonCaption"));  //$NON-NLS-1$
         fNewFolderButton.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent event) {
                 newFolderButtonPressed();
