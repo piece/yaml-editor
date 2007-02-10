@@ -30,8 +30,7 @@ import com.piece_framework.yaml_editor.util.YAMLValidator;
  */
 public class YAMLEditor extends TextEditor {
 
-
-    private IFile fYamlSchemaFile;
+    private String fSchemaFileName;
     
     private static final String MARKER_ID = 
         "org.eclipse.core.resources.problemmarker"; //$NON-NLS-1$
@@ -92,14 +91,16 @@ public class YAMLEditor extends TextEditor {
           super.doSave(progressMonitor);
           
           // TODO: スキーマが指定されたいない場合どうするか？
-          if (fYamlSchemaFile == null) {
+          if (fSchemaFileName == null) {
               return;
           }
           
           try {
 
               //編集中のファイルを取得
-              IFile  docFile = ((IFileEditorInput) getEditorInput()).getFile();
+              IFile yamlFile = ((IFileEditorInput) getEditorInput()).getFile();
+              IFile schemaFile = yamlFile.getProject().getFile(
+                                      fSchemaFileName); 
               
               //マーカー初期化
               IResource resource =
@@ -108,8 +109,8 @@ public class YAMLEditor extends TextEditor {
 
               //バリデーション実行
               List<Map> errorList = YAMLValidator.validation(
-                               fYamlSchemaFile.getContents(), 
-                               docFile.getContents());
+                               schemaFile.getContents(), 
+                               yamlFile.getContents());
               
               IFileEditorInput fileEdit = (IFileEditorInput) getEditorInput();
               //エラーをマーカーへセット
@@ -129,9 +130,9 @@ public class YAMLEditor extends TextEditor {
     /**
      * YAML スキーマファイルをセットする.
      * 
-     * @param schemaFile YAML スキーマファイル
+     * @param schemaFileName YAML スキーマファイル
      */
-    public void setYAMLSchemaFile(IFile schemaFile) {
-        fYamlSchemaFile = schemaFile;
+    public void setSchemaFileName(String schemaFileName) {
+        fSchemaFileName = schemaFileName;
     }
 }

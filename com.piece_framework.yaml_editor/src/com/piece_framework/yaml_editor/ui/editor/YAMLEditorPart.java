@@ -96,9 +96,11 @@ public class YAMLEditorPart extends EditorPart
      */
     @Override
     public void doSave(IProgressMonitor monitor) {
-        fEditor.setYAMLSchemaFile(getSelectionYAMLSchemaFile());
-        YAMLSchemaManager.setSchemaFileForYAML(
-                getYAMLFile(), getSelectionYAMLSchemaFile());
+        fEditor.setSchemaFileName(getSelectionYAMLSchemaFile());
+        // TODO:YAML ファイル－スキーマファイルの対応を保存
+        //fConfig.set(getYAMLFile(), get)
+        //YAMLSchemaManager.setSchemaFileForYAML(
+        //        getYAMLFile(), getSelectionYAMLSchemaFile());
         fEditor.doSave(monitor);
     }
 
@@ -110,9 +112,13 @@ public class YAMLEditorPart extends EditorPart
      */
     @Override
     public void doSaveAs() {
-        fEditor.setYAMLSchemaFile(getSelectionYAMLSchemaFile());
-        YAMLSchemaManager.setSchemaFileForYAML(
-                getYAMLFile(), getSelectionYAMLSchemaFile());
+        fEditor.setSchemaFileName(getSelectionYAMLSchemaFile());
+        
+        // TODO:YAML ファイル－スキーマファイルの対応を保存
+        //fConfig.set(getYAMLFile(), get)
+        
+        //YAMLSchemaManager.setSchemaFileForYAML(
+        //        getYAMLFile(), getSelectionYAMLSchemaFile());
         fEditor.doSaveAs();
     }
     
@@ -279,7 +285,9 @@ public class YAMLEditorPart extends EditorPart
             
             Display.getDefault().asyncExec(new Runnable() {
                 public void run() {
-                    IFile yamlFile = getYAMLFile();
+                    String yamlFileName = getYAMLFile();
+                    IFile yamlFile = getYAMLProject().getFile(yamlFileName);
+                    
                     if (yamlFile != null) {
                         if (!yamlFile.exists()) {
                             IWorkbenchPage page = 
@@ -308,8 +316,6 @@ public class YAMLEditorPart extends EditorPart
         return fEditor.getAdapter(adapter);
     }
     
-    
-    
     public void changeProperty() {
         initYAMLSchema();
     }
@@ -317,8 +323,59 @@ public class YAMLEditorPart extends EditorPart
     private void initYAMLSchema() {
         
         // プロジェクト設定を取得
-        fConfig = ConfigurationFactory.getConfiguration(getYAMLProject());
+        if (fConfig == null) {
+            fConfig = ConfigurationFactory.getConfiguration(getYAMLProject());
+        }
         
+        // スキーマフォルダーをラベルにセット
+        setSchemaFolder();
+        
+        // スキーマファイルの一覧をコンボボックスにセット
+        setSchemaFileList();
+    }
+    
+    
+    /**
+     * 編集中の YAML ファイルが所属するプロジェクトを返す.
+     *  
+     * @return プロジェクト
+     */
+    private IProject getYAMLProject() {
+        IProject project = null;
+        
+        if (getEditorInput() != null) {
+            IFile yamlFile = ((IFileEditorInput) getEditorInput()).getFile();
+            project = yamlFile.getProject();
+        }
+        
+        return project;
+    }
+    
+    /**
+     * 編集中の YAML ファイルを返す.
+     * 先頭のプロジェクト名はカットする。
+     * 
+     * @return YAML ファイル
+     */
+    private String getYAMLFile() {
+        
+        IEditorInput input = fEditor.getEditorInput();
+        String yamlFileName = null;
+        
+        if (input != null) {
+            IFile yamlFile = ((IFileEditorInput) input).getFile();
+            String tmp = yamlFile.getFullPath().toString();
+            
+            int st = tmp.indexOf('/', 1);
+            yamlFileName = tmp.substring(st);
+        }
+        
+        return yamlFileName;
+    }
+
+    
+    private void setSchemaFolder() {
+
         // スキーマフォルダーを取得
         String schemaFolderName = fConfig.get(IConfiguration.KEY_SCHEMAFOLDER);
         
@@ -341,6 +398,21 @@ public class YAMLEditorPart extends EditorPart
                 YAMLColorManager.getColorManager().getColor(backRGB));
         fSchemaFolderLabel.redraw();
         
+    }
+    
+    /**
+     * YAML スキーマファイル一覧を取得して、コンボボックスにセットする.
+     *
+     */
+    private void setSchemaFileList() {
+
+        // スキーマフォルダーを取得
+        String schemaFolderName = fConfig.get(IConfiguration.KEY_SCHEMAFOLDER);
+        
+        // YAML ファイルに対応するスキーマファイルを取得
+        String schemaFileForYAML = 
+                    fConfig.get(getYAMLFile());
+        
         // スキーマフォルダーの一覧をコンボボックスにセット
         if (schemaFolderName != null) {
             fSchemaCombo.setEnabled(true);
@@ -354,11 +426,22 @@ public class YAMLEditorPart extends EditorPart
                 IResource[] resources = folder.members();
                 for (int i = 0; i< resources.length; i++) {
                     if (resources[i] instanceof IFile) {
+                        
                         IFile file = (IFile) resources[i];
                         String extension = file.getFileExtension();
+                        
                         if (extension.equalsIgnoreCase("yaml")) { //$NON-NLS-1$
-                            String schemaFile = file.getName();
-                            fSchemaCombo.add(schemaFile);
+                            String schemaFileName = file.getName();
+                            fSchemaCombo.add(schemaFileName);
+                            
+                            // YAML ファイルに対応したスキーマファイルであれば、
+                            // 選択状態にする
+                            if (schemaFileForYAML != null) {
+                                if (file.getFullPath().toString().equals(
+                                        schemaFileForYAML)) {
+                                    fSchemaCombo.select(i + 1);
+                                }
+                            }
                         }
                     }
                 }
@@ -376,106 +459,22 @@ public class YAMLEditorPart extends EditorPart
         
     }
     
-    
-    /**
-     * 編集中の YAML ファイルが所属するプロジェクトを返す.
-     *  
-     * @return プロジェクト
-     */
-    private IProject getYAMLProject() {
-        IProject project = null;
-        
-        if (getEditorInput() != null) {
-            IFile yamlFile = ((IFileEditorInput) getEditorInput()).getFile();
-            project = yamlFile.getProject();
-        }
-        
-        return project;
-    }
-    
-    /**
-     * 編集中の YAML ファイルを返す.
-     * 
-     * @return YAML ファイル
-     */
-    private IFile getYAMLFile() {
-        
-        IEditorInput input = fEditor.getEditorInput();
-        IFile yamlFile = null;
-        
-        if (input != null) {
-            yamlFile = ((IFileEditorInput) input).getFile();
-        }
-        
-        return yamlFile;
-    }
-
-
-    /**
-     * YAML スキーマファイル一覧を取得して、コンボボックスにセットする.
-     *
-     */
-    private void setSchemaFileList() {
-        
-        if (fSchemaCombo == null) {
-            return;
-        }
-        
-        // スキーマファイルの取得
-        IFile[] schemaFiles = 
-                    YAMLSchemaManager.getSchemaFiles(getYAMLProject());
-        
-        // YAML ファイルに対応するスキーマファイルを取得
-        IFile schemaFileForYAML = 
-                    YAMLSchemaManager.getSchemaFileForYAML(getYAMLFile());
-        
-        // スキーマ選択メッセージ行の追加
-        fSchemaCombo.add(Messages.getString(
-                "YAMLEditorPart.SelectSchemaMessage")); //$NON-NLS-1$
-        fSchemaCombo.select(0);
-        
-        if (schemaFiles != null) {
-            for (int i = 0; i < schemaFiles.length; i++) {
-                fSchemaCombo.add(schemaFiles[i].getName());
-                
-                if (schemaFileForYAML != null) {
-                    if (schemaFiles[i].getFullPath().toString().equals(
-                            schemaFileForYAML.getFullPath().toString())) {
-                        
-                        fSchemaCombo.select(i + 1);
-                    }
-                }
-            }
-        }
-        
-    }
-    
     /**
      * コンボボックスで選択された YAML スキーマファイルを返す.
      * 
      * @return YAML スキーマファイル
      */
-    private IFile getSelectionYAMLSchemaFile() {
-        
-        IFile schemaFile = null;
+    private String getSelectionYAMLSchemaFile() {
+        String schemaFileName = null;
         
         // 先頭はスキーマ選択メッセージ行なので、
         // 実際の YAML スキーマファイルは2行目から
         if (fSchemaCombo.getSelectionIndex() > 0) {
-            String schemaFileName = fSchemaCombo.getItem(
+            schemaFileName = fSchemaCombo.getItem(
                     fSchemaCombo.getSelectionIndex());
-    
-            schemaFile = getYAMLProject().getFile(
-                YAMLSchemaManager.SCHEMA_FOLDER + "/"  //$NON-NLS-1$
-                + schemaFileName);
-            
-            if (!schemaFile.exists()) {
-                schemaFile = null;
-            }
-            
         }
         
-        return schemaFile;
+        return schemaFileName;
     }
     
 }
