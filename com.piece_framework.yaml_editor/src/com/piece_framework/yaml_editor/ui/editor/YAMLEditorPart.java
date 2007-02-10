@@ -16,7 +16,6 @@ import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.FillLayout;
@@ -32,7 +31,6 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPropertyListener;
-import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -63,6 +61,13 @@ public class YAMLEditorPart extends EditorPart
     
     private static final int SCHEMA_COMBO_WIDTH = 200;
     private static final int SCHEMA_COMBO_HEIGHT = 50;
+    
+    private static final int SCHEMA_LABEL_WIDTH = 200;
+    private static final int SCHEMA_LABEL_HEIGHT = 15;
+    
+    private static final int SCHEMA_GROUP_LEFT = 5;
+    private static final int SCHEMA_GROUP_RIGHT = 5;
+    private static final int SCHEMA_GROUP_SPACING = 5;
     
     // スキーマフォルダー用ラベルの背景色(通常時)
     private static final RGB SCHEMA_LABEL_NORM_COLOR = new RGB(0, 0, 255);
@@ -196,13 +201,13 @@ public class YAMLEditorPart extends EditorPart
             parentComposite.setLayout(parentLayout);
             
             RowLayout schemaLayout = new RowLayout(SWT.HORIZONTAL);
-            schemaLayout.marginRight = 5;
-            schemaLayout.marginLeft = 5;
+            schemaLayout.marginRight = SCHEMA_GROUP_RIGHT;
+            schemaLayout.marginLeft = SCHEMA_GROUP_LEFT;
             schemaLayout.marginTop = 0;
             schemaLayout.marginBottom = 0;
             schemaLayout.marginHeight = 0;
             schemaLayout.marginWidth = 0;
-            schemaLayout.spacing = 5;
+            schemaLayout.spacing = SCHEMA_GROUP_SPACING;
             
             Group schemaGroup = new Group(parentComposite, SWT.NONE);
             schemaGroup.setText(
@@ -214,7 +219,8 @@ public class YAMLEditorPart extends EditorPart
                                                   SCHEMA_COMBO_HEIGHT));
             
             fSchemaFolderLabel = new Label(schemaGroup, SWT.BORDER);
-            fSchemaFolderLabel.setLayoutData(new RowData(200, 15));
+            fSchemaFolderLabel.setLayoutData(new RowData(SCHEMA_LABEL_WIDTH, 
+                                                         SCHEMA_LABEL_HEIGHT));
             
             fSchemaFolderButton = new Button(schemaGroup, SWT.NONE);
             fSchemaFolderButton.setText("変更(&C)");
@@ -329,6 +335,11 @@ public class YAMLEditorPart extends EditorPart
         return fEditor.getAdapter(adapter);
     }
     
+    /**
+     * プラグインからの設定の変更通知を受け取る.
+     * 
+     * @see com.piece_framework.yaml_editor.plugin.IYAMLEditor#changeProperty()
+     */
     public void changeProperty() {
         
         IResource resource =
@@ -341,6 +352,10 @@ public class YAMLEditorPart extends EditorPart
         initYAMLSchema();
     }
     
+    /**
+     * スキーマフォルダーを変更する.
+     * 
+     */
     public void changeSchemaFolder() {
 
         SchemaFolderSelectionDialog dialog = 
@@ -380,6 +395,10 @@ public class YAMLEditorPart extends EditorPart
         
     }
     
+    /**
+     * スキーマ関連の初期化処理を行う.
+     * 
+     */
     private void initYAMLSchema() {
         
         // プロジェクト設定を取得
@@ -434,6 +453,10 @@ public class YAMLEditorPart extends EditorPart
     }
 
     
+    /**
+     * スキーマフォルダーのパスをラベルに設定する.
+     * 
+     */
     private void setSchemaFolder() {
 
         // スキーマフォルダーを取得
@@ -537,6 +560,10 @@ public class YAMLEditorPart extends EditorPart
         return schemaFileName;
     }
     
+    /**
+     * YAML ファイル－スキーマファイルの対応を保存する.
+     * 
+     */
     private void saveYAMLFile() {
         
         String schemaFolderName = fConfig.get(IConfiguration.KEY_SCHEMAFOLDER);
