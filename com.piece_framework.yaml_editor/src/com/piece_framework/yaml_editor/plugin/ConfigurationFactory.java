@@ -17,7 +17,7 @@ import org.eclipse.core.resources.IProject;
  */
 public final class ConfigurationFactory {
     
-    private static Map<IProject, IConfiguration> fConfigMap;
+    private static Map<String, IConfiguration> fConfigMap;
     
     /**
      * コンストラクタ.
@@ -34,14 +34,15 @@ public final class ConfigurationFactory {
      */
     public static IConfiguration getConfiguration(IProject project) {
         if (fConfigMap == null) {
-            fConfigMap = new HashMap<IProject, IConfiguration>();
+            fConfigMap = new HashMap<String, IConfiguration>();
         }
         
-        IConfiguration config = fConfigMap.get(project);
+        IConfiguration config = fConfigMap.get(project.getName());
         if (config == null) {
             config = new Configuration();
             config.init(project);
         }
+        fConfigMap.put(project.getName(), config);
         
         return config;
     }
