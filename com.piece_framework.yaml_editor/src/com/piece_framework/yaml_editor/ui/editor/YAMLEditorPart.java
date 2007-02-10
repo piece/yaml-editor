@@ -96,11 +96,7 @@ public class YAMLEditorPart extends EditorPart
      */
     @Override
     public void doSave(IProgressMonitor monitor) {
-        fEditor.setSchemaFileName(getSelectionYAMLSchemaFile());
-        // TODO:YAML ファイル－スキーマファイルの対応を保存
-        //fConfig.set(getYAMLFile(), get)
-        //YAMLSchemaManager.setSchemaFileForYAML(
-        //        getYAMLFile(), getSelectionYAMLSchemaFile());
+        saveYAMLFile();
         fEditor.doSave(monitor);
     }
 
@@ -112,13 +108,7 @@ public class YAMLEditorPart extends EditorPart
      */
     @Override
     public void doSaveAs() {
-        fEditor.setSchemaFileName(getSelectionYAMLSchemaFile());
-        
-        // TODO:YAML ファイル－スキーマファイルの対応を保存
-        //fConfig.set(getYAMLFile(), get)
-        
-        //YAMLSchemaManager.setSchemaFileForYAML(
-        //        getYAMLFile(), getSelectionYAMLSchemaFile());
+        saveYAMLFile();
         fEditor.doSaveAs();
     }
     
@@ -437,8 +427,7 @@ public class YAMLEditorPart extends EditorPart
                             // YAML ファイルに対応したスキーマファイルであれば、
                             // 選択状態にする
                             if (schemaFileForYAML != null) {
-                                if (file.getFullPath().toString().equals(
-                                        schemaFileForYAML)) {
+                                if (schemaFileName.equals(schemaFileForYAML)) {
                                     fSchemaCombo.select(i + 1);
                                 }
                             }
@@ -464,7 +453,7 @@ public class YAMLEditorPart extends EditorPart
      * 
      * @return YAML スキーマファイル
      */
-    private String getSelectionYAMLSchemaFile() {
+    private String getSelectionSchemaFileName() {
         String schemaFileName = null;
         
         // 先頭はスキーマ選択メッセージ行なので、
@@ -475,6 +464,19 @@ public class YAMLEditorPart extends EditorPart
         }
         
         return schemaFileName;
+    }
+    
+    private void saveYAMLFile() {
+        
+        String schemaFolderName = fConfig.get(IConfiguration.KEY_SCHEMAFOLDER);
+        String schemaFileName = getSelectionSchemaFileName();
+        
+        fEditor.setSchemaFileName(schemaFolderName + "/" + schemaFileName);
+        
+        // YAML ファイル－スキーマファイルの対応を保存
+        fConfig.set(getYAMLFile(), schemaFileName);
+        fConfig.store();
+        
     }
     
 }
