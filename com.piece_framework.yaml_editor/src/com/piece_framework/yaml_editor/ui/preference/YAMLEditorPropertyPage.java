@@ -20,6 +20,7 @@ import org.eclipse.ui.dialogs.PropertyPage;
 
 import com.piece_framework.yaml_editor.plugin.ConfigurationFactory;
 import com.piece_framework.yaml_editor.plugin.IConfiguration;
+import com.piece_framework.yaml_editor.plugin.YAMLEditorPlugin;
 import com.piece_framework.yaml_editor.ui.dialog.SchemaFolderSelectionDialog;
 
 /**
@@ -39,6 +40,8 @@ public class YAMLEditorPropertyPage extends PropertyPage {
     private static final int BUTTON_WIDTH = 100;
     
     private Text fSchemaFolderText;
+    
+    private IConfiguration fConfig;
     
     /**
      * OKクリック時処理.
@@ -67,19 +70,6 @@ public class YAMLEditorPropertyPage extends PropertyPage {
         
         super.performApply();
     }
-
-    /**
-     * スキーマフォルダーのパス名を取得する.
-     * 
-     * @return スキーマフォルダーパス
-     */
-    private String getSchemaFolder() {
-        
-        IProject project = (IProject) getElement();
-        IConfiguration config = ConfigurationFactory.getConfiguration(project);
-        
-        return config.get(IConfiguration.KEY_SCHEMAFOLDER);
-    }
     
     /**
      * スキーマフォルダーのパス名を保存する.
@@ -96,11 +86,25 @@ public class YAMLEditorPropertyPage extends PropertyPage {
             return false;
         }
         
+        // スキーマフォルダーの存在チェック
         IProject project = (IProject) getElement();
-        IConfiguration config = ConfigurationFactory.getConfiguration(project);
+        IFolder folder = project.getFolder(schemaFolderName);
+        if (!folder.exists()) {
+            MessageDialog.openError(getShell(), 
+                    "スキーマフォルダー選択", 
+                    schemaFolderName + "は存在しません。");
+            return false;
+        }
         
-        config.set(IConfiguration.KEY_SCHEMAFOLDER, schemaFolderName);
-        config.store();
+        // 現在の設定と変更があれば保存し、すべてのエディターに通知する
+        if (schemaFolderName.equals(
+                fConfig.get(IConfiguration.KEY_SCHEMAFOLDER))) {
+            
+            fConfig.set(IConfiguration.KEY_SCHEMAFOLDER, schemaFolderName);
+            fConfig.store();
+            
+            YAMLEditorPlugin.getDefault().notifyPropertyChanged();
+        }
         
         return true;
         
@@ -135,7 +139,7 @@ public class YAMLEditorPropertyPage extends PropertyPage {
         gridData = new GridData();
         gridData.widthHint = TEXT_WIDTH;
         fSchemaFolderText.setLayoutData(gridData);
-        fSchemaFolderText.setText(getSchemaFolder());
+        fSchemaFolderText.setText(fConfig.get(IConfiguration.KEY_SCHEMAFOLDER));
         
         Button button = new Button(composite, SWT.NONE);
         button.setText("参照(&W)...");
@@ -174,6 +178,23 @@ public class YAMLEditorPropertyPage extends PropertyPage {
             }
         }
         
+    }
+
+    
+    /**
+     * ダイアログを初期化する.
+     * 
+     * @param testControl テストコントロール
+     * @see org.eclipse.jface.dialogs.DialogPage
+     *          #initializeDialogUnits(org.eclipse.swt.widgets.Control)
+     */
+    @Override
+    protected void initializeDialogUnits(Control testControl) {
+        
+        IProject project = (IProject) getElement();
+        fConfig = ConfigurationFactory.getConfiguration(project);
+        
+        super.initializeDialogUnits(testControl);
     }
 
 }
