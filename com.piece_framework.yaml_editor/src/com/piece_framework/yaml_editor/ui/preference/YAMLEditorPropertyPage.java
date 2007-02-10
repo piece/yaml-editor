@@ -51,7 +51,7 @@ public class YAMLEditorPropertyPage extends PropertyPage {
     @Override
     public boolean performOk() {
         
-        if (!saveSchemaFolder()) {
+        if (!saveYAMLEditorProperty()) {
             return false;
         }
         
@@ -66,17 +66,17 @@ public class YAMLEditorPropertyPage extends PropertyPage {
     @Override
     protected void performApply() {
         
-        saveSchemaFolder();
+        saveYAMLEditorProperty();
         
         super.performApply();
     }
     
     /**
-     * スキーマフォルダーのパス名を保存する.
+     * YAML Editor の設定を保存する.
      * 
      * @return 処理結果
      */
-    private boolean saveSchemaFolder() {
+    private boolean saveYAMLEditorProperty() {
         String schemaFolderName = fSchemaFolderText.getText();
         
         if (schemaFolderName == null || schemaFolderName.equals("")) {
@@ -100,6 +100,13 @@ public class YAMLEditorPropertyPage extends PropertyPage {
         if (!schemaFolderName.equals(
                 fConfig.get(IConfiguration.KEY_SCHEMAFOLDER))) {
             
+            // 現在のYAML ファイル-スキーマファイル対応を削除
+            String[] keys = fConfig.getKeys();
+            for (int i = 0; i < keys.length; i++) {
+                if (keys[i].startsWith(IConfiguration.KEY_PREFIX_SCHEMAFILE)) {
+                    fConfig.remove(keys[i]);
+                }
+            }
             fConfig.set(IConfiguration.KEY_SCHEMAFOLDER, schemaFolderName);
             fConfig.store();
             
