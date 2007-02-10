@@ -97,7 +97,7 @@ public class YAMLEditorPropertyPage extends PropertyPage {
         }
         
         // 現在の設定と変更があれば保存し、すべてのエディターに通知する
-        if (schemaFolderName.equals(
+        if (!schemaFolderName.equals(
                 fConfig.get(IConfiguration.KEY_SCHEMAFOLDER))) {
             
             fConfig.set(IConfiguration.KEY_SCHEMAFOLDER, schemaFolderName);
