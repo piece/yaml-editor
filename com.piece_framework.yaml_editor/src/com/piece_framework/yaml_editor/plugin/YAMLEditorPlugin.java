@@ -10,7 +10,6 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -124,6 +123,10 @@ public class YAMLEditorPlugin extends AbstractUIPlugin {
         fPluginCycleObjects.remove(key);
     }
     
+    /**
+     * 設定の変更をすべてのエディターに通知する.
+     *
+     */
     public void notifyPropertyChanged() {
         
         IWorkbenchPage page = 
