@@ -16,6 +16,9 @@ public interface IConfiguration {
     /** キー：スキーマフォルダー. */
     String KEY_SCHEMAFOLDER = "SchemaFolder";
     
+    /** キー：スキーマファイル(接頭文字列). */
+    String KEY_PREFIX_SCHEMAFILE = "SchemaFile_";
+    
     /**
      * プロジェクトから設定を取得する.
      * 
@@ -38,6 +41,20 @@ public interface IConfiguration {
      * @param value 値
      */
     void set(String key, String value);
+    
+    /**
+     * すべてのキーを取得する.
+     * 
+     * @return キーの文字列配列
+     */
+    String[] getKeys();
+    
+    /**
+     * 指定されたキーの値を削除する.
+     * 
+     * @param key キー
+     */
+    void remove(String key);
     
     /**
      * 設定した値を保存する.

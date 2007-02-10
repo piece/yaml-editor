@@ -61,6 +61,27 @@ public class Configuration implements IConfiguration {
     }
     
     /**
+     * すべてのキーを取得する.
+     * 
+     * @return キーの文字列配列
+     */
+    public String[] getKeys() {
+        Set<String> keySet = fConfigMap.keySet();
+        String[] keys = keySet.toArray(new String[0]);
+        
+        return keys;
+    }
+    
+    /**
+     * 指定されたキーの値を削除する.
+     * 
+     * @param key キー
+     */
+    public void remove(String key) {
+        fConfigMap.remove(key);
+    }
+    
+    /**
      * 設定した値を保存する.
      *
      */
@@ -71,15 +92,17 @@ public class Configuration implements IConfiguration {
         Preferences projectNode = projectScope.getNode(
                                     YAMLEditorPlugin.PLUGIN_ID);
         
-        Set<String> set = fConfigMap.keySet();
-        Iterator<String> ite = set.iterator();
-        
-        while (ite.hasNext()) {
-            String key = ite.next();
-            projectNode.put(key, fConfigMap.get(key));
-        }
-        
         try {
+            projectNode.clear();
+            
+            Set<String> set = fConfigMap.keySet();
+            Iterator<String> ite = set.iterator();
+            
+            while (ite.hasNext()) {
+                String key = ite.next();
+                projectNode.put(key, fConfigMap.get(key));
+            }
+            
             projectNode.flush();
         } catch (BackingStoreException e) {
             // TODO: 例外処理
