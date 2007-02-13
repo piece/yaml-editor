@@ -10,16 +10,23 @@ import java.util.ArrayList;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.preferences.IScopeContext;
+import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.swt.widgets.Display;
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
 
+import com.piece_framework.yaml_editor.plugin.Messages;
 import com.piece_framework.yaml_editor.plugin.YAMLEditorPlugin;
+import com.piece_framework.yaml_editor.ui.dialog.YAMLErrorDialog;
 
 /**
  * YAML スキーマファイル管理クラス.
@@ -35,6 +42,8 @@ public final class YAMLSchemaManager {
     /** YAML スキーマフォルダ名. */
     public static final String SCHEMA_FOLDER = ".yaml_schemas"; //$NON-NLS-1$
     
+    private int fErrorNum = 1;
+
     /**
      * コンストラクタ.
      */
@@ -71,11 +80,17 @@ public final class YAMLSchemaManager {
                                    projectFolder, pluginFolder, pluginFiles[j]);
                 }
             } catch (IOException e1) {
-                // TODO 例外処理
-                e1.printStackTrace();
-            } catch (CoreException e) {
-                // TODO 例外処理
-                e.printStackTrace();
+                //エラーダイアログ表示
+                YAMLErrorDialog.showDialog(
+                      new Status(IStatus.ERROR,
+                                  YAMLEditorPlugin.PLUGIN_ID,
+                                  YAMLErrorDialog.ERROR_NUM_IO,
+                                  Messages.getString(
+                                   "ErrorMessageDialog.MessageException"), e1));
+
+            } catch (CoreException e2) {
+                //エラーダイアログ表示
+                YAMLErrorDialog.showDialog(e2.getStatus());
             }
         }
         
