@@ -1,11 +1,13 @@
-// $Id: SchemaFolderSelectionDialog.java 108 2007-02-10 17:43:29Z matsufuji $
+// $Id$
 package com.piece_framework.yaml_editor.ui.dialog;
 
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.swt.widgets.Display;
 
 import com.piece_framework.yaml_editor.plugin.Messages;
+import com.piece_framework.yaml_editor.plugin.YAMLEditorPlugin;
 
 /**
  * エラーダイアログ.
@@ -27,6 +29,25 @@ public final class YAMLErrorDialog  {
      * コンストラクタ.
      */
     private YAMLErrorDialog() {
+    }
+   
+    /**
+     * エラーダイアログ表示.
+     * エラーメッセージダイアログを表示させる。
+     * 
+     * @param errorLevel エラーレベル
+     * @param errorNum エラー番号
+     * @param exception 例外
+     */
+    public static void showDialog(int errorLevel,
+                                    int errorNum,
+                                    Throwable exception) {
+        showDialog(new Status(errorLevel,
+                              YAMLEditorPlugin.PLUGIN_ID,
+                              errorNum,
+                              Messages.getString(
+                                "ErrorMessageDialog.MessageException"),
+                              exception));
     }
     
     /**

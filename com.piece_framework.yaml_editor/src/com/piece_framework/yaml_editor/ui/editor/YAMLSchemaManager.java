@@ -17,14 +17,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.preferences.IScopeContext;
-import org.eclipse.jface.dialogs.ErrorDialog;
-import org.eclipse.swt.widgets.Display;
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
 
-import com.piece_framework.yaml_editor.plugin.Messages;
 import com.piece_framework.yaml_editor.plugin.YAMLEditorPlugin;
 import com.piece_framework.yaml_editor.ui.dialog.YAMLErrorDialog;
 
@@ -42,8 +38,6 @@ public final class YAMLSchemaManager {
     /** YAML スキーマフォルダ名. */
     public static final String SCHEMA_FOLDER = ".yaml_schemas"; //$NON-NLS-1$
     
-    private int fErrorNum = 1;
-
     /**
      * コンストラクタ.
      */
@@ -81,13 +75,9 @@ public final class YAMLSchemaManager {
                 }
             } catch (IOException e1) {
                 //エラーダイアログ表示
-                YAMLErrorDialog.showDialog(
-                      new Status(IStatus.ERROR,
-                                  YAMLEditorPlugin.PLUGIN_ID,
-                                  YAMLErrorDialog.ERROR_NUM_IO,
-                                  Messages.getString(
-                                   "ErrorMessageDialog.MessageException"), e1));
-
+                YAMLErrorDialog.showDialog(IStatus.ERROR,
+                                           YAMLErrorDialog.ERROR_NUM_IO,
+                                           e1);
             } catch (CoreException e2) {
                 //エラーダイアログ表示
                 YAMLErrorDialog.showDialog(e2.getStatus());

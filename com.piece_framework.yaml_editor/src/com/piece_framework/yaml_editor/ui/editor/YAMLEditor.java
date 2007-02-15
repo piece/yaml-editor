@@ -6,12 +6,9 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.texteditor.AbstractDecoratedTextEditorPreferenceConstants;
 import org.eclipse.core.resources.IFile;
@@ -19,8 +16,6 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.ui.IFileEditorInput;
 
-import com.piece_framework.yaml_editor.plugin.Messages;
-import com.piece_framework.yaml_editor.plugin.YAMLEditorPlugin;
 import com.piece_framework.yaml_editor.ui.dialog.YAMLErrorDialog;
 import com.piece_framework.yaml_editor.util.YAMLValidator;
 
@@ -132,12 +127,8 @@ public class YAMLEditor extends TextEditor {
       
         } catch (Exception e) {
             //エラーダイアログ表示
-            YAMLErrorDialog.showDialog(
-                      new Status(IStatus.ERROR,
-                                  YAMLEditorPlugin.PLUGIN_ID,
-                                  YAMLErrorDialog.ERROR_NUM_OTHER,
-                                  Messages.getString(
-                                    "ErrorMessageDialog.MessageException"), e));
+            YAMLErrorDialog.showDialog(IStatus.ERROR,
+                                       YAMLErrorDialog.ERROR_NUM_OTHER, e);
         }
     }
     
