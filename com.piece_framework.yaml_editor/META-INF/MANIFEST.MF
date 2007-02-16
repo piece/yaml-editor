@@ -4,7 +4,7 @@ Bundle-Name: YAML Editor Plug-in
 Bundle-SymbolicName: com.piece_framework.yaml_editor;singleton:=true
 Bundle-Version: 0.1.0
 Bundle-Activator: com.piece_framework.yaml_editor.plugin.YAMLEditorPlugin
-Bundle-Vendor: PIECE_FRAMEWORK
+Bundle-Vendor: Piece Project
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
