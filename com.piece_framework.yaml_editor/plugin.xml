@@ -10,7 +10,7 @@
             contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             default="true"
             extensions="yaml"
-            icon="icons/sample.gif"
+            icon="icons/yaml.gif"
             id="com.piece_framework.yaml_editor.ui.editor.YAMLEditorPart"
             name="YAML Editor"/>
    </extension>
