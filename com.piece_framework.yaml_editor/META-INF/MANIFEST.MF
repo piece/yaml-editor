@@ -16,3 +16,10 @@ Require-Bundle: org.eclipse.ui,
 Eclipse-LazyStart: true
 Bundle-ClassPath: .,
  lib/kwalify.jar
+Export-Package: META-INF,
+ com.piece_framework.yaml_editor.plugin,
+ com.piece_framework.yaml_editor.ui.dialog,
+ com.piece_framework.yaml_editor.ui.editor,
+ com.piece_framework.yaml_editor.ui.preference,
+ com.piece_framework.yaml_editor.util,
+ kwalify
