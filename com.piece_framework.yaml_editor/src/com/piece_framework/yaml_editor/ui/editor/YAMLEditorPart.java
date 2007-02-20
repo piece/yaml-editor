@@ -10,6 +10,7 @@ import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlEvent;
@@ -273,8 +274,8 @@ public class YAMLEditorPart extends EditorPart
             });
             
         } catch (PartInitException e) {
-            // TODO: 例外処理
-            e.printStackTrace();
+            //エラーダイアログ表示
+            YAMLEditorPlugin.showDialog(IStatus.ERROR, e);
         }
         
         // スキーマ関連の初期化処理を行う
@@ -531,8 +532,8 @@ public class YAMLEditorPart extends EditorPart
                 fSchemaCombo.redraw();
                 
             } catch (CoreException e) {
-                // TODO: 例外処理
-                e.printStackTrace();
+                //エラーダイアログ表示
+                YAMLEditorPlugin.showDialog(e.getStatus());
             }
         
         // スキーマフォルダーがない場合はスキーマコンボボックスを使用不可にする

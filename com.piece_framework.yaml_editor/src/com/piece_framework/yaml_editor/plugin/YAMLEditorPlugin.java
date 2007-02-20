@@ -6,7 +6,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPage;
@@ -142,5 +146,36 @@ public class YAMLEditorPlugin extends AbstractUIPlugin {
                 }
             }
         }
+    }
+    
+    /**
+     * エラーダイアログ表示.
+     * エラーメッセージダイアログを表示させる。
+     * 
+     * @param errorLevel エラーレベル
+     * @param exception 例外
+     */
+    public static void showDialog(int errorLevel,
+                                    Throwable exception) {
+        showDialog(new Status(errorLevel,
+                              YAMLEditorPlugin.PLUGIN_ID,
+                              1,
+                              Messages.getString(
+                                "ErrorMessageDialog.MessageException"),
+                              exception));
+    }
+    
+    /**
+     * エラーダイアログ表示.
+     * エラーメッセージダイアログを表示させる。
+     * 
+     * @param status エラーステータス
+     */
+    public static void showDialog(IStatus status) {
+        ErrorDialog.openError(
+               Display.getCurrent().getActiveShell(),
+               Messages.getString("ErrorMessageDialog.WindowTitle"),
+               Messages.getString("ErrorMessageDialog.MessageTitle"),
+               status);
     }
 }

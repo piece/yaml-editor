@@ -16,7 +16,7 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.ui.IFileEditorInput;
 
-import com.piece_framework.yaml_editor.ui.dialog.YAMLErrorDialog;
+import com.piece_framework.yaml_editor.plugin.YAMLEditorPlugin;
 import com.piece_framework.yaml_editor.util.YAMLValidator;
 
 /**
@@ -127,8 +127,7 @@ public class YAMLEditor extends TextEditor {
       
         } catch (Exception e) {
             //エラーダイアログ表示
-            YAMLErrorDialog.showDialog(IStatus.ERROR,
-                                       YAMLErrorDialog.ERROR_NUM_OTHER, e);
+            YAMLEditorPlugin.showDialog(IStatus.ERROR, e);
         }
     }
     

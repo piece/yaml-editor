@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ProjectScope;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
@@ -109,8 +110,8 @@ public class Configuration implements IConfiguration {
             
             projectNode.flush();
         } catch (BackingStoreException e) {
-            // TODO: 例外処理
-            e.printStackTrace();
+            //エラーダイアログ表示
+            YAMLEditorPlugin.showDialog(IStatus.ERROR, e);
         }
         
         // 設定を再読込
@@ -140,8 +141,8 @@ public class Configuration implements IConfiguration {
                 
             }
         } catch (BackingStoreException e) {
-            // TODO: 例外処理
-            e.printStackTrace();
+            //エラーダイアログ表示
+            YAMLEditorPlugin.showDialog(IStatus.ERROR, e);
         }
         
     }
