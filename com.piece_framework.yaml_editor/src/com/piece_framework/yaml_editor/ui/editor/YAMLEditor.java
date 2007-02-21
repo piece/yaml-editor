@@ -94,7 +94,6 @@ public class YAMLEditor extends TextEditor {
     public void doSave(IProgressMonitor progressMonitor) {
           super.doSave(progressMonitor);
           
-          // TODO: スキーマが指定されたいない場合どうするか？
           if (fSchemaFileName == null) {
               return;
           }

@@ -98,8 +98,6 @@ public class YAMLEditorPart extends EditorPart
         fEditor = new YAMLEditor();
         ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
         
-        // TODO: デバッグ
-        System.out.println("construct"); //$NON-NLS-1$
     }
 
     /**
@@ -142,8 +140,6 @@ public class YAMLEditorPart extends EditorPart
         setInput(input);
         setPartName(input.getName());
         
-        // TODO: デバッグ   
-        System.out.println("init"); //$NON-NLS-1$
     }
 
     /**
@@ -185,8 +181,6 @@ public class YAMLEditorPart extends EditorPart
      */
     @Override
     public void createPartControl(Composite parent) {
-        // TODO: デバッグ
-        System.out.println("createPartControl"); //$NON-NLS-1$
         
         try {
 
@@ -262,8 +256,6 @@ public class YAMLEditorPart extends EditorPart
                 public void controlResized(ControlEvent e) {
                     
                     Point parentSize = parentComposite.getParent().getSize();
-                    
-                    // TODO: コンボボックスのサイズ修正
                     
                     editorComposite.setLayoutData(
                             new RowData(parentSize.x, 
