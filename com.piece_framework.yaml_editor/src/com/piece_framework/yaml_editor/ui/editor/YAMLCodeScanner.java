@@ -260,7 +260,7 @@ public final class YAMLCodeScanner extends RuleBasedScanner {
     }
 
     /** YAML マッピング(キー)色. */
-    private static final RGB YAML_MAPPING_KEY_COLOR = new RGB(10, 200, 10);
+    private static final RGB YAML_MAPPING_KEY_COLOR = new RGB(0, 128, 0);
     /** YAML 固定文字列色. */
     private static final RGB YAML_STRING_COLOR = new RGB(0, 0, 255);
     /** YAML バージョン指定色. */
