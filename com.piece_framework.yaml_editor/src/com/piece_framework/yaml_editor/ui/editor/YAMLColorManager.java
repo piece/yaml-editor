@@ -76,7 +76,6 @@ public final class YAMLColorManager implements IPluginCycle {
         while (e.hasNext()) {
             ((Color) e.next()).dispose();
         }
-        System.out.println("YAMLColorManager#dispose()"); //$NON-NLS-1$
     }
     
 }
