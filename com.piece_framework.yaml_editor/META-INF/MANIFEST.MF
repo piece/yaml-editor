@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: YAML Editor Plug-in
+Bundle-Name: YAML Editor
 Bundle-SymbolicName: com.piece_framework.yaml_editor;singleton:=true
 Bundle-Version: 0.1.0
 Bundle-Activator: com.piece_framework.yaml_editor.plugin.YAMLEditorPlugin
