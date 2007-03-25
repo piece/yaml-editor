@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+<!-- $Id$ -->
+<project default="deploy">
+	<target name="deploy">
+		<scp todir="${username}@piece.key-p.com:/data/www/piece-eclipse/yaml-editor/features"
+             keyfile="${keyfile}"
+             passphrase="${passphrase}"
+             trust="true">
+        	
+        	<fileset dir="./features"/>
+        	
+        </scp>
+        <scp todir="${username}@piece.key-p.com:/data/www/piece-eclipse/yaml-editor/plugins"
+             keyfile="${keyfile}"
+             passphrase="${passphrase}"
+             trust="true">
+        	
+        	<fileset dir="./plugins"/>
+        	
+        </scp>
+        <scp todir="${username}@piece.key-p.com:/data/www/piece-eclipse/yaml-editor/"
+             keyfile="${keyfile}"
+             passphrase="${passphrase}"
+             trust="true">
+        	
+        	<fileset file="./site.xml"/>
+        	
+        </scp>
+	</target>
+</project>
