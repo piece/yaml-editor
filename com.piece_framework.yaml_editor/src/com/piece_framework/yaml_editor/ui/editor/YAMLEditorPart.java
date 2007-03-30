@@ -398,13 +398,21 @@ public class YAMLEditorPart extends EditorPart
             fConfig = ConfigurationFactory.getConfiguration(getYAMLProject());
         }
         
-        // スキーマフォルダーをラベルにセット
-        setSchemaFolder();
+        if (fConfig != null) {
+            // スキーマフォルダーをラベルにセット
+            setSchemaFolder();
+            
+            // スキーマファイルの一覧をコンボボックスにセット
+            setSchemaFileList();
         
-        // スキーマファイルの一覧をコンボボックスにセット
-        setSchemaFileList();
+        // プロジェクトがない場合
+        } else {
+            fSchemaCombo.setEnabled(false);
+            fSchemaFolderLabel.setText(
+                Messages.getString("YAMLEditorPart.NoProject")); //$NON-NLS-1$
+            fSchemaFolderButton.setEnabled(false);
+        }
     }
-    
     
     /**
      * 編集中の YAML ファイルが所属するプロジェクトを返す.
@@ -414,7 +422,8 @@ public class YAMLEditorPart extends EditorPart
     private IProject getYAMLProject() {
         IProject project = null;
         
-        if (getEditorInput() != null) {
+        if (getEditorInput() != null 
+            && getEditorInput() instanceof IFileEditorInput) {
             IFile yamlFile = ((IFileEditorInput) getEditorInput()).getFile();
             project = yamlFile.getProject();
         }
@@ -558,6 +567,10 @@ public class YAMLEditorPart extends EditorPart
      * 
      */
     private void saveYAMLFile() {
+        // 設定オブジェクトがnullの場合は保存しない
+        if (fConfig == null) {
+            return;
+        }
         
         String schemaFolderName = fConfig.get(IConfiguration.KEY_SCHEMAFOLDER);
         String schemaFileName = getSelectionSchemaFileName();

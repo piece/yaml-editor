@@ -33,6 +33,9 @@ public final class ConfigurationFactory {
      * @return コンフィグレーション
      */
     public static IConfiguration getConfiguration(IProject project) {
+        if (project == null) {
+            return null;
+        }
         if (fConfigMap == null) {
             fConfigMap = new HashMap<String, IConfiguration>();
         }
